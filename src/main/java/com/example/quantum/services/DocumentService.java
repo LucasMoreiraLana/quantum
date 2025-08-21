@@ -1,12 +1,12 @@
 package com.example.quantum.services;
 
-import com.example.quantum.dtos.DocumentCreateDTO;
-import com.example.quantum.dtos.DocumentResponseDTO;
-import com.example.quantum.dtos.DocumentUpdateDTO;
 import com.example.quantum.models.Document;
 import com.example.quantum.repositories.DocumentRepo;
 import com.example.quantum.repositories.specs.DocumentSearchCriteria;
 import com.example.quantum.repositories.specs.DocumentSpecs;
+import com.example.quantum.dtos.documents.DocumentCreateDTO;
+import com.example.quantum.dtos.documents.DocumentResponseDTO;
+import com.example.quantum.dtos.documents.DocumentUpdateDTO;
 import com.example.quantum.exceptions.DocumentNotFoundException;
 import com.example.quantum.mappers.DocumentMapper;
 import jakarta.validation.Valid;

@@ -1,8 +1,8 @@
 package com.example.quantum.controllers;
 
-import com.example.quantum.dtos.DocumentCreateDTO;
-import com.example.quantum.dtos.DocumentResponseDTO;
-import com.example.quantum.dtos.DocumentUpdateDTO;
+import com.example.quantum.dtos.documents.DocumentCreateDTO;
+import com.example.quantum.dtos.documents.DocumentResponseDTO;
+import com.example.quantum.dtos.documents.DocumentUpdateDTO;
 import com.example.quantum.services.DocumentService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package com.example.quantum.dtos;
+package com.example.quantum.dtos.documents;
 
 import com.example.quantum.enums.DocumentType;
 import com.example.quantum.enums.Origin;

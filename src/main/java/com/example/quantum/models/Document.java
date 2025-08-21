@@ -9,6 +9,7 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
+@Table(name = "documents")
 @Getter
 @Setter
 @NoArgsConstructor

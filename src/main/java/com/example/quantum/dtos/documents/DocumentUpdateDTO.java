@@ -1,4 +1,4 @@
-package com.example.quantum.dtos;
+package com.example.quantum.dtos.documents;
 
 import com.example.quantum.enums.DocumentType;
 import com.example.quantum.enums.Origin;
@@ -8,18 +8,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DocumentResponseDTO {
-    private UUID idDocument;
+public class DocumentUpdateDTO {
     private String nameDocument;
     private String content;
-    private int tempoDeRetencao;
-    private boolean active;
+    private Integer tempoDeRetencao;
     private DocumentType type;
     private Origin origin;
     private Sector sector;

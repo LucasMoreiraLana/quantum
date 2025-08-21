@@ -1,8 +1,8 @@
 package com.example.quantum.mappers;
 
-import com.example.quantum.dtos.DocumentCreateDTO;
-import com.example.quantum.dtos.DocumentResponseDTO;
-import com.example.quantum.dtos.DocumentUpdateDTO;
+import com.example.quantum.dtos.documents.DocumentCreateDTO;
+import com.example.quantum.dtos.documents.DocumentResponseDTO;
+import com.example.quantum.dtos.documents.DocumentUpdateDTO;
 import com.example.quantum.models.Document;
 import org.springframework.stereotype.Component;
 
