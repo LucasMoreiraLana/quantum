@@ -1,5 +1,6 @@
 package com.example.quantum.dtos.documents;
 
+
 import com.example.quantum.enums.DocumentType;
 import com.example.quantum.enums.Origin;
 import com.example.quantum.enums.Sector;

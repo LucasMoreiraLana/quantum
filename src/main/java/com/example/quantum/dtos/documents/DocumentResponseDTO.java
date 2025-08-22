@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.example.quantum.models.User;
 
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class DocumentResponseDTO {
     private UUID idDocument;
+    private User user;
     private String nameDocument;
     private String content;
     private int tempoDeRetencao;

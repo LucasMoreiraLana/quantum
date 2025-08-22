@@ -15,6 +15,10 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Document {
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID idDocument;

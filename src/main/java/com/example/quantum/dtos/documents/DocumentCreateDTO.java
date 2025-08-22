@@ -8,12 +8,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.example.quantum.models.User;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class DocumentCreateDTO {
+
+    @NotNull(message = "Você precisa informar o usuário associado ao documento!")
+    private User user;
     
     @NotBlank(message = "O nome do documento não pode ser vazio!")
     private String nameDocument;

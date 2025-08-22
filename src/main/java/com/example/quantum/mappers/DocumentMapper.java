@@ -6,6 +6,7 @@ import com.example.quantum.dtos.documents.DocumentUpdateDTO;
 import com.example.quantum.models.Document;
 import org.springframework.stereotype.Component;
 
+
 @Component
 public class DocumentMapper {
 
@@ -35,6 +36,8 @@ public class DocumentMapper {
     }
 
     public void updateEntityFromDTO(DocumentUpdateDTO dto, Document document) {
+        
+
         if (dto.getNameDocument() != null) {
             document.setNameDocument(dto.getNameDocument());
         }
