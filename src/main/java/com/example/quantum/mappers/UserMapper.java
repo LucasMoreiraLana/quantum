@@ -1,6 +1,5 @@
 package com.example.quantum.mappers;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.example.quantum.dtos.users.UserCreateDTO;
@@ -10,17 +9,11 @@ import com.example.quantum.models.User;
 
 @Component
 public class UserMapper {
-    
-    private final BCryptPasswordEncoder passwordEncoder;
-
-    public UserMapper(BCryptPasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public User toEntity(UserCreateDTO dto) {
         User user = new User();
         user.setUsername(dto.getUsername());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
         user.setSector(dto.getSector());
         user.setPosition(dto.getPosition());
