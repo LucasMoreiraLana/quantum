@@ -5,6 +5,8 @@ import com.example.quantum.dtos.users.UserResponseDTO;
 import com.example.quantum.dtos.users.UserUpdateDTO;
 import com.example.quantum.services.UserService;
 import jakarta.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.util.UUID;
 @RequestMapping("/v1/users")
 public class UserController {
 
+    @Autowired
     private final UserService userService;
 
     public UserController(UserService userService) {

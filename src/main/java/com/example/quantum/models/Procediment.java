@@ -1,6 +1,6 @@
 package com.example.quantum.models;
 
-import org.hibernate.validator.constraints.UUID;
+import java.util.UUID;
 
 import com.example.quantum.enums.Sector;
 import jakarta.persistence.GeneratedValue;

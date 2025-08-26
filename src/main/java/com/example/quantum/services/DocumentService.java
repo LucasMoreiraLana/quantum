@@ -10,6 +10,8 @@ import com.example.quantum.dtos.documents.DocumentUpdateDTO;
 import com.example.quantum.exceptions.DocumentNotFoundException;
 import com.example.quantum.mappers.DocumentMapper;
 import jakarta.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,9 @@ import java.util.stream.Collectors;
 @Validated
 public class DocumentService {
     
+    @Autowired
     private final DocumentRepo documentRepo;
+    @Autowired
     private final DocumentMapper documentMapper;
 
     public DocumentService(DocumentRepo documentRepo, DocumentMapper documentMapper) {

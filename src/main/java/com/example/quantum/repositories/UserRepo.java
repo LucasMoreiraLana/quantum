@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.UUID;
 import java.util.Optional;
 import com.example.quantum.models.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Repository
 public interface UserRepo extends JpaRepository<User, UUID>, JpaSpecificationExecutor<User> {
@@ -14,4 +15,6 @@ public interface UserRepo extends JpaRepository<User, UUID>, JpaSpecificationExe
     Optional<User> findByEmail(String email);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
+
+    UserDetails findByLogin(String login);
 }

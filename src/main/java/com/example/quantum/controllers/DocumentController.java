@@ -5,6 +5,8 @@ import com.example.quantum.dtos.documents.DocumentResponseDTO;
 import com.example.quantum.dtos.documents.DocumentUpdateDTO;
 import com.example.quantum.services.DocumentService;
 import jakarta.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @RequestMapping("/v1/documents")
 public class DocumentController {
 
+    @Autowired
     private final DocumentService documentService;
 
     public DocumentController(DocumentService documentService) {

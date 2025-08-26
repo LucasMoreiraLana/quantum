@@ -90,7 +90,13 @@
 
 
 		<!-- Add other dependencies here if needed -->
-	</dependencies>
+	
+   <dependency>
+     <groupId>org.springframework.security</groupId>
+     <artifactId>spring-security-core</artifactId>
+     <version>5.1.6.RELEASE</version>
+   </dependency>
+ </dependencies>
 
 	<build>
 		<plugins>
