@@ -1,4 +1,4 @@
-package com.example.quantum.repositories.specs;
+package com.example.quantum.repositories.specs.users;
 
 import org.springframework.data.jpa.domain.Specification;
 

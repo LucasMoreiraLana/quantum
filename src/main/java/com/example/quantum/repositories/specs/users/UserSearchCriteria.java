@@ -1,4 +1,4 @@
-package com.example.quantum.repositories.specs;
+package com.example.quantum.repositories.specs.users;
 
 import com.example.quantum.enums.Position;
 import com.example.quantum.enums.Sector;

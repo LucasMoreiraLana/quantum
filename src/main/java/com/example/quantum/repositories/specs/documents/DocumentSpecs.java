@@ -1,4 +1,4 @@
-package com.example.quantum.repositories.specs;
+package com.example.quantum.repositories.specs.documents;
 
 import com.example.quantum.models.Document;
 import org.springframework.data.jpa.domain.Specification;

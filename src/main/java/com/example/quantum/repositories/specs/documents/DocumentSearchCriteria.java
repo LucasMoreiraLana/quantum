@@ -1,4 +1,4 @@
-package com.example.quantum.repositories.specs;
+package com.example.quantum.repositories.specs.documents;
 
 import com.example.quantum.enums.DocumentType;
 import com.example.quantum.enums.Origin;
