@@ -4,23 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-
 import com.example.quantum.models.User;
 import com.example.quantum.repositories.UserRepo;
 import com.example.quantum.repositories.specs.UserSearchCriteria;
 import com.example.quantum.repositories.specs.UserSpecs;
-
 import jakarta.validation.Valid;
-
-import com.example.quantum.dtos.users.UserCreateDTO;
-import com.example.quantum.dtos.users.UserResponseDTO;
-import com.example.quantum.dtos.users.UserUpdateDTO;
 import com.example.quantum.exceptions.UserNotFoundException;
 import com.example.quantum.mappers.UserMapper;
-
 import java.util.UUID;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.example.quantum.dtos.request.users.UserCreateRequest;
+import com.example.quantum.dtos.request.users.UserUpdateRequest;
+import com.example.quantum.dtos.response.users.UserResponse;
 
 
 
@@ -43,7 +40,7 @@ public class UserService {
     /**
      * Busca um usuario por ID
      */
-    public UserResponseDTO findById(UUID id) {
+    public UserResponse findById(UUID id) {
         User user = userRepo.findByIdUser(id)
             .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado: " + id));
         return userMapper.toDTO(user);
@@ -52,7 +49,7 @@ public class UserService {
     /**
      * Lista todos os usuários ativos
      */
-    public List<UserResponseDTO> findAllActive() {
+    public List<UserResponse> findAllActive() {
         UserSearchCriteria criteria = UserSearchCriteria.builder()
             .onlyActive(true)
             .build();
@@ -65,8 +62,8 @@ public class UserService {
     /**
      * Cria um novo usuário
      */
-    public UserResponseDTO create(@Valid UserCreateDTO createDTO) {
-        User user = userMapper.toEntity(createDTO);
+    public UserResponse create(@Valid UserCreateRequest createRequest) {
+        User user = userMapper.toEntity(createRequest);
         user = userRepo.save(user);
         return userMapper.toDTO(user);
     }
@@ -74,11 +71,11 @@ public class UserService {
     /**
      * Atualiza um usuário existente
      */
-    public UserResponseDTO update(UUID id, @Valid UserUpdateDTO updateDTO) {
+    public UserResponse update(UUID id, @Valid UserUpdateRequest updateRequest) {
         User user = userRepo.findByIdUser(id)
             .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado: " + id));
         
-        user = userMapper.updateEntity(user, updateDTO);
+        user = userMapper.updateEntity(user, updateRequest);
         user = userRepo.save(user);
         return userMapper.toDTO(user);
     }

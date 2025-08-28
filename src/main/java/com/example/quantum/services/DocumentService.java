@@ -4,13 +4,12 @@ import com.example.quantum.models.Document;
 import com.example.quantum.repositories.DocumentRepo;
 import com.example.quantum.repositories.specs.DocumentSearchCriteria;
 import com.example.quantum.repositories.specs.DocumentSpecs;
-import com.example.quantum.dtos.documents.DocumentCreateDTO;
-import com.example.quantum.dtos.documents.DocumentResponseDTO;
-import com.example.quantum.dtos.documents.DocumentUpdateDTO;
+import com.example.quantum.dtos.request.documents.DocumentCreateRequest;
+import com.example.quantum.dtos.request.documents.DocumentUpdateRequest;
+import com.example.quantum.dtos.response.documents.DocumentResponse;
 import com.example.quantum.exceptions.DocumentNotFoundException;
 import com.example.quantum.mappers.DocumentMapper;
 import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,52 +39,52 @@ public class DocumentService {
     /**
      * Busca um documento por ID
      */
-    public DocumentResponseDTO findById(UUID id) {
+    public DocumentResponse findById(UUID id) {
         Document document = documentRepo.findByIdDocument(id)
             .orElseThrow(() -> new DocumentNotFoundException("Documento não encontrado: " + id));
-        return documentMapper.toDTO(document);
+        return documentMapper.toResponse(document);
     }
 
     /**
      * Busca documentos com critérios dinâmicos e paginação
      */
-    public Page<DocumentResponseDTO> searchDocuments(DocumentSearchCriteria criteria, Pageable pageable) {
+    public Page<DocumentResponse> searchDocuments(DocumentSearchCriteria criteria, Pageable pageable) {
         return documentRepo.findAll(DocumentSpecs.withDynamicQuery(criteria), pageable)
-            .map(documentMapper::toDTO);
+            .map(documentMapper::toResponse);
     }
 
     /**
      * Lista todos os documentos ativos
      */
-    public List<DocumentResponseDTO> findAllActive() {
+    public List<DocumentResponse> findAllActive() {
         DocumentSearchCriteria criteria = DocumentSearchCriteria.builder()
             .onlyActive(true)
             .build();
         return documentRepo.findAll(DocumentSpecs.withDynamicQuery(criteria))
             .stream()
-            .map(documentMapper::toDTO)
+            .map(documentMapper::toResponse)
             .collect(Collectors.toList());
     }
 
     /**
      * Cria um novo documento
      */
-    public DocumentResponseDTO create(@Valid DocumentCreateDTO createDTO) {
+    public DocumentResponse create(@Valid DocumentCreateRequest createDTO) {
         Document document = documentMapper.toEntity(createDTO);
         document = documentRepo.save(document);
-        return documentMapper.toDTO(document);
+        return documentMapper.toResponse(document);
     }
 
     /**
      * Atualiza um documento existente
      */
-    public DocumentResponseDTO update(UUID id, @Valid DocumentUpdateDTO updateDTO) {
+    public DocumentResponse update(UUID id, @Valid DocumentUpdateRequest updateDTO) {
         Document document = documentRepo.findByIdDocument(id)
             .orElseThrow(() -> new DocumentNotFoundException("Documento não encontrado: " + id));
         
         documentMapper.updateEntityFromDTO(updateDTO, document);
         document = documentRepo.save(document);
-        return documentMapper.toDTO(document);
+        return documentMapper.toResponse(document);
     }
 
     /**

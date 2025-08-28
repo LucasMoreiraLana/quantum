@@ -1,8 +1,9 @@
 package com.example.quantum.controllers;
 
-import com.example.quantum.dtos.users.UserCreateDTO;
-import com.example.quantum.dtos.users.UserResponseDTO;
-import com.example.quantum.dtos.users.UserUpdateDTO;
+
+import com.example.quantum.dtos.request.users.UserCreateRequest;
+import com.example.quantum.dtos.request.users.UserUpdateRequest;
+import com.example.quantum.dtos.response.users.UserResponse;
 import com.example.quantum.services.UserService;
 import jakarta.validation.Valid;
 
@@ -26,28 +27,28 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserCreateDTO createDTO) {
-        UserResponseDTO response = userService.create(createDTO);
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserCreateRequest createRequest) {
+        UserResponse response = userService.create(createRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getUser(@PathVariable UUID id) {
-        UserResponseDTO response = userService.findById(id);
+    public ResponseEntity<UserResponse> getUser(@PathVariable UUID id) {
+        UserResponse response = userService.findById(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/active")
-    public ResponseEntity<List<UserResponseDTO>> getActiveUser() {
-        List<UserResponseDTO> response = userService.findAllActive();
+    public ResponseEntity<List<UserResponse>> getActiveUser() {
+        List<UserResponse> response = userService.findAllActive();
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(
+    public ResponseEntity<UserResponse> updateUser(
             @PathVariable UUID id,
-            @Valid @RequestBody UserUpdateDTO updateDTO) {
-        UserResponseDTO response = userService.update(id, updateDTO);
+            @Valid @RequestBody UserUpdateRequest updateRequest) {
+        UserResponse response = userService.update(id, updateRequest);
         return ResponseEntity.ok(response);
     }
 
