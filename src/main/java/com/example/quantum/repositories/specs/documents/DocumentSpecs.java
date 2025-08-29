@@ -13,7 +13,7 @@ public class DocumentSpecs {
             List<Predicate> predicates = new ArrayList<>();
             
             // Sempre incluir apenas documentos ativos por padrão
-            if (criteria.isOnlyActive()) {
+            if (criteria.isActive()) {
                 predicates.add(criteriaBuilder.isTrue(root.get("active")));
             }
 

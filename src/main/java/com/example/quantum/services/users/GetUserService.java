@@ -36,7 +36,7 @@ public class GetUserService {
     
     public List<UserResponse> findAllActive() {
         UserSearchCriteria criteria = UserSearchCriteria.builder()
-            .onlyActive(true)
+            .active(true)
             .build();
         return userRepo.findAll(UserSpecs.withDynamicQuery(criteria))
             .stream()

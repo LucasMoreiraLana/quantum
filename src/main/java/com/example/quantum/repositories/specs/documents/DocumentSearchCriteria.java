@@ -16,5 +16,5 @@ public class DocumentSearchCriteria {
     private Integer maxRetentionTime;
     
     @Builder.Default
-    private boolean onlyActive = true;
+    private boolean Active = true;
 }

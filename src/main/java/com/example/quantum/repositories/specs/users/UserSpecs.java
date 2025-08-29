@@ -7,6 +7,8 @@ import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class UserSpecs {
     
     public static Specification<User> withDynamicQuery(UserSearchCriteria criteria) {
@@ -31,7 +33,7 @@ public class UserSpecs {
                 predicates.add(cb.equal(root.get("position"), criteria.getPosition()));
             }
 
-            if (criteria.getOnlyActive() != null && criteria.getOnlyActive()) {
+            if (criteria.getActive() != null && criteria.getActive()) {
                 predicates.add(cb.isTrue(root.get("active")));
             }
 

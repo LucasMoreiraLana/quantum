@@ -44,7 +44,7 @@ public class GetDocumentService{
 
     public List<DocumentResponse> findAllActive() {
         DocumentSearchCriteria criteria = DocumentSearchCriteria.builder()
-            .onlyActive(true)
+            .Active(true)
             .build();
         return documentRepo.findAll(DocumentSpecs.withDynamicQuery(criteria))
             .stream()

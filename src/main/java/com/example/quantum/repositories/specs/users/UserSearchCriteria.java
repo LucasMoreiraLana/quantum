@@ -13,5 +13,5 @@ public class UserSearchCriteria {
     private String email;
     private Sector sector;
     private Position position;
-    private Boolean onlyActive;
+    private Boolean active;
 }
