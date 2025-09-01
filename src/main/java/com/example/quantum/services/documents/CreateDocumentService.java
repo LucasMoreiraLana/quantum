@@ -1,31 +1,41 @@
 package com.example.quantum.services.documents;
 
+import com.example.quantum.controllers.documents.InsertDocumentPostMapper;
+import com.example.quantum.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
-import com.example.quantum.dtos.request.documents.DocumentCreateRequest;
-import com.example.quantum.dtos.response.documents.DocumentResponse;
-import com.example.quantum.models.Document;
+import com.example.quantum.controllers.documents.InsertDocumentPostRequest;
+import com.example.quantum.domain.Document;
+import com.example.quantum.repositories.document.DocumentEntity;
 import com.example.quantum.mappers.DocumentMapper;
-import com.example.quantum.repositories.DocumentRepo;
-
-import jakarta.validation.Valid;
+import com.example.quantum.repositories.document.DocumentRepository;
 
 @Service
 @Transactional
-@Validated
 public class CreateDocumentService {
 
     @Autowired
-    private DocumentRepo documentRepo;
+    private DocumentRepository documentRepository;
 
-    @Autowired
-    private DocumentMapper documentMapper;
 
-    public DocumentResponse create(@Valid DocumentCreateRequest createDTO) {
-        Document document = documentMapper.toEntity(createDTO);
-        document = documentRepo.save(document);
-        return documentMapper.toResponse(document);
+    public Document create(InsertDocumentPostRequest createDTO) {
+        final var document = InsertDocumentPostMapper.toDocument(createDTO);
+        final var documentEntity = toEntity(document);
+        final var savedDocument = documentRepository.save(documentEntity);
+        return DocumentMapper.toDocument(savedDocument);
+    }
+
+    private DocumentEntity toEntity(Document document) {
+        DocumentEntity documentEntity = new DocumentEntity();
+        documentEntity.setUserId(document.idDocument());
+        documentEntity.setNameDocument(document.nameDocument());
+        documentEntity.setContent(document.content());
+        documentEntity.setTempoDeRetencao(document.tempoDeRetencao());
+        documentEntity.setType(document.type());
+        documentEntity.setOrigin(document.origin());
+        documentEntity.setSector(document.sector());
+        documentEntity.setActive(true);
+        return documentEntity;
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.quantum.services.users.GetUserService;
-import com.example.quantum.dtos.response.users.UserResponse;
+import com.example.quantum.domain.User;
 
 
 @RestController
@@ -22,14 +22,14 @@ public class GetUserController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUser(@PathVariable UUID id) {
-        UserResponse response = getUserService.findById(id);
+    public ResponseEntity<User> getUser(@PathVariable UUID id) {
+        User response = getUserService.findById(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/active")
-    public ResponseEntity<List<UserResponse>> getActiveUser() {
-        List<UserResponse> response = getUserService.findAllActive();
+    public ResponseEntity<List<User>> getActiveUser() {
+        List<User> response = getUserService.findAllActive();
         return ResponseEntity.ok(response);
     }    
 

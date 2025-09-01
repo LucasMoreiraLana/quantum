@@ -4,24 +4,23 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.example.quantum.repositories.DocumentRepo;
+import com.example.quantum.repositories.document.DocumentRepository;
 import org.springframework.validation.annotation.Validated;
 import com.example.quantum.exceptions.DocumentNotFoundException;
-import com.example.quantum.models.Document;
+import com.example.quantum.repositories.document.DocumentEntity;
 
 @Service
 @Transactional
-@Validated
 public class DeleteDocumentService {
     
     @Autowired
-    private DocumentRepo documentRepo;
+    private DocumentRepository documentRepository;
 
     public void delete(UUID id) {
-        Document document = documentRepo.findByIdDocument(id)
+        DocumentEntity documentEntity = documentRepository.findByIdDocument(id)
             .orElseThrow(() -> new DocumentNotFoundException("Documento não encontrado: " + id));
-        document.setActive(false);
-        documentRepo.save(document);
+        documentEntity.setActive(false);
+        documentRepository.save(documentEntity);
     }
 
 }

@@ -3,49 +3,49 @@ package com.example.quantum.mappers;
 import org.springframework.stereotype.Component;
 
 import com.example.quantum.dtos.request.processes.ProcessCreateRequest;
-import com.example.quantum.dtos.response.processes.ProcessResponse;
-import com.example.quantum.models.Process;
+import com.example.quantum.domain.Process;
+import com.example.quantum.repositories.process.ProcessEntity;
 
 @Component
 public class ProcessMapper {
-    public Process toEntity(ProcessCreateRequest request) {
-        Process process = new Process();
-        process.setNameProcess(request.nameProcess());
-        process.setDateApproval(request.dateApproval());
-        process.setDateConclusion(request.dateConclusion());
-        process.setSector(request.sector());
-        process.setCyclePDCA(request.cyclePDCA());
-        return process;
+    public ProcessEntity toEntity(ProcessCreateRequest request) {
+        ProcessEntity processEntity = new ProcessEntity();
+        processEntity.setNameProcess(request.nameProcess());
+        processEntity.setDateApproval(request.dateApproval());
+        processEntity.setDateConclusion(request.dateConclusion());
+        processEntity.setSector(request.sector());
+        processEntity.setCycle(request.cyclePDCA());
+        return processEntity;
     
 
     }
 
-    public ProcessResponse toResponse(Process process) {
-        return new ProcessResponse(
-                process.getIdProcess(),
-                process.getNameProcess(),
-                process.getDateApproval(),
-                process.getDateConclusion(),
-                process.getSector(),
-                process.getCyclePDCA()
+    public Process toResponse(ProcessEntity processEntity) {
+        return new Process(
+                processEntity.getIdProcess(),
+                processEntity.getNameProcess(),
+                processEntity.getDateApproval(),
+                processEntity.getDateConclusion(),
+                processEntity.getSector(),
+                processEntity.getCycle()
         );
     }
 
-    public void updateEntityFromDTO(ProcessCreateRequest request, Process process) {
+    public void updateEntityFromDTO(ProcessCreateRequest request, ProcessEntity processEntity) {
         if (request.nameProcess() != null) {
-            process.setNameProcess(request.nameProcess());
+            processEntity.setNameProcess(request.nameProcess());
         }
         if (request.dateApproval() != null) {
-            process.setDateApproval(request.dateApproval());
+            processEntity.setDateApproval(request.dateApproval());
         }
         if (request.dateConclusion() != null) {
-            process.setDateConclusion(request.dateConclusion());
+            processEntity.setDateConclusion(request.dateConclusion());
         }
         if (request.sector() != null) {
-            process.setSector(request.sector());
+            processEntity.setSector(request.sector());
         }
         if (request.cyclePDCA() != null) {
-            process.setCyclePDCA(request.cyclePDCA());
+            processEntity.setCycle(request.cyclePDCA());
         }
     }
 }

@@ -2,37 +2,56 @@ package com.example.quantum.services.documents;
 
 import java.util.UUID;
 
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import com.example.quantum.mappers.DocumentMapper;
-import com.example.quantum.repositories.DocumentRepo;
-import com.example.quantum.dtos.request.documents.DocumentUpdateRequest;
-import com.example.quantum.dtos.response.documents.DocumentResponse;
+import com.example.quantum.repositories.document.DocumentRepository;
+import com.example.quantum.controllers.documents.UpdateDocumentPutRequest;
+import com.example.quantum.domain.Document;
 import com.example.quantum.exceptions.DocumentNotFoundException;
-import com.example.quantum.models.Document;
+import com.example.quantum.repositories.document.DocumentEntity;
 
 import jakarta.validation.Valid;
 
 @Service
 @Transactional
-@Validated
 public class UpdateDocumentService {
 
     @Autowired
-    private DocumentRepo documentRepo;
+    private DocumentRepository documentRepository;
 
-    @Autowired
-    private DocumentMapper documentMapper;
-
-    public DocumentResponse update(UUID id, @Valid DocumentUpdateRequest updateDTO) {
-        Document document = documentRepo.findByIdDocument(id)
+    public Document update(UUID id, UpdateDocumentPutRequest updateDTO) {
+        final var documentEntity = documentRepository.findByIdDocument(id)
             .orElseThrow(() -> new DocumentNotFoundException("Documento não encontrado: " + id));
         
-        documentMapper.updateEntityFromDTO(updateDTO, document);
-        document = documentRepo.save(document);
-        return documentMapper.toResponse(document);
+        updateEntityFromDTO(updateDTO, documentEntity);
+        final var updatedDocument = documentRepository.save(documentEntity);
+        return DocumentMapper.toDocument(updatedDocument);
+    }
+
+
+    private void updateEntityFromDTO(UpdateDocumentPutRequest request, DocumentEntity documentEntity) {
+        if (request.nameDocument() != null) {
+            documentEntity.setNameDocument(request.nameDocument());
+        }
+        if (request.content() != null) {
+            documentEntity.setContent(request.content());
+        }
+        if (request.tempoDeRetencao() != null) {
+            documentEntity.setTempoDeRetencao(request.tempoDeRetencao());
+        }
+        if (request.type() != null) {
+            documentEntity.setType(request.type());
+        }
+        if (request.origin() != null) {
+            documentEntity.setOrigin(request.origin());
+        }
+        if (request.sector() != null) {
+            documentEntity.setSector(request.sector());
+        }
     }
 }

@@ -2,16 +2,17 @@ package com.example.quantum.services.users;
 
 import java.util.UUID;
 
+import com.example.quantum.repositories.user.UserEntity;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import com.example.quantum.dtos.request.users.UserUpdateRequest;
-import com.example.quantum.dtos.response.users.UserResponse;
+import com.example.quantum.controllers.users.UpdateUserPutRequest;
+import com.example.quantum.domain.User;
 import com.example.quantum.exceptions.UserNotFoundException;
-import com.example.quantum.models.User;
-import com.example.quantum.repositories.UserRepo;
+import com.example.quantum.repositories.user.UserRepository;
 import com.example.quantum.mappers.UserMapper;
 
 import jakarta.validation.Valid;
@@ -19,20 +20,26 @@ import jakarta.validation.Valid;
 
 @Service
 @Transactional
-@Validated
 public class UpdateUserService {
 
     @Autowired
-    private UserRepo userRepo;
-    @Autowired
-    private UserMapper userMapper;
+    private UserRepository userRepository;
 
-    public UserResponse update(UUID id, @Valid UserUpdateRequest updateRequest) {
-        User user = userRepo.findByIdUser(id)
+    public User update(UUID id, UpdateUserPutRequest updateRequest) {
+        final var userEntity = userRepository.findByIdUser(id)
             .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado: " + id));
         
-        user = userMapper.updateEntity(user, updateRequest);
-        user = userRepo.save(user);
-        return userMapper.toDTO(user);
+        final var updatedUser = updateEntity(userEntity, updateRequest);
+        final var user = userRepository.save(updatedUser);
+        return UserMapper.toUser(user);
+    }
+
+    private UserEntity updateEntity(UserEntity userEntity, UpdateUserPutRequest request) {
+        userEntity.setUsername(request.username());
+        userEntity.setEmail(request.email());
+        userEntity.setSector(request.sector());
+        userEntity.setPosition(request.position());
+        userEntity.setActive(request.active());
+        return userEntity;
     }
 }
