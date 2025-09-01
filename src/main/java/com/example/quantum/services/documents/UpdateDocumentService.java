@@ -1,21 +1,15 @@
 package com.example.quantum.services.documents;
 
 import java.util.UUID;
-
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
-
 import com.example.quantum.mappers.DocumentMapper;
 import com.example.quantum.repositories.document.DocumentRepository;
 import com.example.quantum.controllers.documents.UpdateDocumentPutRequest;
 import com.example.quantum.domain.Document;
 import com.example.quantum.exceptions.DocumentNotFoundException;
 import com.example.quantum.repositories.document.DocumentEntity;
-
-import jakarta.validation.Valid;
 
 @Service
 @Transactional

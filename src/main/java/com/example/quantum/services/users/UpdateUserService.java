@@ -3,19 +3,14 @@ package com.example.quantum.services.users;
 import java.util.UUID;
 
 import com.example.quantum.repositories.user.UserEntity;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
-
 import com.example.quantum.controllers.users.UpdateUserPutRequest;
 import com.example.quantum.domain.User;
 import com.example.quantum.exceptions.UserNotFoundException;
 import com.example.quantum.repositories.user.UserRepository;
 import com.example.quantum.mappers.UserMapper;
-
-import jakarta.validation.Valid;
 
 
 @Service

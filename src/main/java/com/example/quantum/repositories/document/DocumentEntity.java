@@ -2,7 +2,6 @@ package com.example.quantum.repositories.document;
 
 import com.example.quantum.domain.Document;
 import com.example.quantum.enums.Sector;
-import com.example.quantum.repositories.user.UserEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

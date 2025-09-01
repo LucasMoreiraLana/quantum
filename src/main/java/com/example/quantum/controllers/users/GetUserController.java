@@ -1,8 +1,6 @@
 package com.example.quantum.controllers.users;
 
-import java.util.List;
 import java.util.UUID;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,12 +24,6 @@ public class GetUserController {
         User response = getUserService.findById(id);
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/active")
-    public ResponseEntity<List<User>> getActiveUser() {
-        List<User> response = getUserService.findAllActive();
-        return ResponseEntity.ok(response);
-    }    
 
 
 }

@@ -2,8 +2,9 @@ package com.example.quantum.domain;
 
 import java.util.UUID;
 
-import com.example.quantum.enums.Position;
+
 import com.example.quantum.enums.Sector;
+
 
 public record User(
     UUID idUser,

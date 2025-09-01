@@ -1,7 +1,6 @@
 package com.example.quantum.repositories.user;
 
 import java.util.UUID;
-import com.example.quantum.enums.Position;
 import com.example.quantum.enums.Sector;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,13 +18,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "user")
+import com.example.quantum.domain.User.Position;
+
+
+@Entity
 @Table(name = "users")
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
 @EqualsAndHashCode(of = "idUser")
 public class UserEntity {
+    
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -51,14 +54,5 @@ public class UserEntity {
     @NotNull(message = "A posição do usuário precisa ser informada!")
     @Enumerated(EnumType.STRING)
     private Position position;
-
-    public UserEntity(String username, String password, String email, Sector sector, Position position) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.sector = sector;
-        this.position = position;
-    }
-
 
 }

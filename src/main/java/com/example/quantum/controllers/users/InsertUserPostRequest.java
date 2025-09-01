@@ -1,6 +1,6 @@
 package com.example.quantum.controllers.users;
 
-import com.example.quantum.enums.Position;
+import com.example.quantum.domain.User.Position;
 import com.example.quantum.enums.Sector;
 
 import jakarta.validation.constraints.Email;

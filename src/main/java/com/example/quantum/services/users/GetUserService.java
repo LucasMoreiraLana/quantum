@@ -19,13 +19,10 @@ public class GetUserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private UserMapper userMapper;
-
     public User findById(UUID id) {
         UserEntity userEntity = userRepository.findByIdUser(id)
                 .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado: " + id));
-        return userMapper.toUser(userEntity);
+        return UserMapper.toUser(userEntity);
     }
 
 

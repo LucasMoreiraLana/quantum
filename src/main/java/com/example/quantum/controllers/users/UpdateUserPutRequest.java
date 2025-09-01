@@ -1,11 +1,11 @@
 package com.example.quantum.controllers.users;
 
-import com.example.quantum.enums.Position;
-import com.example.quantum.enums.Sector;
 
+import com.example.quantum.enums.Sector;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import com.example.quantum.domain.User.Position;
 
 public record UpdateUserPutRequest(
 

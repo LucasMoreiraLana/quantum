@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.quantum.domain.User;
 import com.example.quantum.services.users.CreateUserService;
 
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/v1/users")

@@ -1,7 +1,6 @@
 package com.example.quantum.services.documents;
 
 import com.example.quantum.controllers.documents.InsertDocumentPostMapper;
-import com.example.quantum.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

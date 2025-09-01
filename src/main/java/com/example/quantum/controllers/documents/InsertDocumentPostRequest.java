@@ -3,7 +3,6 @@ package com.example.quantum.controllers.documents;
 
 import com.example.quantum.domain.Document;
 import com.example.quantum.enums.Sector;
-import com.example.quantum.repositories.user.UserEntity;
 import jakarta.validation.constraints.*;
 
 import java.util.UUID;

@@ -10,6 +10,7 @@ import com.example.quantum.domain.User;
 import com.example.quantum.repositories.user.UserEntity;
 
 
+
 @Service
 @Transactional
 public class CreateUserService {
