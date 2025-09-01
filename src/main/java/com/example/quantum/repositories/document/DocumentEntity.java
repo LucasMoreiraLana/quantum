@@ -13,15 +13,15 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@Entity
+@Entity()
 @Table(name = "documents")
 @Getter
 @Setter
 @NoArgsConstructor
 public class DocumentEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+         
+    @Column(name = "user_id")
     private UUID userId;
 
     @Id

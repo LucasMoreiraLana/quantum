@@ -19,7 +19,7 @@ public class GetUserController {
     private GetUserService getUserService;
 
 
-    @GetMapping("/{id}")
+    @GetMapping
     public ResponseEntity<User> getUser(@PathVariable UUID id) {
         User response = getUserService.findById(id);
         return ResponseEntity.ok(response);

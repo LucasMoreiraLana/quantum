@@ -17,6 +17,7 @@ public record Document(
         Sector sector
 ) {
 
+
     public enum Type {
         REGISTRO,
         PROCEDIMENTO,

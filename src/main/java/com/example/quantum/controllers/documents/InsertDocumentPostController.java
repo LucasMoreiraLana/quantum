@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.quantum.services.documents.CreateDocumentService;
 import com.example.quantum.domain.Document;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/v1/documents")
 public class InsertDocumentPostController {
@@ -19,8 +17,8 @@ public class InsertDocumentPostController {
     @Autowired
     private CreateDocumentService createDocumentService;
 
-    @PostMapping("/create")
-    public ResponseEntity<Document> createDocument(@Valid @RequestBody InsertDocumentPostRequest createRequest) {
+    @PostMapping
+    public ResponseEntity<Document> createDocument(@RequestBody InsertDocumentPostRequest createRequest) {
         Document response = createDocumentService.create(createRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
