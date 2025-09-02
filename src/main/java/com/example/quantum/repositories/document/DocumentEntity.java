@@ -2,7 +2,6 @@ package com.example.quantum.repositories.document;
 
 import com.example.quantum.domain.Document;
 import com.example.quantum.enums.Sector;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -10,23 +9,21 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+
 
 import java.util.UUID;
 
-@Entity()
-@Table(name = "documents")
+@org.springframework.data.mongodb.core.mapping.Document(collection = "documents")
 @Getter
 @Setter
 @NoArgsConstructor
 public class DocumentEntity {
 
-         
-    @Column(name = "user_id")
-    private UUID userId;
-
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID idDocument;
+
+    private UUID createBy;
 
     @NotBlank(message = "O nome do documento não pode ser vazio!")
     private String nameDocument;
@@ -41,15 +38,12 @@ public class DocumentEntity {
     private boolean active = true;
 
     @NotNull(message = "O tipo do documento precisa ser informado!")
-    @Enumerated(EnumType.STRING)
-    private Document.Type type;
+    private Document.Type type; // Enums são suportados sem @Enumerated
 
     @NotNull(message = "A origem do documento precisa ser informada!")
-    @Enumerated(EnumType.STRING)
     private Document.Origin origin;
 
     @NotNull(message = "O setor do documento precisa ser informado!")
-    @Enumerated(EnumType.STRING)
     private Sector sector;
 
 }

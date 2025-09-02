@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/documents")
 public class GetDocumentGetController {
+    
     @Autowired
     private GetDocumentService getDocumentService;
 

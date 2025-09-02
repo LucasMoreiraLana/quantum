@@ -13,7 +13,7 @@ public class DocumentMapper {
     public static Document toDocument(DocumentEntity documentEntity) {
         return new Document(
                 documentEntity.getIdDocument(),
-                documentEntity.getUserId(),
+                documentEntity.getCreateBy(),
                 documentEntity.getNameDocument(),
                 documentEntity.getContent(),
                 documentEntity.getTempoDeRetencao(),

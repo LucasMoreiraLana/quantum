@@ -1,9 +1,8 @@
 package com.example.quantum.controllers.users;
 
-import java.util.UUID;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +12,15 @@ import com.example.quantum.domain.User;
 
 @RestController
 @RequestMapping("/v1/users")
-public class GetUserController {
+public class GetUserGetController {
     
     @Autowired
     private GetUserService getUserService;
 
 
     @GetMapping
-    public ResponseEntity<User> getUser(@PathVariable UUID id) {
-        User response = getUserService.findById(id);
+    public ResponseEntity<List<User>> getAllUser() {
+        List<User> response = getUserService.findAllUsers();
         return ResponseEntity.ok(response);
     }
 

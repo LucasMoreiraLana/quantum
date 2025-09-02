@@ -19,7 +19,7 @@ public class UpdateDocumentService {
     private DocumentRepository documentRepository;
 
     public Document update(UUID id, UpdateDocumentPutRequest updateDTO) {
-        final var documentEntity = documentRepository.findByIdDocument(id)
+        final var documentEntity = documentRepository.findById(id)
             .orElseThrow(() -> new DocumentNotFoundException("Documento não encontrado: " + id));
         
         updateEntityFromDTO(updateDTO, documentEntity);

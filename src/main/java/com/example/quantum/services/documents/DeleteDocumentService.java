@@ -16,7 +16,7 @@ public class DeleteDocumentService {
     private DocumentRepository documentRepository;
 
     public void delete(UUID id) {
-        DocumentEntity documentEntity = documentRepository.findByIdDocument(id)
+        DocumentEntity documentEntity = documentRepository.findById(id)
             .orElseThrow(() -> new DocumentNotFoundException("Documento não encontrado: " + id));
         documentEntity.setActive(false);
         documentRepository.save(documentEntity);
