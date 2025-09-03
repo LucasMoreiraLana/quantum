@@ -1,4 +1,4 @@
-package com.example.quantum.mappers;
+package com.example.quantum.mappers.document;
 
 
 import com.example.quantum.domain.Document;
@@ -6,7 +6,7 @@ import com.example.quantum.repositories.document.DocumentEntity;
 
 
 
-public class DocumentMapper {
+public class InsertDocumentMapper {
 
 
 
@@ -23,6 +23,8 @@ public class DocumentMapper {
                 documentEntity.getSector()
         );
     }
+
+    
 
 
 }

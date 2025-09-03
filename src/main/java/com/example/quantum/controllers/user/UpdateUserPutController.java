@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.users;
+package com.example.quantum.controllers.user;
 
 import java.util.UUID;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.quantum.domain.User;
-import com.example.quantum.services.users.UpdateUserService;
+import com.example.quantum.services.user.UpdateUserService;
 
 import jakarta.validation.Valid;
 

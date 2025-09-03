@@ -1,4 +1,4 @@
-package com.example.quantum.mappers;
+package com.example.quantum.mappers.user;
 
 import com.example.quantum.repositories.user.UserEntity;
 import com.example.quantum.domain.User;

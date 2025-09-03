@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.documents;
+package com.example.quantum.controllers.document;
 
 import com.example.quantum.domain.Document;
 

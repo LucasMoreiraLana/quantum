@@ -1,9 +1,9 @@
-package com.example.quantum.services.documents;
+package com.example.quantum.services.document;
 
-import com.example.quantum.controllers.documents.InsertDocumentPostMapper;
-import com.example.quantum.controllers.documents.InsertDocumentPostRequest;
+import com.example.quantum.controllers.document.InsertDocumentPostMapper;
+import com.example.quantum.controllers.document.InsertDocumentPostRequest;
 import com.example.quantum.domain.Document;
-import com.example.quantum.mappers.DocumentMapper;
+import com.example.quantum.mappers.document.InsertDocumentMapper;
 import com.example.quantum.repositories.document.DocumentEntity;
 import com.example.quantum.repositories.document.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class CreateDocumentService {
         }
 
         final var savedDocument = documentRepository.save(documentEntity);
-        return DocumentMapper.toDocument(savedDocument);
+        return InsertDocumentMapper.toDocument(savedDocument);
     }
 
     private DocumentEntity toEntity(Document document) {

@@ -1,4 +1,4 @@
-package com.example.quantum.services.documents;
+package com.example.quantum.services.document;
 
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

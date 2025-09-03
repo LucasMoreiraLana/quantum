@@ -1,7 +1,7 @@
-package com.example.quantum.services.users;
+package com.example.quantum.services.user;
 
 import com.example.quantum.domain.User;
-import com.example.quantum.mappers.UserMapper;
+import com.example.quantum.mappers.user.UserMapper;
 import com.example.quantum.repositories.user.UserEntity;
 import com.example.quantum.repositories.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

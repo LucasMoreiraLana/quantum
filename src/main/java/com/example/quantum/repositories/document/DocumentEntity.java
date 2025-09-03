@@ -38,7 +38,7 @@ public class DocumentEntity {
     private boolean active = true;
 
     @NotNull(message = "O tipo do documento precisa ser informado!")
-    private Document.Type type; // Enums são suportados sem @Enumerated
+    private Document.Type type; 
 
     @NotNull(message = "A origem do documento precisa ser informada!")
     private Document.Origin origin;

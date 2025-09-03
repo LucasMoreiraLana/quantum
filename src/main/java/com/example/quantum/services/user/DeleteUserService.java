@@ -1,4 +1,4 @@
-package com.example.quantum.services.users;
+package com.example.quantum.services.user;
 
 import java.util.UUID;
 

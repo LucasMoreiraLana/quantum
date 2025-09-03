@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.documents;
+package com.example.quantum.controllers.document;
 
 import java.util.UUID;
 
@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.quantum.services.documents.UpdateDocumentService;
+
 import com.example.quantum.domain.Document;
+import com.example.quantum.services.document.UpdateDocumentService;
+
 import jakarta.validation.Valid;
 
 
