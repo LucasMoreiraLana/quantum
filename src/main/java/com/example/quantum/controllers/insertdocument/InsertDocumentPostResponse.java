@@ -1,17 +1,18 @@
-package com.example.quantum.controllers.document;
+package com.example.quantum.controllers.insertdocument;
 
 import com.example.quantum.domain.Document;
 import com.example.quantum.enums.Sector;
+
 import java.util.UUID;
 
-public record GetDocumentGetResponse(
+public record InsertDocumentPostResponse(
         UUID idDocument,
         UUID createdBy,
         String nameDocument,
         String content,
         int tempoDeRetencao,
-        boolean active,
         Document.Type type,
         Document.Origin origin,
-        Sector sector
+        Sector sector,
+        boolean active
 ) {}

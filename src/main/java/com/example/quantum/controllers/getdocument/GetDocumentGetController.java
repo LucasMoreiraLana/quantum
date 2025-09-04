@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.document;
+package com.example.quantum.controllers.getdocument;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.quantum.domain.Document;
 import com.example.quantum.services.document.GetDocumentService;
-
 import java.util.List;
+
 
 
 @RestController

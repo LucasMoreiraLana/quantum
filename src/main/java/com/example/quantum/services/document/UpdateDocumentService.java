@@ -4,9 +4,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.example.quantum.mappers.document.InsertDocumentMapper;
 import com.example.quantum.repositories.document.DocumentRepository;
-import com.example.quantum.controllers.document.UpdateDocumentPutRequest;
+import com.example.quantum.controllers.updatedocument.UpdateDocumentPutRequest;
 import com.example.quantum.domain.Document;
 import com.example.quantum.exceptions.DocumentNotFoundException;
 import com.example.quantum.repositories.document.DocumentEntity;
@@ -24,7 +23,7 @@ public class UpdateDocumentService {
         
         updateEntityFromDTO(updateDTO, documentEntity);
         final var updatedDocument = documentRepository.save(documentEntity);
-        return InsertDocumentMapper.toDocument(updatedDocument);
+        return InsertPostDocumentRequestMapper.toDocument(updatedDocument);
     }
 
 

@@ -1,10 +1,15 @@
-package com.example.quantum.mappers.document;
+package com.example.quantum.controllers.getdocument;
 
 import com.example.quantum.repositories.document.DocumentEntity;
-import com.example.quantum.domain.Document;;
+
+import java.util.stream.Collectors;
+
+import com.example.quantum.domain.Document;
+import com.example.quantum.controllers.getdocument.GetDocumentGetResponse;
+import java.util.List;
 
 
-public class GetDocumentMapper {
+public class GetDocumentGetMapper {
 
 
 
@@ -21,6 +26,15 @@ public class GetDocumentMapper {
                 entity.getSector()
         );
     }
+
+        public static List<GetDocumentGetResponse> toResponseList(List<Document> documents) {
+
+        return documents.stream()
+                .map(GetDocumentGetResponse::toResponse)
+                .collect(Collectors.toList());
+         }
+
+         
 
 
 

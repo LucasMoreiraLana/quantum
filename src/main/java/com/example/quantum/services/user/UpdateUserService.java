@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.quantum.controllers.user.UpdateUserPutRequest;
+import com.example.quantum.controllers.user.UserMapper;
 import com.example.quantum.domain.User;
 import com.example.quantum.exceptions.UserNotFoundException;
-import com.example.quantum.mappers.user.UserMapper;
 import com.example.quantum.repositories.user.UserRepository;
 
 

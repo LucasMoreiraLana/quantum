@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.document;
+package com.example.quantum.controllers.updatedocument;
 
 import java.util.UUID;
 

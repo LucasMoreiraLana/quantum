@@ -1,9 +1,8 @@
-package com.example.quantum.mappers.document;
+package com.example.quantum.controllers.updatedocument;
 
 
 
-import com.example.quantum.repositories.document.DocumentEntity;
-import com.example.quantum.controllers.document.UpdateDocumentPutRequest;;;
+import com.example.quantum.repositories.document.DocumentEntity;;;
 
 
 public class UpdateDocumentMapper {
