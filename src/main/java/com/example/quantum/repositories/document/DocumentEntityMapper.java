@@ -16,4 +16,19 @@ public class DocumentEntityMapper {
                 entity.getSector()
         );
     }
+
+    public static DocumentEntity toEntity(Document document) {
+        DocumentEntity entity = new DocumentEntity();
+        entity.setIdDocument(document.idDocument());
+        entity.setCreateBy(document.createdBy());
+        entity.setNameDocument(document.nameDocument());
+        entity.setContent(document.content());
+        entity.setTempoDeRetencao(document.tempoDeRetencao());
+        entity.setActive(document.active());
+        entity.setType(document.type());
+        entity.setOrigin(document.origin());
+        entity.setSector(document.sector());
+        return entity;
+    }
+    
 }   

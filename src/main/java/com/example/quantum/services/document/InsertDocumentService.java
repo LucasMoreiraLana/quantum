@@ -22,7 +22,7 @@ public class InsertDocumentService {
         final var document = InsertDocumentPostMapper.toDocument(createDTO);
 
         // Domain → Entity
-        final var documentEntity = InsertDocumentPostMapper.toEntity(document);
+        final var documentEntity = DocumentEntityMapper.toEntity(document);
 
         // Garantir ID se não existir
         if (documentEntity.getIdDocument() == null) {

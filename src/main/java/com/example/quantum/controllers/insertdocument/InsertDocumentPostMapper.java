@@ -1,7 +1,6 @@
 package com.example.quantum.controllers.insertdocument;
 
 import com.example.quantum.domain.Document;
-import com.example.quantum.repositories.document.DocumentEntity;
 
 import java.util.UUID;
 
@@ -38,22 +37,6 @@ public class InsertDocumentPostMapper {
                 document.active()
         );
     }
-
-    //converte para entidade
-    public static DocumentEntity toEntity(Document document) {
-        DocumentEntity entity = new DocumentEntity();
-        entity.setIdDocument(document.idDocument());
-        entity.setCreateBy(document.createdBy());
-        entity.setNameDocument(document.nameDocument());
-        entity.setContent(document.content());
-        entity.setTempoDeRetencao(document.tempoDeRetencao());
-        entity.setActive(document.active());
-        entity.setType(document.type());
-        entity.setOrigin(document.origin());
-        entity.setSector(document.sector());
-        return entity;
-    }
-
 
 
     
