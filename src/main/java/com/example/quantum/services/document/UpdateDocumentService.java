@@ -4,11 +4,14 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.quantum.repositories.document.DocumentEntityMapper;
 import com.example.quantum.repositories.document.DocumentRepository;
 import com.example.quantum.controllers.updatedocument.UpdateDocumentPutRequest;
 import com.example.quantum.domain.Document;
 import com.example.quantum.exceptions.DocumentNotFoundException;
-import com.example.quantum.repositories.document.DocumentEntity;
+import com.example.quantum.controllers.updatedocument.UpdateDocumentPutMapper;
+
 
 @Service
 @Transactional
@@ -20,31 +23,13 @@ public class UpdateDocumentService {
     public Document update(UUID id, UpdateDocumentPutRequest updateDTO) {
         final var documentEntity = documentRepository.findById(id)
             .orElseThrow(() -> new DocumentNotFoundException("Documento não encontrado: " + id));
-        
-        updateEntityFromDTO(updateDTO, documentEntity);
+
+        // Usa o mapper para atualizar
+        UpdateDocumentPutMapper.updateEntityRequest(updateDTO, documentEntity);
+
         final var updatedDocument = documentRepository.save(documentEntity);
-        return InsertPostDocumentRequestMapper.toDocument(updatedDocument);
-    }
 
-
-    private void updateEntityFromDTO(UpdateDocumentPutRequest request, DocumentEntity documentEntity) {
-        if (request.nameDocument() != null) {
-            documentEntity.setNameDocument(request.nameDocument());
-        }
-        if (request.content() != null) {
-            documentEntity.setContent(request.content());
-        }
-        if (request.tempoDeRetencao() != null) {
-            documentEntity.setTempoDeRetencao(request.tempoDeRetencao());
-        }
-        if (request.type() != null) {
-            documentEntity.setType(request.type());
-        }
-        if (request.origin() != null) {
-            documentEntity.setOrigin(request.origin());
-        }
-        if (request.sector() != null) {
-            documentEntity.setSector(request.sector());
-        }
+        // Converter Entity → Domain usando o mapper genérico
+        return DocumentEntityMapper.toDomain(updatedDocument);
     }
 }

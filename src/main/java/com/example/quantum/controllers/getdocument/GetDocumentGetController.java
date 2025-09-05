@@ -20,9 +20,9 @@ public class GetDocumentGetController {
     private GetDocumentService getDocumentService;
 
     @GetMapping
-    public ResponseEntity<List<Document>> getAllDocuments() {
-        List<Document> response = getDocumentService.findAllDocuments();
-        return ResponseEntity.ok(response);
-    }
+public ResponseEntity<List<GetDocumentGetResponse>> getAllDocuments() {
+    List<Document> documents = getDocumentService.getAll();
+    return ResponseEntity.ok(GetDocumentGetMapper.toResponseList(documents));
+}
 
 }

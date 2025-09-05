@@ -1,4 +1,4 @@
-package com.example.quantum.controllers;
+package com.example.quantum.controllers.deletedocument;
 
 import java.util.UUID;
 

@@ -55,19 +55,7 @@ public class InsertDocumentPostMapper {
     }
 
 
-    //converte para dominio
-    public static Document toDomain(DocumentEntity entity) {
-        return new Document(
-                entity.getIdDocument(),
-                entity.getCreateBy(),
-                entity.getNameDocument(),
-                entity.getContent(),
-                entity.getTempoDeRetencao(),
-                entity.isActive(),
-                entity.getType(),
-                entity.getOrigin(),
-                entity.getSector()
-        );
-    }
+
+    
 }
 

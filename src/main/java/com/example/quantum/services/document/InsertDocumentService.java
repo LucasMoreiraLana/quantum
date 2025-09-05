@@ -3,7 +3,9 @@ package com.example.quantum.services.document;
 import com.example.quantum.controllers.insertdocument.InsertDocumentPostMapper;
 import com.example.quantum.controllers.insertdocument.InsertDocumentPostRequest;
 import com.example.quantum.domain.Document;
+import com.example.quantum.repositories.document.DocumentEntityMapper;
 import com.example.quantum.repositories.document.DocumentRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
@@ -31,7 +33,7 @@ public class InsertDocumentService {
         final var savedEntity = documentRepository.save(documentEntity);
 
         // Entity → Domain
-        return InsertDocumentPostMapper.toDomain(savedEntity);
+        return DocumentEntityMapper.toDomain(savedEntity);
     }
 }
 
