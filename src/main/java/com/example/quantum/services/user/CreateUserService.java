@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.quantum.repositories.user.UserRepository;
-import com.example.quantum.controllers.user.InsertUserPostRequest;
-import com.example.quantum.controllers.user.UserMapper;
+import com.example.quantum.controllers.user.insertuser.InsertUserPostRequest;
+import com.example.quantum.repositories.user.UserMapperEntity;
 import com.example.quantum.domain.User;
 import com.example.quantum.repositories.user.UserEntity;
 
@@ -21,7 +21,7 @@ public class CreateUserService {
     public User create(InsertUserPostRequest createRequest) {
         final var userEntity = toEntity(createRequest);
         final var user = userRepository.save(userEntity);
-        return UserMapper.toUser(user);
+        return UserMapperEntity.toUser(user);
     }
 
     private UserEntity toEntity(InsertUserPostRequest request) {

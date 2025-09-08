@@ -7,10 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.quantum.repositories.document.DocumentEntityMapper;
 import com.example.quantum.repositories.document.DocumentRepository;
-import com.example.quantum.controllers.updatedocument.UpdateDocumentPutRequest;
+import com.example.quantum.controllers.document.updatedocument.UpdateDocumentPutRequest;
 import com.example.quantum.domain.Document;
 import com.example.quantum.exceptions.DocumentNotFoundException;
-import com.example.quantum.controllers.updatedocument.UpdateDocumentPutMapper;
+import com.example.quantum.controllers.document.updatedocument.UpdateDocumentPutMapper;
 
 
 @Service

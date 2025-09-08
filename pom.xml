@@ -21,6 +21,7 @@
         <java.version>21</java.version>
     </properties>
 
+
     <dependencies>
 
         <!-- Validation -->
@@ -67,11 +68,11 @@
             <scope>test</scope>
         </dependency>
     
-      <dependency>
-        <groupId>org.scala-lang</groupId>
-        <artifactId>scala-library</artifactId>
-        <version>2.13.0</version>
-      </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.13.0</version>
+        </dependency>
     </dependencies>
 
     <build>

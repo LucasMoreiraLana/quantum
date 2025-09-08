@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.user;
+package com.example.quantum.controllers.user.insertuser;
 
 import com.example.quantum.domain.User.Position;
 import com.example.quantum.enums.Sector;

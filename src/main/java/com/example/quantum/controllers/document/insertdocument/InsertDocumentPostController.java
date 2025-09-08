@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.insertdocument;
+package com.example.quantum.controllers.document.insertdocument;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,8 +21,7 @@ public class InsertDocumentPostController {
     private InsertDocumentService createDocumentService;
 
     @PostMapping
-    public ResponseEntity<InsertDocumentPostResponse> createDocument(
-            @Valid @RequestBody InsertDocumentPostRequest createRequest) {
+    public ResponseEntity<InsertDocumentPostResponse> createDocument(@Valid @RequestBody InsertDocumentPostRequest createRequest) {
         
         // Service retorna Domain
         Document savedDocument = createDocumentService.create(createRequest);

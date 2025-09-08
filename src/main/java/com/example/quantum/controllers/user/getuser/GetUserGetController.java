@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.user;
+package com.example.quantum.controllers.user.getuser;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;

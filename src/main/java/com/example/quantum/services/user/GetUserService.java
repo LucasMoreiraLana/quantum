@@ -1,6 +1,6 @@
 package com.example.quantum.services.user;
 
-import com.example.quantum.controllers.user.UserMapper;
+import com.example.quantum.repositories.user.UserMapperEntity;
 import com.example.quantum.domain.User;
 import com.example.quantum.repositories.user.UserEntity;
 import com.example.quantum.repositories.user.UserRepository;
@@ -21,7 +21,7 @@ public class GetUserService {
     public List<User> findAllUsers() {
         List<UserEntity> entities = userRepository.findAll();
         return entities.stream()
-                       .map(UserMapper::toUser)
+                       .map(UserMapperEntity::toUser)
                        .collect(Collectors.toList());
     }
 

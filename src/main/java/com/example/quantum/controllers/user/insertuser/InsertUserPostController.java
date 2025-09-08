@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.user;
+package com.example.quantum.controllers.user.insertuser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,8 +22,13 @@ public class InsertUserPostController {
     private CreateUserService createUserService;
 
     @PostMapping("/create")
-    public ResponseEntity<User> createUser(@Valid @RequestBody InsertUserPostRequest createRequest) {
-        User response = createUserService.create(createRequest);
+    public ResponseEntity<InsertUserPostResponse> createUser(@Valid @RequestBody InsertUserPostRequest createRequest) {
+
+        //service -> domain
+        User savedUser = createUserService.create(createRequest);
+        //domain -> response
+        InsertUserPostResponse response = InsertUserPostMapper.toResponse(savedUser);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.getdocument;
+package com.example.quantum.controllers.document.getdocument;
 
 
 import java.util.stream.Collectors;
@@ -11,6 +11,7 @@ public class GetDocumentGetMapper {
 
         public static GetDocumentGetResponse toResponse(Document document) {
         return new GetDocumentGetResponse(
+                document.idDocument(),
                 document.nameDocument(),
                 document.content(),
                 document.tempoDeRetencao(),

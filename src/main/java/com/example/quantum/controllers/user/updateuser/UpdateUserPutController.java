@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.user;
+package com.example.quantum.controllers.user.updateuser;
 
 import java.util.UUID;
 

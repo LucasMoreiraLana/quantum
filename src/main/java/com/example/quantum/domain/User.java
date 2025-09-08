@@ -9,6 +9,7 @@ import com.example.quantum.enums.Sector;
 public record User(
     UUID idUser,
     String username,
+    String password,
     String email,
     boolean active,
     Sector sector,

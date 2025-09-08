@@ -1,10 +1,13 @@
-package com.example.quantum.controllers.getdocument;
+package com.example.quantum.controllers.document.getdocument;
 
 import com.example.quantum.domain.Document;
 import com.example.quantum.enums.Sector;
 
+import java.util.UUID;
+
 public record GetDocumentGetResponse(
-        
+
+        UUID idDocument,
         String nameDocument,
         String content,
         int tempoDeRetencao,
