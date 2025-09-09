@@ -6,12 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.quantum.repositories.user.UserRepository;
 import com.example.quantum.controllers.user.insertuser.InsertUserPostRequest;
 import com.example.quantum.controllers.user.insertuser.InsertUserPostMapper;
-import com.example.quantum.repositories.user.UserMapperEntity;
+import com.example.quantum.repositories.user.UserEntityMapper;
 import com.example.quantum.domain.User;
 
 @Service
 @Transactional
-public class CreateUserService {
+public class InsertUserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -21,12 +21,12 @@ public class CreateUserService {
         final var userDomain = InsertUserPostMapper.toUser(createRequest);
 
         // transforma domain em entity
-        final var userEntity = UserMapperEntity.toEntity(userDomain);
+        final var userEntity = UserEntityMapper.toEntity(userDomain);
 
         // persiste no banco
         final var savedEntity = userRepository.save(userEntity);
 
         // retorna domain novamente
-        return UserMapperEntity.toUser(savedEntity);
+        return UserEntityMapper.toUser(savedEntity);
     }
 }

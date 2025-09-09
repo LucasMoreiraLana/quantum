@@ -1,6 +1,7 @@
 package com.example.quantum.controllers.document.insertdocument;
 
 import com.example.quantum.domain.Document;
+import com.example.quantum.services.document.InsertDocumentInput;
 
 import java.util.UUID;
 

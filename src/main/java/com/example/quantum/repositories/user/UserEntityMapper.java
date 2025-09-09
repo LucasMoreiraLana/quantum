@@ -3,7 +3,7 @@ package com.example.quantum.repositories.user;
 import com.example.quantum.domain.User;
 
 
-public class UserMapperEntity {
+public class UserEntityMapper {
 
 
 
