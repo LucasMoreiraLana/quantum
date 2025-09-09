@@ -17,13 +17,9 @@ public class InsertUserPostMapper {
                 request.sector(),
                 request.position()
         );
-
     }
 
-
-    //converte domain para response
     public static InsertUserPostResponse toResponse(User user){
-
         return new InsertUserPostResponse(
                 user.idUser(),
                 user.username(),

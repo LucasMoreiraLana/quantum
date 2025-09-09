@@ -2,6 +2,7 @@ package com.example.quantum.services.user;
 
 import java.util.UUID;
 
+import com.example.quantum.controllers.user.updateuser.UpdateUserPutMapper;
 import com.example.quantum.repositories.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,19 +24,12 @@ public class UpdateUserService {
 
     public User update(UUID id, UpdateUserPutRequest updateRequest) {
         final var userEntity = userRepository.findByIdUser(id)
-            .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado: " + id));
-        
-        final var updatedUser = updateEntity(userEntity, updateRequest);
-        final var user = userRepository.save(updatedUser);
-        return UserMapperEntity.toUser(user);
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado: " + id));
+
+        UpdateUserPutMapper.userEntityRequest(updateRequest, userEntity);
+
+        final var updatedUser = userRepository.save(userEntity);
+        return UserMapperEntity.toUser(updatedUser);
     }
 
-    private UserEntity updateEntity(UserEntity userEntity, UpdateUserPutRequest request) {
-        userEntity.setUsername(request.username());
-        userEntity.setEmail(request.email());
-        userEntity.setSector(request.sector());
-        userEntity.setPosition(request.position());
-        userEntity.setActive(request.active());
-        return userEntity;
-    }
 }

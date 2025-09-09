@@ -20,7 +20,7 @@ public class GetUserGetController {
 
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUser() {
+    public ResponseEntity<List<User>> findAllUsers() {
         List<User> response = getUserService.findAllUsers();
         return ResponseEntity.ok(response);
     }

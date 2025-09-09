@@ -21,7 +21,7 @@ public class GetDocumentGetController {
 
     @GetMapping
 public ResponseEntity<List<GetDocumentGetResponse>> getAllDocuments() {
-    List<Document> documents = getDocumentService.getAll();
+    List<Document> documents = getDocumentService.getAllDocuments();
     return ResponseEntity.ok(GetDocumentGetMapper.toResponseList(documents));
 }
 

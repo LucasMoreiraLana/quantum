@@ -18,7 +18,7 @@ import java.util.List;
         @Autowired
         private DocumentRepository documentRepository;
 
-        public List<Document> getAll() {
+        public List<Document> getAllDocuments() {
             return documentRepository.findAll()
                     .stream()
                     .map(DocumentEntityMapper::toDomain) // Entity -> Domain

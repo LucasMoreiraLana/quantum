@@ -5,11 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.quantum.repositories.user.UserRepository;
 import com.example.quantum.controllers.user.insertuser.InsertUserPostRequest;
+import com.example.quantum.controllers.user.insertuser.InsertUserPostMapper;
 import com.example.quantum.repositories.user.UserMapperEntity;
 import com.example.quantum.domain.User;
-import com.example.quantum.repositories.user.UserEntity;
-
-
 
 @Service
 @Transactional
@@ -18,20 +16,17 @@ public class CreateUserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User create(InsertUserPostRequest createRequest) {
-        final var userEntity = toEntity(createRequest);
-        final var user = userRepository.save(userEntity);
-        return UserMapperEntity.toUser(user);
-    }
+    public User createUser(InsertUserPostRequest createRequest) {
+        // transforma a request em domain
+        final var userDomain = InsertUserPostMapper.toUser(createRequest);
 
-    private UserEntity toEntity(InsertUserPostRequest request) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUsername(request.username());
-        userEntity.setPassword(request.password());
-        userEntity.setEmail(request.email());
-        userEntity.setSector(request.sector());
-        userEntity.setPosition(request.position());
-        userEntity.setActive(true);
-        return userEntity;
+        // transforma domain em entity
+        final var userEntity = UserMapperEntity.toEntity(userDomain);
+
+        // persiste no banco
+        final var savedEntity = userRepository.save(userEntity);
+
+        // retorna domain novamente
+        return UserMapperEntity.toUser(savedEntity);
     }
 }
