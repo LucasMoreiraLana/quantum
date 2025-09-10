@@ -12,6 +12,7 @@ public class GetDocumentGetMapper {
         public static GetDocumentGetResponse toResponse(Document document) {
         return new GetDocumentGetResponse(
                 document.idDocument(),
+                document.createdBy(),
                 document.nameDocument(),
                 document.content(),
                 document.tempoDeRetencao(),

@@ -1,15 +1,10 @@
 package com.example.quantum.controllers.document.insertdocument;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.quantum.domain.Document;
 import com.example.quantum.services.document.InsertDocumentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
@@ -18,18 +13,20 @@ import jakarta.validation.Valid;
 public class InsertDocumentPostController {
 
     @Autowired
-    private InsertDocumentService createDocumentService;
+    private InsertDocumentService insertDocumentService;
 
     @PostMapping
-    public ResponseEntity<InsertDocumentPostResponse> createDocument(@Valid @RequestBody InsertDocumentPostRequest createRequest) {
-        
-        // Service retorna Domain
-        Document savedDocument = createDocumentService.create(createRequest);
+    public ResponseEntity<InsertDocumentPostResponse> create(@Valid @RequestBody InsertDocumentPostRequest request) {
+        // Request → Input
+        final var input = InsertDocumentPostMapper.toInput(request);
+
+        // Service com Input → Domain
+        final var document = insertDocumentService.create(input);
 
         // Domain → Response
-        InsertDocumentPostResponse response = InsertDocumentPostMapper.toResponse(savedDocument);
+        final var response = InsertDocumentPostMapper.toResponse(document);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 }
 

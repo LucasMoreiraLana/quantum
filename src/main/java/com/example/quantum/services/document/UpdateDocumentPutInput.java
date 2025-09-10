@@ -5,10 +5,9 @@ import com.example.quantum.enums.Sector;
 
 import java.util.UUID;
 
+public record UpdateDocumentPutInput(
 
-public record InsertDocumentInput(
-
-        UUID createdBy,
+        UUID documentId,
         String nameDocument,
         String content,
         int tempoDeRetencao,
@@ -16,6 +15,5 @@ public record InsertDocumentInput(
         Document.Origin origin,
         Sector sector
 
-) {
-
+){
 }

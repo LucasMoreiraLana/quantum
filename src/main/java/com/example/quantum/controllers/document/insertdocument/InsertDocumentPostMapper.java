@@ -1,30 +1,24 @@
 package com.example.quantum.controllers.document.insertdocument;
 
 import com.example.quantum.domain.Document;
-import com.example.quantum.services.document.InsertDocumentInput;
-
-import java.util.UUID;
+import com.example.quantum.services.document.InsertDocumentPostInput;
 
 public class InsertDocumentPostMapper {
 
-    //converte requisição para dominio
-    public static Document toDocument(InsertDocumentPostRequest request){
-
-        return new Document(
-                UUID.randomUUID(),
+    // Request → Input
+    public static InsertDocumentPostInput toInput(InsertDocumentPostRequest request) {
+        return new InsertDocumentPostInput(
                 request.createdBy(),
                 request.nameDocument(),
                 request.content(),
                 request.tempoDeRetencao(),
-                true,
                 request.type(),
                 request.origin(),
                 request.sector()
         );
     }
 
-    
-    //converte dominio para reponse
+    // Domain → Response
     public static InsertDocumentPostResponse toResponse(Document document) {
         return new InsertDocumentPostResponse(
                 document.idDocument(),
@@ -38,8 +32,4 @@ public class InsertDocumentPostMapper {
                 document.active()
         );
     }
-
-
-    
 }
-

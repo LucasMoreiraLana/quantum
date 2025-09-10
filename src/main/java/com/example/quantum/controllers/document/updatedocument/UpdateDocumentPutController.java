@@ -4,17 +4,10 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.example.quantum.domain.Document;
+import org.springframework.web.bind.annotation.*;
 import com.example.quantum.services.document.UpdateDocumentService;
 
 import jakarta.validation.Valid;
-
 
 @RestController
 @RequestMapping("/v1/documents")
@@ -24,10 +17,19 @@ public class UpdateDocumentPutController {
     private UpdateDocumentService updateDocumentService;
 
     @PutMapping("/{id}")
-    public ResponseEntity<Document> updateDocument(
+    public ResponseEntity<UpdateDocumentPutResponse> updateDocument(
             @PathVariable UUID id,
-            @Valid @RequestBody UpdateDocumentPutRequest updateRequest) {
-        Document response = updateDocumentService.update(id, updateRequest);
+            @Valid @RequestBody UpdateDocumentPutRequest request) {
+
+        // Request → Input
+        final var input = UpdateDocumentPutMapper.toInput(id, request);
+
+        // Service com Input
+        final var updated = updateDocumentService.update(input);
+
+        // Domain → Response
+        final var response = UpdateDocumentPutMapper.toResponse(updated);
+
         return ResponseEntity.ok(response);
     }
 }

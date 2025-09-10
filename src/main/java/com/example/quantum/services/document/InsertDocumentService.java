@@ -1,11 +1,9 @@
 package com.example.quantum.services.document;
 
-import com.example.quantum.controllers.document.insertdocument.InsertDocumentPostMapper;
-import com.example.quantum.controllers.document.insertdocument.InsertDocumentPostRequest;
+
 import com.example.quantum.domain.Document;
 import com.example.quantum.repositories.document.DocumentEntityMapper;
 import com.example.quantum.repositories.document.DocumentRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +14,7 @@ public class InsertDocumentService {
     @Autowired
     private DocumentRepository documentRepository;
 
-    public Document create(InsertDocumentInput input) {
+    public Document create(InsertDocumentPostInput input) {
         // Input → Domain
         final var document = input.toDomain();
 

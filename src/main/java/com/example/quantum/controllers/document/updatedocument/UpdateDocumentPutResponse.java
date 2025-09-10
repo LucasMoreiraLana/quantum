@@ -1,13 +1,16 @@
 package com.example.quantum.controllers.document.updatedocument;
 
-import com.example.quantum.domain.Document;
-import com.example.quantum.enums.Sector;
 
-public record UpdateDocumentPutRequest(
+import com.example.quantum.enums.Sector;
+import com.example.quantum.domain.Document;
+
+public record UpdateDocumentPutResponse(
+
         String nameDocument,
         String content,
         int tempoDeRetencao,
         Document.Type type,
         Document.Origin origin,
-        Sector sector
+        Sector sector,
+        boolean active
 ) {}

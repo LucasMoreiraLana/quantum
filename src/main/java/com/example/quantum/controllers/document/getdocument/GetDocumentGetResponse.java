@@ -8,6 +8,7 @@ import java.util.UUID;
 public record GetDocumentGetResponse(
 
         UUID idDocument,
+        UUID createdBy,
         String nameDocument,
         String content,
         int tempoDeRetencao,
