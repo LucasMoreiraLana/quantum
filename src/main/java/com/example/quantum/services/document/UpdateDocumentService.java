@@ -14,13 +14,12 @@ public class UpdateDocumentService {
 
     public Document update(UpdateDocumentPutInput input) {
         // Busca no banco
-        final var existingEntity = documentRepository.findById(input.documentId())
-                .orElseThrow(() -> new RuntimeException("Documento não encontrado"));
+        final var existingEntity = documentRepository.findById(input.idDocument())
+                .orElseThrow(() -> new RuntimeException("Documento não encontrado!"));
 
-        // Atualiza os campos permitidos
         final var updatedDomain = new Document(
-                input.documentId(),
-                input.documentId(),
+                input.idDocument(),
+                existingEntity.getCreateBy(), // 🔒 nunca altera
                 input.nameDocument(),
                 input.content(),
                 input.tempoDeRetencao(),
@@ -30,6 +29,7 @@ public class UpdateDocumentService {
                 input.sector()
         );
 
+
         // Domain → Entity
         final var updatedEntity = DocumentEntityMapper.toEntity(updatedDomain);
 
@@ -37,6 +37,6 @@ public class UpdateDocumentService {
         final var savedEntity = documentRepository.save(updatedEntity);
 
         // Entity → Domain
-        return DocumentEntityMapper.toDomain(savedEntity);
+        return DocumentEntityMapper.toDocument(savedEntity);
     }
 }

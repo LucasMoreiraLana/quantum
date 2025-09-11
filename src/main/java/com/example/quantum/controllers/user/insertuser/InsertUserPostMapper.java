@@ -1,19 +1,19 @@
 package com.example.quantum.controllers.user.insertuser;
 
 import com.example.quantum.domain.User;
+import com.example.quantum.services.user.InsertUserPostInput;
 
 import java.util.UUID;
 
 public class InsertUserPostMapper {
 
     //converte requisição para domain
-    public static User toInput(InsertUserPostRequest request){
-        return new User (
+    public static InsertUserPostInput toInput(InsertUserPostRequest request){
+        return new InsertUserPostInput (
                 UUID.randomUUID(),
                 request.username(),
                 request.password(),
                 request.email(),
-                true,
                 request.sector(),
                 request.position()
         );

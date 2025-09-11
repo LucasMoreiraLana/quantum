@@ -2,6 +2,9 @@ package com.example.quantum.controllers.user.updateuser;
 
 import java.util.UUID;
 
+import com.example.quantum.services.user.UpdateUserPutInput;
+import com.example.quantum.services.user.UpdateUserPutService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -9,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.example.quantum.domain.User;
-import com.example.quantum.services.user.UpdateUserService;
+
 
 import jakarta.validation.Valid;
 
@@ -19,15 +21,24 @@ import jakarta.validation.Valid;
 public class UpdateUserPutController {
     
     @Autowired
-    private UpdateUserService updateUserService;
+    private UpdateUserPutService updateUserPutService;
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(
+    public ResponseEntity<UpdateUserPutInput> updateUser(
             @PathVariable UUID id,
-            @Valid @RequestBody UpdateUserPutRequest updateRequest) {
-        User response = updateUserService.update(id, updateRequest);
-        return ResponseEntity.ok(response);
+            @Valid @RequestBody UpdateUserPutRequest request) {
+
+        // Request → Input
+        final var input = UpdateUserPutMapper.toInput(id, request);
+
+        // Service com Input
+        final var updated = updateUserPutService.update(input);
+
+        // Domain → Response
+        final var response = UpdateUserPutMapper.toResponse(updated);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

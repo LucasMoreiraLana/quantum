@@ -15,15 +15,15 @@ public class InsertUserPostService {
     @Autowired
     private UserRepository userRepository;
 
-    public User createUser(User createRequest) {
+    public User createUser(InsertUserPostInput input) {
         // transforma a request em domain
-        final var userDomain = InsertUserPostMapper.toInput(createRequest);
+        final var user = input.toDomain();
 
         // transforma domain em entity
-        final var userEntity = UserEntityMapper.toEntity(userDomain);
+        final var entity = UserEntityMapper.toEntity(user);
 
         // persiste no banco
-        final var savedEntity = userRepository.save(userEntity);
+        final var savedEntity = userRepository.save(entity);
 
         // retorna domain novamente
         return UserEntityMapper.toUser(savedEntity);

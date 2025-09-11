@@ -1,28 +1,34 @@
 package com.example.quantum.controllers.user.updateuser;
 
+import java.util.UUID;
 
-import com.example.quantum.repositories.user.UserEntity;
+import com.example.quantum.domain.Document;
+import com.example.quantum.domain.User;
+import com.example.quantum.services.user.UpdateUserPutInput;
 
 public class UpdateUserPutMapper {
 
-    public static void userEntityRequest(UpdateUserPutRequest request, UserEntity entity) {
-        if (request.username() != null) {
-            entity.setUsername(request.username());
-        }
-        if (request.password() != null) {
-            entity.setPassword(request.password());
-        }
-        if (request.email() != null) {
-            entity.setEmail(request.email());
-        }
+    // Request → Input
+    public static UpdateUserPutInput toInput(UUID id, UpdateUserPutRequest request) {
+        return new UpdateUserPutInput(
+                id,
+                request.username(),
+                request.password(),
+                request.email(),
+                request.sector(),
+                request.position()
+        );
+    }
 
-        entity.setActive(request.active());
-
-        if (request.sector() != null) {
-            entity.setSector(request.sector());
-        }
-        if (request.position() != null) {
-            entity.setPosition(request.position()); // Enum User.Position
-        }
+    // Domain → Response
+    public static UpdateUserPutResponse toResponse(User user) {
+        return new UpdateUserPutResponse(
+                user.username(),
+                user.password(),
+                user.email(),
+                user.active(),
+                user.sector(),
+                user.position()
+        );
     }
 }

@@ -6,6 +6,7 @@ import com.example.quantum.enums.Sector;
 import java.util.UUID;
 
 public record Document(
+
         UUID idDocument,
         UUID createdBy,
         String nameDocument,

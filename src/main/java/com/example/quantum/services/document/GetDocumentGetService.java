@@ -13,7 +13,7 @@ import java.util.List;
 
 
     @Service
-    public class GetDocumentService {
+    public class GetDocumentGetService {
 
         @Autowired
         private DocumentRepository documentRepository;
@@ -21,7 +21,7 @@ import java.util.List;
         public List<Document> getAllDocuments() {
             return documentRepository.findAll()
                     .stream()
-                    .map(DocumentEntityMapper::toDomain) // Entity -> Domain
+                    .map(DocumentEntityMapper::toDocument) // Entity -> Domain
                     .toList();
         }
     }

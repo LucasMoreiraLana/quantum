@@ -6,14 +6,12 @@ import com.example.quantum.enums.Sector;
 import java.util.UUID;
 
 public record UpdateDocumentPutInput(
-
-        UUID documentId,
+        UUID idDocument,
         String nameDocument,
         String content,
         int tempoDeRetencao,
         Document.Type type,
         Document.Origin origin,
         Sector sector
+) {}
 
-){
-}

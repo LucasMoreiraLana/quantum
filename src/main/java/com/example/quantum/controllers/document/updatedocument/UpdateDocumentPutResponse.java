@@ -13,4 +13,5 @@ public record UpdateDocumentPutResponse(
         Document.Origin origin,
         Sector sector,
         boolean active
+
 ) {}

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class InsertDocumentService {
+public class InsertDocumentPostService {
 
     @Autowired
     private DocumentRepository documentRepository;
@@ -25,7 +25,7 @@ public class InsertDocumentService {
         final var savedEntity = documentRepository.save(entity);
 
         // Entity → Domain
-        return DocumentEntityMapper.toDomain(savedEntity);
+        return DocumentEntityMapper.toDocument(savedEntity);
     }
 }
 
