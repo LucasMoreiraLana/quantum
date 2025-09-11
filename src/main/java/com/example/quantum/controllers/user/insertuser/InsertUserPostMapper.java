@@ -7,7 +7,7 @@ import java.util.UUID;
 public class InsertUserPostMapper {
 
     //converte requisição para domain
-    public static User toUser(InsertUserPostRequest request){
+    public static User toInput(InsertUserPostRequest request){
         return new User (
                 UUID.randomUUID(),
                 request.username(),
