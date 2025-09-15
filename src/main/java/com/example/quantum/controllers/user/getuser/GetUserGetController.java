@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.quantum.domain.User;
-import com.example.quantum.services.user.GetUserService;
+import com.example.quantum.services.user.GetUserGetService;
 
 
 @RestController
@@ -16,12 +16,12 @@ import com.example.quantum.services.user.GetUserService;
 public class GetUserGetController {
     
     @Autowired
-    private GetUserService getUserService;
+    private GetUserGetService getUserGetService;
 
 
     @GetMapping
     public ResponseEntity<List<User>> findAllUsers() {
-        List<User> response = getUserService.toResponse();
+        List<User> response = getUserGetService.toResponse();
         return ResponseEntity.ok(response);
     }
 
