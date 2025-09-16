@@ -7,22 +7,22 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.quantum.domain.Document;
-import com.example.quantum.services.document.GetDocumentGetService;
+import com.example.quantum.services.document.GetAllDocumentGetService;
 import java.util.List;
 
 
 
 @RestController
 @RequestMapping("/v1/documents")
-public class GetDocumentGetController {
+public class GetAllDocumentGetController {
     
     @Autowired
-    private GetDocumentGetService getDocumentGetService;
+    private GetAllDocumentGetService getAllDocumentGetService;
 
     @GetMapping
-public ResponseEntity<List<GetDocumentGetResponse>> getAllDocuments() {
-    List<Document> documents = getDocumentGetService.getAllDocuments();
-    return ResponseEntity.ok(GetDocumentGetMapper.toResponseList(documents));
+    public ResponseEntity<List<GetAllDocumentGetResponse>> getAllDocuments() {
+        List<Document> documents = getAllDocumentGetService.getAllDocuments();
+        return ResponseEntity.ok(GetAllDocumentGetMapper.toResponseList(documents));
 }
 
 }

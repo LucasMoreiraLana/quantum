@@ -6,11 +6,11 @@ import java.util.List;
 import com.example.quantum.domain.Document;
 
 
-public class GetDocumentGetMapper {
+public class GetAllDocumentGetMapper {
 
 
-        public static GetDocumentGetResponse toResponse(Document document) {
-        return new GetDocumentGetResponse(
+        public static GetAllDocumentGetResponse toResponse(Document document) {
+        return new GetAllDocumentGetResponse(
                 document.idDocument(),
                 document.createdBy(),
                 document.nameDocument(),
@@ -23,10 +23,10 @@ public class GetDocumentGetMapper {
         );
         }
 
-        public static List<GetDocumentGetResponse> toResponseList(List<Document> documents) {
-        return documents.stream()
-                .map(GetDocumentGetMapper::toResponse)
-                .collect(Collectors.toList());
+        public static List<GetAllDocumentGetResponse> toResponseList(List<Document> documents) {
+                return documents.stream()
+                        .map(GetAllDocumentGetMapper::toResponse)
+                        .collect(Collectors.toList());
         }
 
        

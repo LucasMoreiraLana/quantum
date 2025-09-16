@@ -5,7 +5,7 @@ import com.example.quantum.enums.Sector;
 
 import java.util.UUID;
 
-public record GetDocumentGetResponse(
+public record GetAllDocumentGetResponse(
 
         UUID idDocument,
         UUID createdBy,
@@ -16,4 +16,5 @@ public record GetDocumentGetResponse(
         Document.Type type,
         Document.Origin origin,
         Sector sector
+
 ) {}

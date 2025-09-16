@@ -12,17 +12,17 @@ import java.util.List;
 
 
 
-    @Service
-    public class GetDocumentGetService {
+@Service
+public class GetAllDocumentGetService {
 
-        @Autowired
-        private DocumentRepository documentRepository;
+    @Autowired
+    private DocumentRepository documentRepository;
 
-        public List<Document> getAllDocuments() {
-            return documentRepository.findAll()
-                    .stream()
-                    .map(DocumentEntityMapper::toDocument) // Entity -> Domain
-                    .toList();
+    public List<Document> getAllDocuments() {
+        return documentRepository.findAll()
+                .stream()
+                .map(DocumentEntityMapper::toDocument) // Entity -> Domain
+                .toList();
         }
     }
 
