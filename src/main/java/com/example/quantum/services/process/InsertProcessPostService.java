@@ -22,8 +22,9 @@ public class InsertProcessPostService {
 
         //salvar
         final var savedEntity = processRepository.save(entity);
-
+        System.out.println(process.idProcess());
         return ProcessEntityMapper.toProcess(savedEntity);
+
     }
 
 }

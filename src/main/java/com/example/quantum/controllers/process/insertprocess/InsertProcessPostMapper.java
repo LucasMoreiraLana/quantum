@@ -1,6 +1,5 @@
 package com.example.quantum.controllers.process.insertprocess;
 
-import com.example.quantum.controllers.document.insertdocument.InsertDocumentPostRequest;
 import com.example.quantum.domain.Process;
 import com.example.quantum.services.process.InsertProcessPostInput;
 
@@ -26,7 +25,7 @@ public class InsertProcessPostMapper {
                 process.dateApproval(),
                 process.dateConclusion(),
                 process.sector(),
-                process.cycle()
+                process.cyclePDCA()
         );
     }
 

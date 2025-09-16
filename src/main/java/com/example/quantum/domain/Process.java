@@ -12,7 +12,7 @@ public record Process(
         LocalDate dateApproval,
         LocalDate dateConclusion,
         Sector sector,
-        Cycle cycle
+        Cycle cyclePDCA
 ) {
 
     public enum Cycle {

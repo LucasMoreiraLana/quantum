@@ -2,9 +2,7 @@ package com.example.quantum.controllers.process.getprocess;
 
 
 import com.example.quantum.domain.Process;
-import org.yaml.snakeyaml.events.CollectionEndEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +16,7 @@ public class GetAllProcessGetMapper {
                 process.dateApproval(),
                 process.dateConclusion(),
                 process.sector(),
-                process.cycle()
+                process.cyclePDCA()
         );
     }
 

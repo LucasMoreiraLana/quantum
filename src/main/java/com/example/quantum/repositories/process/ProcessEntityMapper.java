@@ -1,7 +1,6 @@
 package com.example.quantum.repositories.process;
 
 import com.example.quantum.domain.Process;
-import com.example.quantum.repositories.document.DocumentEntity;
 
 public class ProcessEntityMapper {
 
@@ -26,7 +25,7 @@ public class ProcessEntityMapper {
         entity.setDateApproval(process.dateApproval());
         entity.setDateConclusion(process.dateConclusion());
         entity.setSector(process.sector());
-        entity.setCyclePDCA(process.cycle());
+        entity.setCyclePDCA(process.cyclePDCA());
         return entity;
     }
 }
