@@ -16,6 +16,7 @@ public class GetByIdProcessGetMapper {
                 process.cyclePDCA()
         );
     }
+
     // Converte de Entity (banco) para Domain (negócio)
     public static Process toDomain(ProcessEntity entity) {
         if (entity == null) return null;
@@ -31,19 +32,4 @@ public class GetByIdProcessGetMapper {
         );
     }
 
-    // Converte de Domain (negócio) para Entity (banco)
-    public static ProcessEntity toEntity(Process domain) {
-        if (domain == null) return null;
-
-        ProcessEntity entity = new ProcessEntity();
-        entity.setIdProcess(domain.idProcess());
-        entity.setCreatedBy(domain.createdBy());
-        entity.setNameProcess(domain.nameProcess());
-        entity.setDateApproval(domain.dateApproval());
-        entity.setDateConclusion(domain.dateConclusion());
-        entity.setSector(domain.sector());
-        entity.setCyclePDCA(domain.cyclePDCA());
-
-        return entity;
-    }
 }

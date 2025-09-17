@@ -21,7 +21,7 @@ public class GetByIdProcessGetController {
     private GetByIdProcessGetService getByIdProcessGetService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetByIdProcessGetResponse> getByIdProcess( @PathVariable UUID id){
+    public ResponseEntity<GetByIdProcessGetResponse> getByIdResponse(@PathVariable UUID id){
 
         GetByIdProcessGetInput input = new GetByIdProcessGetInput(id);
 

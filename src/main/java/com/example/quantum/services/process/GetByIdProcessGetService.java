@@ -14,11 +14,7 @@ import java.util.Optional;
 public class GetByIdProcessGetService {
 
     @Autowired
-    private final ProcessRepository processRepository;
-
-    public GetByIdProcessGetService(ProcessRepository processRepository){
-        this.processRepository = processRepository;
-    }
+    private ProcessRepository processRepository;
 
     public Optional<Process> execute(GetByIdProcessGetInput input){
         return processRepository.findById(input.idProcess())
