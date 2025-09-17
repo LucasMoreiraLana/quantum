@@ -11,15 +11,14 @@ import com.example.quantum.exceptions.UserNotFoundException;
 
 
 @Service
-@Transactional
-public class DeleteUserService {
+public class DeleteByIdUserDeleteService {
 
     @Autowired
     private UserRepository userRepository;
 
-    public void delete(UUID id) {
-        UserEntity userEntity = userRepository.findByIdUser(id)
-            .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado: " + id));
+    public void deleteUser(UUID idUser) {
+        UserEntity userEntity = userRepository.findByIdUser(idUser)
+            .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado: " + idUser));
         userEntity.setActive(false);
         userRepository.save(userEntity);
     }

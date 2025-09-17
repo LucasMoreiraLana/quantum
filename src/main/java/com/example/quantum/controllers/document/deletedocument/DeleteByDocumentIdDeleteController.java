@@ -20,9 +20,9 @@ public class DeleteByDocumentIdDeleteController {
     @Autowired
     private DeleteDocumentService deleteDocumentService;
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDocument(@Valid @PathVariable UUID id) {
-        deleteDocumentService.delete(id);
+    @DeleteMapping("/{idDocument}")
+    public ResponseEntity<Void> deleteDocument(@Valid @PathVariable UUID idDocument) {
+        deleteDocumentService.delete(idDocument);
         return ResponseEntity.noContent().build();
     }
 }
