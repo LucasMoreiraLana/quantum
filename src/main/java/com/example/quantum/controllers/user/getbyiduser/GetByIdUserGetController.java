@@ -19,10 +19,10 @@ public class GetByIdUserGetController {
     @Autowired
     private GetByIdUserGetService getByIdUserGetService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<GetByIdUserGetResponse> getByIdResponse (@PathVariable UUID id){
+    @GetMapping("/{idUser}")
+    public ResponseEntity<GetByIdUserGetResponse> getByIdResponse (@PathVariable UUID idUser){
 
-        GetByIdUserGetInput input = new GetByIdUserGetInput(id);
+        GetByIdUserGetInput input = new GetByIdUserGetInput(idUser);
 
         return getByIdUserGetService.execute(input)
                 .map(user -> ResponseEntity.ok(GetByIdUserGetMapper.toResponse(user)))

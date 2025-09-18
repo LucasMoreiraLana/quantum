@@ -8,7 +8,7 @@ import java.util.UUID;
 public record UpdateUserPutInput(
 
         UUID userId,
-        String userName,
+        String username,
         String password,
         String email,
         Sector sector,

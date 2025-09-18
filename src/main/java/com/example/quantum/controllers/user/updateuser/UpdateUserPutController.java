@@ -33,7 +33,7 @@ public class UpdateUserPutController {
         final var input = UpdateUserPutMapper.toInput(id, request);
 
         // Service com Input
-        final var updated = updateUserPutService.update(input);
+        final var updated = updateUserPutService.updateUser(input);
 
         // Domain → Response
         final var response = UpdateUserPutMapper.toResponse(updated);

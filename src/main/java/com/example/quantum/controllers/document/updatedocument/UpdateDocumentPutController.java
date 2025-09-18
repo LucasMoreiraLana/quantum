@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.quantum.services.document.UpdateDocumentService;
+import com.example.quantum.services.document.UpdateDocumentPutService;
 
 import jakarta.validation.Valid;
 
@@ -14,7 +14,7 @@ import jakarta.validation.Valid;
 public class UpdateDocumentPutController {
 
     @Autowired
-    private UpdateDocumentService updateDocumentService;
+    private UpdateDocumentPutService updateDocumentPutService;
 
     @PutMapping("/{id}")
     public ResponseEntity<UpdateDocumentPutResponse> updateDocument(
@@ -25,7 +25,7 @@ public class UpdateDocumentPutController {
         final var input = UpdateDocumentPutMapper.toInput(id, request);
 
         // Service com Input
-        final var updated = updateDocumentService.update(input);
+        final var updated = updateDocumentPutService.update(input);
 
         // Domain → Response
         final var response = UpdateDocumentPutMapper.toResponse(updated);

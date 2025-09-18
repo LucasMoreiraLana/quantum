@@ -13,15 +13,20 @@ public class UpdateUserPutService {
     @Autowired
     private UserRepository userRepository;
 
-    public User update(UpdateUserPutInput input) {
+    public User updateUser(UpdateUserPutInput input) {
         // Busca no banco
         final var existingEntity = userRepository.findById(input.userId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
+        // Verifica se já existe outro usuário com o mesmo nome
+        if (userRepository.existsByUsernameAndIdUserNot(input.username(), input.userId())) {
+            throw new RuntimeException("Já existe um usuário com esse nome");
+        }
+
         // Atualiza os campos permitidos
         final var updatedUser = new User(
                 existingEntity.getIdUser(),
-                input.userName(),
+                input.username(),
                 input.password(),
                 input.email(),
                 true,
