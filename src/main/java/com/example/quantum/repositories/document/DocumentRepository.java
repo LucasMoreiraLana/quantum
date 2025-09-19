@@ -6,5 +6,7 @@ import java.util.UUID;
 
 @Repository
 public interface DocumentRepository extends MongoRepository<DocumentEntity, UUID>{
+
+    boolean existsByNameDocument(String nameDocument);
     
 }

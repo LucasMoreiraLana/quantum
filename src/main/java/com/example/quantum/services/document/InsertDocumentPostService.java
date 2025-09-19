@@ -21,6 +21,10 @@ public class InsertDocumentPostService {
         // Domain → Entity
         final var entity = DocumentEntityMapper.toEntity(document);
 
+        if (documentRepository.existsByNameDocument(document.nameDocument())) {
+            throw new IllegalArgumentException("Já existe um documento com esse nome!");
+        }
+
         // Salvar no banco
         final var savedEntity = documentRepository.save(entity);
 

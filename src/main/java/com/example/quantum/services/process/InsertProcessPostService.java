@@ -20,6 +20,10 @@ public class InsertProcessPostService {
         //domain -> entity
         final var entity = ProcessEntityMapper.toEntity(process);
 
+        if (processRepository.existsByNameProcess(process.nameProcess())) {
+            throw new IllegalArgumentException("Já existe um processo com esse nome!");
+        }
+
         //salvar
         final var savedEntity = processRepository.save(entity);
         System.out.println(process.idProcess());

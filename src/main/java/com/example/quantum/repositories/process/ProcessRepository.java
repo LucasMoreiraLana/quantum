@@ -7,4 +7,6 @@ import java.util.UUID;
 
 @Repository
 public interface ProcessRepository extends MongoRepository<ProcessEntity, UUID> {
+
+    boolean existsByNameProcess(String nameProcess);
 }
