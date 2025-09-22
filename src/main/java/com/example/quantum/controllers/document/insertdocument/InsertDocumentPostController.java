@@ -20,7 +20,7 @@ public class InsertDocumentPostController {
         final var input = InsertDocumentPostMapper.toInput(request);
 
         // Service com Input → Domain
-        final var document = insertDocumentPostService.create(input);
+        final var document = insertDocumentPostService.createDocument(input);
 
         // Domain → Response
         final var response = InsertDocumentPostMapper.toResponse(document);

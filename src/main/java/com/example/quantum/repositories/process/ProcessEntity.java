@@ -26,11 +26,11 @@ public class ProcessEntity {
 
     private String nameProcess;
 
-    LocalDate dateApproval;
+    private LocalDate dateApproval;
 
-    LocalDate dateConclusion;
+    private LocalDate dateConclusion;
 
-    Sector sector;
+    private Sector sector;
 
-    Process.Cycle cyclePDCA;
+    private Process.Cycle cyclePDCA;
 }

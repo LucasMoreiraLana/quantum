@@ -1,11 +1,8 @@
 package com.example.quantum.controllers.user.insertuser;
 
-import com.example.quantum.controllers.document.insertdocument.InsertDocumentPostMapper;
-import com.example.quantum.domain.User;
 import com.example.quantum.services.user.InsertUserPostService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +20,7 @@ public class InsertUserPostController {
     private InsertUserPostService insertUserPostService;
 
     @PostMapping
-    public ResponseEntity<InsertUserPostResponse> create(@Valid @RequestBody InsertUserPostRequest request) {
+    public ResponseEntity<InsertUserPostResponse> createUser(@Valid @RequestBody InsertUserPostRequest request) {
 
         //request -> input
         final var input = InsertUserPostMapper.toInput(request);

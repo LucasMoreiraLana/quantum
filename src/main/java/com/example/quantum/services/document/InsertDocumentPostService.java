@@ -14,7 +14,7 @@ public class InsertDocumentPostService {
     @Autowired
     private DocumentRepository documentRepository;
 
-    public Document create(InsertDocumentPostInput input) {
+    public Document createDocument(InsertDocumentPostInput input) {
         // Input → Domain
         final var document = input.toDomain();
 

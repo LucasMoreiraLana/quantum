@@ -31,6 +31,9 @@ public class NonComplianceEntity {
     private Process nameProcess;
 
     @NotNull
+    private LocalDate dateOpening;
+
+    @NotNull
     private Sector sector;
 
     @NotNull

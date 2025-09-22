@@ -10,10 +10,10 @@ public class ProcessEntityMapper {
                 entity.getIdProcess(),
                 entity.getCreatedBy(),
                 entity.getNameProcess(),
-                entity.dateApproval,
-                entity.dateConclusion,
-                entity.sector,
-                entity.cyclePDCA
+                entity.getDateApproval(),
+                entity.getDateConclusion(),
+                entity.getSector(),
+                entity.getCyclePDCA()
         );
     }
 
