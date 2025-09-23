@@ -4,7 +4,7 @@ import com.example.quantum.domain.Document;
 import com.example.quantum.domain.NonCompliance;
 import com.example.quantum.enums.Priority;
 import com.example.quantum.enums.Sector;
-import com.example.quantum.domain.Process;
+
 
 
 import java.time.LocalDate;
@@ -14,12 +14,12 @@ public record InsertNonCompliancePostInput(
 
         UUID createdBy,
         LocalDate dateOpening,
-        Process nameProcess,
+        UUID idProcess,
         Sector sector,
         Document.Origin origin,
         Priority priority,
         String customer,
-        Action action,
+        UUID action,
         String description,
         boolean efficacy,
         LocalDate datePrevision
@@ -28,15 +28,15 @@ public record InsertNonCompliancePostInput(
 
     public NonCompliance toDomain(){
         return new NonCompliance(
-                UUID.randomUUID(),
+                null,
                 this.createdBy,
                 this.dateOpening,
-                this.nameProcess,
+                null,
                 this.sector,
                 this.origin,
                 this.priority,
                 this.customer,
-                this.action,
+                null,
                 this.description,
                 true,
                 this.datePrevision

@@ -13,12 +13,12 @@ public record InsertNonCompliancePostRequest(
 
         UUID createdBy,
         LocalDate dateOpening,
-        Process nameProcess,
+        UUID idProcess,
         Sector sector,
         Document.Origin origin,
         Priority priority,
         String customer,
-        Action action,
+        UUID idAction,
         String description,
         boolean efficacy,
         LocalDate datePrevision
