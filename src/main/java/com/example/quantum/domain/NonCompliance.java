@@ -11,15 +11,15 @@ public record NonCompliance(
         UUID idNonCompliance,
         UUID createdBy,
         LocalDate dateOpening,
-        Process nameProcess,
+        Process idProcess,
         Sector sector,
         Document.Origin origin,
         Priority priority,
         String customer,
-        Action action,
         String description,
         boolean efficacy,
         LocalDate datePrevision
 
 ) {
+
 }

@@ -10,12 +10,11 @@ public class NonComplianceEntityMapper {
                   entity.getIdNonCompliance(),
                   entity.getCreatedBy(),
                 entity.getDateOpening(),
-                entity.getNameProcess(),
+                entity.getIdProcess(),
                   entity.getSector(),
                   entity.getOrigin(),
                   entity.getPriority(),
                   entity.getCustomer(),
-                  entity.getAction(),
                   entity.getDescription(),
                   entity.isEfficacy(),
                   entity.getDataPrevision()
@@ -26,13 +25,12 @@ public class NonComplianceEntityMapper {
         NonComplianceEntity entity =  new NonComplianceEntity();
         entity.setIdNonCompliance(nonCompliance.idNonCompliance());
         entity.setCreatedBy(nonCompliance.createdBy());
-        entity.setNameProcess(nonCompliance.nameProcess());
+        entity.setIdProcess(nonCompliance.idProcess());
         entity.setDateOpening(nonCompliance.dateOpening());
         entity.setSector(nonCompliance.sector());
         entity.setOrigin(nonCompliance.origin());
         entity.setPriority(nonCompliance.priority());
         entity.setCustomer(nonCompliance.customer());
-        entity.setAction(nonCompliance.action());
         entity.setDescription(nonCompliance.description());
         entity.setEfficacy(nonCompliance.efficacy());
         entity.setDataPrevision(nonCompliance.datePrevision());

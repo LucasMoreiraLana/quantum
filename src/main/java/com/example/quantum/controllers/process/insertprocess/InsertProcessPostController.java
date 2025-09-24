@@ -26,7 +26,7 @@ public class InsertProcessPostController {
         final var input = InsertProcessPostMapper.toInput(request);
 
         //input -> domain
-        final var process = insertProcessPostService.create(input);
+        final var process = insertProcessPostService.insertProcess(input);
 
         //domain -> response
         final var response = InsertProcessPostMapper.toResponse(process);

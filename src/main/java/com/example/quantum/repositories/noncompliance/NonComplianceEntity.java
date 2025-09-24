@@ -1,7 +1,6 @@
 package com.example.quantum.repositories.noncompliance;
 
 
-import com.example.quantum.domain.Action;
 import com.example.quantum.domain.Process;
 import com.example.quantum.enums.Priority;
 import com.example.quantum.enums.Sector;
@@ -28,7 +27,7 @@ public class NonComplianceEntity {
     private UUID createdBy;
 
     @NotNull
-    private Process nameProcess;
+    private Process idProcess;
 
     @NotNull
     private LocalDate dateOpening;
@@ -44,9 +43,6 @@ public class NonComplianceEntity {
 
     @NotNull
     private String customer;
-
-    @NotNull
-    private Action action;
 
     @NotNull
     private String description;

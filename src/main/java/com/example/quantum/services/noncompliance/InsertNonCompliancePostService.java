@@ -1,9 +1,6 @@
 package com.example.quantum.services.noncompliance;
 
-import com.example.quantum.domain.Action;
 import com.example.quantum.domain.NonCompliance;
-
-import com.example.quantum.repositories.action.ActionRepository;
 import com.example.quantum.repositories.noncompliance.NonComplianceEntityMapper;
 import com.example.quantum.repositories.noncompliance.NonComplianceRepository;
 import com.example.quantum.repositories.process.ProcessRepository;
@@ -19,28 +16,18 @@ public class InsertNonCompliancePostService {
     @Autowired
     private ProcessRepository processRepository;
 
-    @Autowired
-    private ActionRepository actionRepository;
+    public NonCompliance createNonCompliance(InsertNonCompliancePostInput input) {
 
-    public NonCompliance createNonCompliance(InsertNonCompliancePostInput input){
 
-        var nonCompliance = input.toDomain();
+       final var nonCompliance = input.toDomain();
 
-        // Resolver Process
-        var process = processRepository.findById(input.idProcess())
-                .orElseThrow(() -> new RuntimeException("Processo não encontrado"));
+       final var entity = NonComplianceEntityMapper.toEntity(nonCompliance);
 
-        nonCompliance.setProcess(new Process(process.getIdProcess(), process.getNameProcess()));
+       if(processRepository.existsById(input.idProcess())){
+           throw new IllegalArgumentException("O processo informado não existe!");
+       }
 
-        // Resolver Action
-        var action = actionRepository.findById(input.idAction())
-                .orElseThrow(() -> new RuntimeException("Ação não encontrada"));
-
-        nonCompliance.setAction(new Action(action.getIdAction(), action.getNameAction()));
-
-        // Salvar
-        var entity = NonComplianceEntityMapper.toEntity(nonCompliance);
-        var savedEntity = nonComplianceRepository.save(entity);
+       final var savedEntity = nonComplianceRepository.save(entity);
 
         return NonComplianceEntityMapper.toNonCompliance(savedEntity);
     }

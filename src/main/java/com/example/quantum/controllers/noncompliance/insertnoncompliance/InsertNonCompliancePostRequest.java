@@ -1,8 +1,6 @@
 package com.example.quantum.controllers.noncompliance.insertnoncompliance;
 
-import com.example.quantum.domain.Action;
 import com.example.quantum.domain.Document;
-import com.example.quantum.domain.Process;
 import com.example.quantum.enums.Priority;
 import com.example.quantum.enums.Sector;
 
@@ -18,9 +16,9 @@ public record InsertNonCompliancePostRequest(
         Document.Origin origin,
         Priority priority,
         String customer,
-        UUID idAction,
         String description,
         boolean efficacy,
         LocalDate datePrevision
 
-){}
+){
+}

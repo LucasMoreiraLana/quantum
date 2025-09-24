@@ -2,10 +2,6 @@ package com.example.quantum.controllers.noncompliance.insertnoncompliance;
 
 import com.example.quantum.domain.NonCompliance;
 import com.example.quantum.services.noncompliance.InsertNonCompliancePostInput;
-import com.example.quantum.domain.Process;
-
-
-import java.util.UUID;
 
 public class InsertNonCompliancePostMapper {
 
@@ -14,12 +10,11 @@ public class InsertNonCompliancePostMapper {
 
                 request.createdBy(),
                 request.dateOpening(),
-                request.nameProcess(),
+                request.idProcess(),
                 request.sector(),
                 request.origin(),
                 request.priority(),
                 request.customer(),
-                request.action(),
                 request.description(),
                 request.efficacy(),
                 request.datePrevision()
@@ -34,12 +29,11 @@ public class InsertNonCompliancePostMapper {
                 nonCompliance.idNonCompliance(),
                 nonCompliance.createdBy(),
                 nonCompliance.dateOpening(),
-                nonCompliance.nameProcess(),
+                nonCompliance.idProcess(),
                 nonCompliance.sector(),
                 nonCompliance.origin(),
                 nonCompliance.priority(),
                 nonCompliance.customer(),
-                nonCompliance.action(),
                 nonCompliance.description(),
                 nonCompliance.efficacy(),
                 nonCompliance.datePrevision()
