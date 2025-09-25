@@ -9,7 +9,7 @@ public class UserEntityMapper {
 
     public static User toUser(UserEntity entity) {
         return new User(
-                entity.getIdUser(),
+                entity.getUserId(),
                 entity.getUsername(),
                 entity.getPassword(),
                 entity.getEmail(),
@@ -21,7 +21,7 @@ public class UserEntityMapper {
 
     public static UserEntity toEntity(User user){
         UserEntity entity = new UserEntity();
-        entity.setIdUser(user.idUser());
+        entity.setUserId(user.userId());
         entity.setUsername(user.username());
         entity.setPassword(user.password());
         entity.setEmail(user.email());

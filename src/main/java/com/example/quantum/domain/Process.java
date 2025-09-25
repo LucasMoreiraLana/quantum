@@ -6,7 +6,7 @@ import com.example.quantum.enums.Sector;
 
 
 public record Process(
-        UUID idProcess,
+        UUID processId,
         UUID createdBy,
         String nameProcess,
         LocalDate dateApproval,

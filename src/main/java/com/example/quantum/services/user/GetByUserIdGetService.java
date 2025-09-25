@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class GetByIdUserGetService {
+public class GetByUserIdGetService {
 
     @Autowired
     private UserRepository userRepository;
 
-    public Optional<User> execute(GetByIdUserGetInput input){
-        return userRepository.findByIdUser(input.idUser())
+    public Optional<User> execute(GetByUserIdGetInput input){
+        return userRepository.findByUserId(input.userId())
                 .map(GetByIdUserGetMapper::toDomain);
     }
 }

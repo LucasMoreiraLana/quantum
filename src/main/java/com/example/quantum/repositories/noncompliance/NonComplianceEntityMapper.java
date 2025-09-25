@@ -7,10 +7,10 @@ public class NonComplianceEntityMapper {
     public static NonCompliance toNonCompliance(NonComplianceEntity entity){
 
         return new NonCompliance(
-                  entity.getIdNonCompliance(),
+                  entity.getNonComplianceId(),
                   entity.getCreatedBy(),
                 entity.getDateOpening(),
-                entity.getIdProcess(),
+                entity.getProcessId(),
                   entity.getSector(),
                   entity.getOrigin(),
                   entity.getPriority(),
@@ -23,9 +23,9 @@ public class NonComplianceEntityMapper {
 
     public static NonComplianceEntity toEntity(NonCompliance nonCompliance){
         NonComplianceEntity entity =  new NonComplianceEntity();
-        entity.setIdNonCompliance(nonCompliance.idNonCompliance());
+        entity.setNonComplianceId(nonCompliance.nonComplianceId());
         entity.setCreatedBy(nonCompliance.createdBy());
-        entity.setIdProcess(nonCompliance.idProcess());
+        entity.setProcessId(nonCompliance.processId());
         entity.setDateOpening(nonCompliance.dateOpening());
         entity.setSector(nonCompliance.sector());
         entity.setOrigin(nonCompliance.origin());

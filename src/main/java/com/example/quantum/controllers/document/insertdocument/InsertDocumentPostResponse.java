@@ -6,7 +6,7 @@ import com.example.quantum.enums.Sector;
 import java.util.UUID;
 
 public record InsertDocumentPostResponse(
-        UUID idDocument,
+        UUID documentId,
         UUID createdBy,
         String nameDocument,
         String content,

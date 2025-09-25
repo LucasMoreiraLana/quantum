@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public record Document(
 
-        UUID idDocument,
+        UUID documentId,
         UUID createdBy,
         String nameDocument,
         String content,

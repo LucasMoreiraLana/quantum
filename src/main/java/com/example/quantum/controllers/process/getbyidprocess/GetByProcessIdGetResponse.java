@@ -7,8 +7,8 @@ import com.example.quantum.enums.Sector;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record GetByIdProcessGetResponse(
-        UUID idProcess,
+public record GetByProcessIdGetResponse(
+        UUID processId,
         UUID createdBy,
         String nameProcess,
         LocalDate dateApproval,

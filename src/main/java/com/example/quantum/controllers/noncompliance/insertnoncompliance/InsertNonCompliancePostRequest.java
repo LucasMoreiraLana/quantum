@@ -11,7 +11,7 @@ public record InsertNonCompliancePostRequest(
 
         UUID createdBy,
         LocalDate dateOpening,
-        UUID idProcess,
+        UUID processId,
         Sector sector,
         Document.Origin origin,
         Priority priority,

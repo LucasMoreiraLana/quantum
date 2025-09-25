@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record UpdateProcessPutInput(
-        UUID idProcess,
+        UUID processId,
         UUID createdBy,
         String nameProcess,
         LocalDate dateApproval,

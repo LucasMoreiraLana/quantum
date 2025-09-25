@@ -14,18 +14,18 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/documents")
-public class GetByIdDocumentGetController {
+public class GetByDocumentIdGetController {
 
     @Autowired
     private GetByIdDocumentGetService getByIdDocumentGetService;
 
-    @GetMapping("/{idDocument}")
-    public ResponseEntity<GetByIdDocumentGetResponse> getByIdResponse (@PathVariable UUID idDocument){
+    @GetMapping("/{documentId}")
+    public ResponseEntity<GetByDocumentIdGetResponse> getByIdResponse (@PathVariable UUID idDocument){
 
         GetByIdDocumentGetInput input = new GetByIdDocumentGetInput(idDocument);
 
         return getByIdDocumentGetService.execute(input)
-                .map(document -> ResponseEntity.ok(GetByIdDocumentGetMapper.toResponse(document)))
+                .map(document -> ResponseEntity.ok(GetByDocumentIdGetMapper.toResponse(document)))
                 .orElse(ResponseEntity.notFound().build());
     }
 }

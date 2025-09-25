@@ -25,7 +25,7 @@ import com.example.quantum.domain.User.Position;
 public class UserEntity {
     
     @Id
-    private UUID idUser = UUID.randomUUID();
+    private UUID userId = UUID.randomUUID();
 
     @NotBlank(message = "O nome de usuário é obrigatório")
     private String username;

@@ -6,7 +6,7 @@ public class GetUserGetMapper {
 
     public static GetUserGetResponse toResponse(User user){
         return new GetUserGetResponse(
-                user.idUser(),
+                user.userId(),
                 user.username(),
                 user.email(),
                 user.active(),

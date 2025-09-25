@@ -19,7 +19,7 @@ import java.util.UUID;
 public class ProcessEntity {
 
     @Id
-    private UUID idProcess;
+    private UUID processId;
 
     @NotNull
     private UUID createdBy;

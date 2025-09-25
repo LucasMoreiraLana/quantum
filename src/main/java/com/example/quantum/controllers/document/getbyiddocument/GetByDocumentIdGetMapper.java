@@ -4,11 +4,11 @@ import com.example.quantum.domain.Document;
 import com.example.quantum.repositories.document.DocumentEntity;
 
 
-public class GetByIdDocumentGetMapper {
+public class GetByDocumentIdGetMapper {
 
-    public static GetByIdDocumentGetResponse toResponse(Document document){
-        return new GetByIdDocumentGetResponse(
-                document.idDocument(),
+    public static GetByDocumentIdGetResponse toResponse(Document document){
+        return new GetByDocumentIdGetResponse(
+                document.documentId(),
                 document.createdBy(),
                 document.nameDocument(),
                 document.content(),
@@ -25,7 +25,7 @@ public class GetByIdDocumentGetMapper {
         if(entity == null) return null;
 
         return new Document(
-                entity.getIdDocument(),
+                entity.getDocumentId(),
                 entity.getCreateBy(),
                 entity.getNameDocument(),
                 entity.getContent(),

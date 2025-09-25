@@ -1,7 +1,7 @@
 package com.example.quantum.services.document;
 
 
-import com.example.quantum.controllers.document.getbyiddocument.GetByIdDocumentGetMapper;
+import com.example.quantum.controllers.document.getbyiddocument.GetByDocumentIdGetMapper;
 import com.example.quantum.domain.Document;
 import com.example.quantum.repositories.document.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,6 @@ public class GetByIdDocumentGetService {
 
     public Optional<Document> execute(GetByIdDocumentGetInput input){
         return documentRepository.findById(input.idDocument())
-                .map(GetByIdDocumentGetMapper::toDomain);
+                .map(GetByDocumentIdGetMapper::toDomain);
     }
 }

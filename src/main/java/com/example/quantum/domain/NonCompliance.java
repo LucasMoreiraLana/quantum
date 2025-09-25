@@ -8,10 +8,10 @@ import java.util.UUID;
 
 public record NonCompliance(
 
-        UUID idNonCompliance,
+        UUID nonComplianceId,
         UUID createdBy,
         LocalDate dateOpening,
-        Process idProcess,
+        Process processId,
         Sector sector,
         Document.Origin origin,
         Priority priority,

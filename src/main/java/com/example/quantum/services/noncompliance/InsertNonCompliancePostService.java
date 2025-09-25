@@ -23,7 +23,7 @@ public class InsertNonCompliancePostService {
 
        final var entity = NonComplianceEntityMapper.toEntity(nonCompliance);
 
-       if(processRepository.existsById(input.idProcess())){
+       if(processRepository.existsById(input.ProcessId())){
            throw new IllegalArgumentException("O processo informado não existe!");
        }
 

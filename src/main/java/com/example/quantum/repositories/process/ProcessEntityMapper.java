@@ -7,7 +7,7 @@ public class ProcessEntityMapper {
     public static Process toProcess(ProcessEntity entity){
 
         return new Process(
-                entity.getIdProcess(),
+                entity.getProcessId(),
                 entity.getCreatedBy(),
                 entity.getNameProcess(),
                 entity.getDateApproval(),
@@ -19,7 +19,7 @@ public class ProcessEntityMapper {
 
     public static ProcessEntity toEntity(Process process){
         ProcessEntity entity = new ProcessEntity();
-        entity.setIdProcess(process.idProcess());
+        entity.setProcessId(process.processId());
         entity.setCreatedBy(process.createdBy());
         entity.setNameProcess(process.nameProcess());
         entity.setDateApproval(process.dateApproval());

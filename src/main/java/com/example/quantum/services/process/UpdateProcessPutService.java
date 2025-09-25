@@ -14,12 +14,12 @@ public class UpdateProcessPutService {
 
     public com.example.quantum.domain.Process updateProcess(UpdateProcessPutInput input){
 
-        final var existingEntity = processRepository.findById(input.idProcess())
+        final var existingEntity = processRepository.findById(input.processId())
                 .orElseThrow(() -> new RuntimeException("Processo não encontrado"));
 
 
         final var updateProcess = new Process(
-                existingEntity.getIdProcess(),
+                existingEntity.getProcessId(),
                 input.createdBy(),
                 input.nameProcess(),
                 input.dateApproval(),

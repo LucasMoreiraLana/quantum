@@ -7,7 +7,7 @@ public class GetByIdUserGetMapper {
 
     public static GetByIdUserGetResponse toResponse(User user){
         return new GetByIdUserGetResponse(
-            user.idUser(),
+            user.userId(),
             user.username(),
             user.email(),
             user.active(),
@@ -21,7 +21,7 @@ public class GetByIdUserGetMapper {
         if(entity == null) return null;
 
         return new User(
-                entity.getIdUser(),
+                entity.getUserId(),
                 entity.getUsername(),
                 entity.getPassword(),
                 entity.getEmail(),

@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class DeleteByIdProcessDeleteService {
+public class DeleteByProcessIdDeleteService {
 
     @Autowired
     private ProcessRepository processRepository;
 
-    public void deleteProcess(UUID idProcess){
-        ProcessEntity processEntity = processRepository.findById(idProcess)
-                .orElseThrow(() -> new ProcessNotFoundException("Processo não encontrado" + idProcess));
+    public void deleteProcess(UUID processId){
+        ProcessEntity processEntity = processRepository.findById(processId)
+                .orElseThrow(() -> new ProcessNotFoundException("Processo não encontrado" + processId));
     }
 }

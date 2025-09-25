@@ -10,7 +10,7 @@ public class GetAllProcessGetMapper {
 
     public static GetAllProcessGetResponse toResponse(Process process){
         return new GetAllProcessGetResponse(
-                process.idProcess(),
+                process.processId(),
                 process.createdBy(),
                 process.nameProcess(),
                 process.dateApproval(),

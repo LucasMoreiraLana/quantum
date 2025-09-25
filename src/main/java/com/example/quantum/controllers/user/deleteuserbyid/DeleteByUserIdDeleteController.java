@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.quantum.services.user.DeleteByIdUserDeleteService;
+import com.example.quantum.services.user.DeleteByUserIdDeleteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,11 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class DeleteByUserIdDeleteController {
     
     @Autowired
-    private DeleteByIdUserDeleteService deleteByIdUserDeleteService;
+    private DeleteByUserIdDeleteService deleteByUserIdDeleteService;
 
-    @DeleteMapping("/{idUser}")
+    @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID idUser) {
-        deleteByIdUserDeleteService.deleteUser(idUser);
+        deleteByUserIdDeleteService.deleteUser(idUser);
         return ResponseEntity.noContent().build();
     }
 

@@ -21,7 +21,7 @@ public class InsertDocumentPostMapper {
     // Domain → Response
     public static InsertDocumentPostResponse toResponse(Document document) {
         return new InsertDocumentPostResponse(
-                document.idDocument(),
+                document.documentId(),
                 document.createdBy(),
                 document.nameDocument(),
                 document.content(),

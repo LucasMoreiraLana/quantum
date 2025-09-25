@@ -3,11 +3,11 @@ package com.example.quantum.controllers.process.getbyidprocess;
 import com.example.quantum.domain.Process;
 import com.example.quantum.repositories.process.ProcessEntity;
 
-public class GetByIdProcessGetMapper {
+public class GetByProcessIdGetMapper {
 
-    public static GetByIdProcessGetResponse toResponse(Process process) {
-        return new GetByIdProcessGetResponse(
-                process.idProcess(),
+    public static GetByProcessIdGetResponse toResponse(Process process) {
+        return new GetByProcessIdGetResponse(
+                process.processId(),
                 process.createdBy(),
                 process.nameProcess(),
                 process.dateApproval(),
@@ -22,7 +22,7 @@ public class GetByIdProcessGetMapper {
         if (entity == null) return null;
 
         return new Process(
-                entity.getIdProcess(),
+                entity.getProcessId(),
                 entity.getCreatedBy(),
                 entity.getNameProcess(),
                 entity.getDateApproval(),

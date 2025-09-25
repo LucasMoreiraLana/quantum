@@ -10,7 +10,7 @@ public class InsertNonCompliancePostMapper {
 
                 request.createdBy(),
                 request.dateOpening(),
-                request.idProcess(),
+                request.processId(),
                 request.sector(),
                 request.origin(),
                 request.priority(),
@@ -26,10 +26,10 @@ public class InsertNonCompliancePostMapper {
     public static InsertNonCompliancePostResponse toResponse(NonCompliance nonCompliance){
 
         return new InsertNonCompliancePostResponse(
-                nonCompliance.idNonCompliance(),
+                nonCompliance.nonComplianceId(),
                 nonCompliance.createdBy(),
                 nonCompliance.dateOpening(),
-                nonCompliance.idProcess(),
+                nonCompliance.processId(),
                 nonCompliance.sector(),
                 nonCompliance.origin(),
                 nonCompliance.priority(),

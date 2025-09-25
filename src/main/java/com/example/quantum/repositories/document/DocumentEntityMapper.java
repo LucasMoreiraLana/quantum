@@ -5,7 +5,7 @@ import com.example.quantum.domain.Document;
 public class DocumentEntityMapper {
     public static Document toDocument(DocumentEntity entity) {
         return new Document(
-                entity.getIdDocument(),
+                entity.getDocumentId(),
                 entity.getCreateBy(),
                 entity.getNameDocument(),
                 entity.getContent(),
@@ -19,7 +19,7 @@ public class DocumentEntityMapper {
 
     public static DocumentEntity toEntity(Document document) {
         DocumentEntity entity = new DocumentEntity();
-        entity.setIdDocument(document.idDocument());
+        entity.setDocumentId(document.documentId());
         entity.setCreateBy(document.createdBy());
         entity.setNameDocument(document.nameDocument());
         entity.setContent(document.content());

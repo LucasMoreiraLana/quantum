@@ -21,7 +21,7 @@ public class InsertUserPostMapper {
 
     public static InsertUserPostResponse toResponse(User user){
         return new InsertUserPostResponse(
-                user.idUser(),
+                user.userId(),
                 user.username(),
                 user.password(),
                 user.email(),

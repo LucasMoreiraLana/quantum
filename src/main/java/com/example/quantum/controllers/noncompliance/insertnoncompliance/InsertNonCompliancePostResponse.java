@@ -9,10 +9,10 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record InsertNonCompliancePostResponse(
-        UUID idNonCompliance,
+        UUID nonComplianceId,
         UUID createdBy,
         LocalDate dateOpening,
-        Process idProcess,
+        Process processId,
         Sector sector,
         Document.Origin origin,
         Priority priority,

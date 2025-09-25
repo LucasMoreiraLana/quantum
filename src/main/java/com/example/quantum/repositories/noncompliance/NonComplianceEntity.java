@@ -21,13 +21,13 @@ import java.util.UUID;
 public class NonComplianceEntity {
 
     @Id
-    private UUID idNonCompliance;
+    private UUID nonComplianceId = UUID.randomUUID();
 
     @NotNull
     private UUID createdBy;
 
     @NotNull
-    private Process idProcess;
+    private Process processId;
 
     @NotNull
     private LocalDate dateOpening;

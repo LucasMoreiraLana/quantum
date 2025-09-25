@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public record GetAllDocumentGetResponse(
 
-        UUID idDocument,
+        UUID documentId,
         UUID createdBy,
         String nameDocument,
         String content,

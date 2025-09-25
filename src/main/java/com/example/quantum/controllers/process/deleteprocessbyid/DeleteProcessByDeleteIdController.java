@@ -1,6 +1,6 @@
 package com.example.quantum.controllers.process.deleteprocessbyid;
 
-import com.example.quantum.services.process.DeleteByIdProcessDeleteService;
+import com.example.quantum.services.process.DeleteByProcessIdDeleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,14 +13,14 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/process")
-public class DeleteProcessByIdDeleteController {
+public class DeleteProcessByDeleteIdController {
 
     @Autowired
-    private DeleteByIdProcessDeleteService deleteByIdProcessDeleteService;
+    private DeleteByProcessIdDeleteService deleteByProcessIdDeleteService;
 
-    @DeleteMapping("/{idProcess}")
-    public ResponseEntity<Void> deleteProcess(@PathVariable UUID idProcess){
-        deleteByIdProcessDeleteService.deleteProcess(idProcess);
+    @DeleteMapping("/{ProcessId}")
+    public ResponseEntity<Void> deleteProcess(@PathVariable UUID processId){
+        deleteByProcessIdDeleteService.deleteProcess(processId);
         return ResponseEntity.noContent().build();
     }
 }

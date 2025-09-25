@@ -12,7 +12,7 @@ public record InsertNonCompliancePostInput(
 
         UUID createdBy,
         LocalDate dateOpening,
-        UUID idProcess,          // apenas o ID do processo
+        UUID ProcessId,          // apenas o ID do processo
         Sector sector,
         Document.Origin origin,
         Priority priority,

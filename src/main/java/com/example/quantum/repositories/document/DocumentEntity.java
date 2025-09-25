@@ -21,7 +21,7 @@ import java.util.UUID;
 public class DocumentEntity {
 
     @Id
-    private UUID idDocument;
+    private UUID documentId;
 
     private UUID createBy;
 

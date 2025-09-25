@@ -11,7 +11,7 @@ public class GetAllDocumentGetMapper {
 
         public static GetAllDocumentGetResponse toResponse(Document document) {
         return new GetAllDocumentGetResponse(
-                document.idDocument(),
+                document.documentId(),
                 document.createdBy(),
                 document.nameDocument(),
                 document.content(),

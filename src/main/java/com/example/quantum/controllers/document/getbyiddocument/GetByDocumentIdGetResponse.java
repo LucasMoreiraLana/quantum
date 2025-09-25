@@ -1,15 +1,13 @@
 package com.example.quantum.controllers.document.getbyiddocument;
 
 import com.example.quantum.domain.Document;
-import com.example.quantum.domain.Process;
 import com.example.quantum.enums.Sector;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
-public record GetByIdDocumentGetResponse(
+public record GetByDocumentIdGetResponse(
 
-        UUID idDocument,
+        UUID documentId,
         UUID createdBy,
         String nameDocument,
         String content,

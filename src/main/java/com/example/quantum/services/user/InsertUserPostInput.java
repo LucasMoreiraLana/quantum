@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public record InsertUserPostInput(
 
-        UUID idUser,
+        UUID userId,
         String username,
         String password,
         String email,
