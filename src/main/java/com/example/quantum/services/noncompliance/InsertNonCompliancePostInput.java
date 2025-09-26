@@ -24,17 +24,18 @@ public record InsertNonCompliancePostInput(
 ) {
     public NonCompliance toDomain() {
         return new NonCompliance(
-                null,             // id gerado pelo banco
+                UUID.randomUUID(), // Sempre gera aqui
                 this.createdBy,
                 this.dateOpening,
-                null,             // process será resolvido no service
+                this.ProcessId,
                 this.sector,
                 this.origin,
                 this.priority,
                 this.customer,
-                this.description,             // sem Action por enquanto
-                true,
+                this.description,
+                this.efficacy, // aqui pode vir do input ou true fixo
                 this.datePrevision
         );
     }
+
 }

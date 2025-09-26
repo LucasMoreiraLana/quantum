@@ -1,7 +1,7 @@
 package com.example.quantum.repositories.noncompliance;
 
 
-import com.example.quantum.domain.Process;
+
 import com.example.quantum.enums.Priority;
 import com.example.quantum.enums.Sector;
 import jakarta.validation.constraints.NotNull;
@@ -21,13 +21,13 @@ import java.util.UUID;
 public class NonComplianceEntity {
 
     @Id
-    private UUID nonComplianceId = UUID.randomUUID();
+    private UUID nonComplianceId;
 
     @NotNull
     private UUID createdBy;
 
     @NotNull
-    private Process processId;
+    private UUID processId;
 
     @NotNull
     private LocalDate dateOpening;

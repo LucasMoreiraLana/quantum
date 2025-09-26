@@ -24,13 +24,13 @@ public class UpdateUserPutController {
     private UpdateUserPutService updateUserPutService;
 
 
-    @PutMapping("/{id}")
+    @PutMapping("/{userId}")
     public ResponseEntity<UpdateUserPutInput> updateUser(
-            @PathVariable UUID id,
+            @PathVariable UUID userId,
             @Valid @RequestBody UpdateUserPutRequest request) {
 
         // Request → Input
-        final var input = UpdateUserPutMapper.toInput(id, request);
+        final var input = UpdateUserPutMapper.toInput(userId, request);
 
         // Service com Input
         final var updated = updateUserPutService.updateUser(input);

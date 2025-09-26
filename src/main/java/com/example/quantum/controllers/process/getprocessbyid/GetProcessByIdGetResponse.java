@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.process.getbyidprocess;
+package com.example.quantum.controllers.process.getprocessbyid;
 
 
 import com.example.quantum.domain.Process;
@@ -7,7 +7,7 @@ import com.example.quantum.enums.Sector;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record GetByProcessIdGetResponse(
+public record GetProcessByIdGetResponse(
         UUID processId,
         UUID createdBy,
         String nameProcess,

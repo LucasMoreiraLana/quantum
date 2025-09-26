@@ -1,12 +1,12 @@
-package com.example.quantum.controllers.process.getbyidprocess;
+package com.example.quantum.controllers.process.getprocessbyid;
 
 import com.example.quantum.domain.Process;
 import com.example.quantum.repositories.process.ProcessEntity;
 
-public class GetByProcessIdGetMapper {
+public class GetProcessByIdGetMapper {
 
-    public static GetByProcessIdGetResponse toResponse(Process process) {
-        return new GetByProcessIdGetResponse(
+    public static GetProcessByIdGetResponse toResponse(Process process) {
+        return new GetProcessByIdGetResponse(
                 process.processId(),
                 process.createdBy(),
                 process.nameProcess(),

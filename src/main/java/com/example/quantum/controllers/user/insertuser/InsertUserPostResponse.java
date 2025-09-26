@@ -6,7 +6,7 @@ import com.example.quantum.enums.Sector;
 import java.util.UUID;
 
 public record InsertUserPostResponse(
-        UUID idUser,
+        UUID userId,
         String username,
         String password,
         String email,

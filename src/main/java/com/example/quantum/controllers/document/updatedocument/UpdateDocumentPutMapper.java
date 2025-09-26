@@ -8,9 +8,9 @@ import com.example.quantum.services.document.UpdateDocumentPutInput;
 public class UpdateDocumentPutMapper {
 
     // Request → Input
-    public static UpdateDocumentPutInput toInput(UUID id, UpdateDocumentPutRequest request) {
+    public static UpdateDocumentPutInput toInput(UUID documentId, UpdateDocumentPutRequest request) {
         return new UpdateDocumentPutInput(
-                id,
+                documentId,
                 request.nameDocument(),
                 request.content(),
                 request.tempoDeRetencao(),

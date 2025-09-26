@@ -16,13 +16,13 @@ public class UpdateDocumentPutController {
     @Autowired
     private UpdateDocumentPutService updateDocumentPutService;
 
-    @PutMapping("/{id}")
+    @PutMapping("/{documentId}")
     public ResponseEntity<UpdateDocumentPutResponse> updateDocument(
-            @PathVariable UUID id,
+            @PathVariable UUID documentId,
             @Valid @RequestBody UpdateDocumentPutRequest request) {
 
         // Request → Input
-        final var input = UpdateDocumentPutMapper.toInput(id, request);
+        final var input = UpdateDocumentPutMapper.toInput(documentId, request);
 
         // Service com Input
         final var updated = updateDocumentPutService.update(input);

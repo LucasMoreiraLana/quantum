@@ -13,12 +13,12 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/process")
-public class DeleteProcessByDeleteIdController {
+public class DeleteProcessDeleteByIdController {
 
     @Autowired
     private DeleteByProcessIdDeleteService deleteByProcessIdDeleteService;
 
-    @DeleteMapping("/{ProcessId}")
+    @DeleteMapping("/{processId}")
     public ResponseEntity<Void> deleteProcess(@PathVariable UUID processId){
         deleteByProcessIdDeleteService.deleteProcess(processId);
         return ResponseEntity.noContent().build();

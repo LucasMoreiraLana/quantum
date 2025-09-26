@@ -28,7 +28,6 @@ public class InsertUserPostService {
         // persiste no banco
         final var savedEntity = userRepository.save(entity);
 
-
         // retorna domain novamente
         return UserEntityMapper.toUser(savedEntity);
     }

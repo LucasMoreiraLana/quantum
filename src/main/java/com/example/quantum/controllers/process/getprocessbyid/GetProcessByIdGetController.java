@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.process.getbyidprocess;
+package com.example.quantum.controllers.process.getprocessbyid;
 
 
 
@@ -15,18 +15,18 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/process")
-public class GetByProcessIdGetController {
+public class GetProcessByIdGetController {
 
     @Autowired
     private GetByProcessIdGetService getByProcessIdGetService;
 
-    @GetMapping("/{ProcessId}")
-    public ResponseEntity<GetByProcessIdGetResponse> getByProcessIdResponse(@PathVariable UUID processId){
+    @GetMapping("/{processId}")
+    public ResponseEntity<GetProcessByIdGetResponse> getByProcessIdResponse(@PathVariable UUID processId){
 
         GetByProcessIdGetInput input = new GetByProcessIdGetInput(processId);
 
         return getByProcessIdGetService.execute(input)
-                .map(process -> ResponseEntity.ok(GetByProcessIdGetMapper.toResponse(process)))
+                .map(process -> ResponseEntity.ok(GetProcessByIdGetMapper.toResponse(process)))
                 .orElse(ResponseEntity.notFound().build());
 
     }

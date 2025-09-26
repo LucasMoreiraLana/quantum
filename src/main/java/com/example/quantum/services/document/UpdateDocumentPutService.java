@@ -14,11 +14,11 @@ public class UpdateDocumentPutService {
 
     public Document update(UpdateDocumentPutInput input) {
         // Busca no banco
-        final var existingEntity = documentRepository.findById(input.idDocument())
+        final var existingEntity = documentRepository.findById(input.documentId())
                 .orElseThrow(() -> new RuntimeException("Documento não encontrado!"));
 
         final var updatedDomain = new Document(
-                input.idDocument(),
+                input.documentId(),
                 existingEntity.getCreateBy(), // 🔒 nunca altera
                 input.nameDocument(),
                 input.content(),

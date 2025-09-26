@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public record UpdateDocumentPutRequest(
 
-        UUID idDocument,
+        UUID documentId,
         String nameDocument,
         String content,
         int tempoDeRetencao,

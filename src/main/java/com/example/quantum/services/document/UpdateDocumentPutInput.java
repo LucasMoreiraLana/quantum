@@ -6,7 +6,7 @@ import com.example.quantum.enums.Sector;
 import java.util.UUID;
 
 public record UpdateDocumentPutInput(
-        UUID idDocument,
+        UUID documentId,
         String nameDocument,
         String content,
         int tempoDeRetencao,

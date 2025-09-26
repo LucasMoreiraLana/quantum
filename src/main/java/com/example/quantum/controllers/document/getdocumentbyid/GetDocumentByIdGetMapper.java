@@ -1,13 +1,13 @@
-package com.example.quantum.controllers.document.getbyiddocument;
+package com.example.quantum.controllers.document.getdocumentbyid;
 
 import com.example.quantum.domain.Document;
 import com.example.quantum.repositories.document.DocumentEntity;
 
 
-public class GetByDocumentIdGetMapper {
+public class GetDocumentByIdGetMapper {
 
-    public static GetByDocumentIdGetResponse toResponse(Document document){
-        return new GetByDocumentIdGetResponse(
+    public static GetDocumentByIdGetResponse toResponse(Document document){
+        return new GetDocumentByIdGetResponse(
                 document.documentId(),
                 document.createdBy(),
                 document.nameDocument(),

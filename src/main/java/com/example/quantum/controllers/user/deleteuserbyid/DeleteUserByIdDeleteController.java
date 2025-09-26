@@ -15,14 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/v1/users")
-public class DeleteByUserIdDeleteController {
+public class DeleteUserByIdDeleteController {
     
     @Autowired
     private DeleteByUserIdDeleteService deleteByUserIdDeleteService;
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID idUser) {
-        deleteByUserIdDeleteService.deleteUser(idUser);
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID userId) {
+        deleteByUserIdDeleteService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
 

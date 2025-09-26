@@ -11,7 +11,7 @@ public record NonCompliance(
         UUID nonComplianceId,
         UUID createdBy,
         LocalDate dateOpening,
-        Process processId,
+        UUID processId,
         Sector sector,
         Document.Origin origin,
         Priority priority,

@@ -14,15 +14,15 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/users")
-public class GetByIdUserGetController {
+public class GetByUserIdGetController {
 
     @Autowired
     private GetByUserIdGetService getByUserIdGetService;
 
-    @GetMapping("/{idUser}")
-    public ResponseEntity<GetByIdUserGetResponse> getByIdResponse (@PathVariable UUID idUser){
+    @GetMapping("/{userId}")
+    public ResponseEntity<GetByIdUserGetResponse> getByIdResponse (@PathVariable UUID userId){
 
-        GetByUserIdGetInput input = new GetByUserIdGetInput(idUser);
+        GetByUserIdGetInput input = new GetByUserIdGetInput(userId);
 
         return getByUserIdGetService.execute(input)
                 .map(user -> ResponseEntity.ok(GetByIdUserGetMapper.toResponse(user)))

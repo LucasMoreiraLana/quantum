@@ -15,7 +15,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/v1/documents")
-public class DeleteByDocumentIdDeleteController {
+public class DeleteDocumentByIdDeleteController {
 
     @Autowired
     private DeleteDocumentService deleteDocumentService;

@@ -9,9 +9,9 @@ import com.example.quantum.services.user.UpdateUserPutInput;
 public class UpdateUserPutMapper {
 
     // Request → Input
-    public static UpdateUserPutInput toInput(UUID id, UpdateUserPutRequest request) {
+    public static UpdateUserPutInput toInput(UUID userId, UpdateUserPutRequest request) {
         return new UpdateUserPutInput(
-                id,
+                userId,
                 request.username(),
                 request.password(),
                 request.email(),

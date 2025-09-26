@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.document.getbyiddocument;
+package com.example.quantum.controllers.document.getdocumentbyid;
 
 
 import com.example.quantum.services.document.GetByIdDocumentGetInput;
@@ -14,18 +14,18 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/documents")
-public class GetByDocumentIdGetController {
+public class GetDocumentByIdGetController {
 
     @Autowired
     private GetByIdDocumentGetService getByIdDocumentGetService;
 
     @GetMapping("/{documentId}")
-    public ResponseEntity<GetByDocumentIdGetResponse> getByIdResponse (@PathVariable UUID idDocument){
+    public ResponseEntity<GetDocumentByIdGetResponse> getByIdResponse (@PathVariable UUID documentId){
 
-        GetByIdDocumentGetInput input = new GetByIdDocumentGetInput(idDocument);
+        GetByIdDocumentGetInput input = new GetByIdDocumentGetInput(documentId);
 
         return getByIdDocumentGetService.execute(input)
-                .map(document -> ResponseEntity.ok(GetByDocumentIdGetMapper.toResponse(document)))
+                .map(document -> ResponseEntity.ok(GetDocumentByIdGetMapper.toResponse(document)))
                 .orElse(ResponseEntity.notFound().build());
     }
 }
