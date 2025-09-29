@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class GetByIdDocumentGetService {
+public class GetDocumentByIdGetService {
 
     @Autowired
     private DocumentRepository documentRepository;
 
-    public Optional<Document> execute(GetByIdDocumentGetInput input){
+    public Optional<Document> execute(GetDocumentByIdGetInput input){
         return documentRepository.findById(input.documentId())
                 .map(GetDocumentByIdGetMapper::toDomain);
     }

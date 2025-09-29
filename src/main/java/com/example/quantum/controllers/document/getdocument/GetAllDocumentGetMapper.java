@@ -20,7 +20,7 @@ public class GetAllDocumentGetMapper {
                 document.type(),
                 document.origin(),
                 document.sector()
-        );
+            );
         }
 
         public static List<GetAllDocumentGetResponse> toResponseList(List<Document> documents) {

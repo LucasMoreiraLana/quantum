@@ -1,8 +1,8 @@
 package com.example.quantum.controllers.document.getdocumentbyid;
 
 
-import com.example.quantum.services.document.GetByIdDocumentGetInput;
-import com.example.quantum.services.document.GetByIdDocumentGetService;
+import com.example.quantum.services.document.GetDocumentByIdGetInput;
+import com.example.quantum.services.document.GetDocumentByIdGetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +17,14 @@ import java.util.UUID;
 public class GetDocumentByIdGetController {
 
     @Autowired
-    private GetByIdDocumentGetService getByIdDocumentGetService;
+    private GetDocumentByIdGetService getDocumentByIdGetService;
 
     @GetMapping("/{documentId}")
     public ResponseEntity<GetDocumentByIdGetResponse> getByIdResponse (@PathVariable UUID documentId){
 
-        GetByIdDocumentGetInput input = new GetByIdDocumentGetInput(documentId);
+        GetDocumentByIdGetInput input = new GetDocumentByIdGetInput(documentId);
 
-        return getByIdDocumentGetService.execute(input)
+        return getDocumentByIdGetService.execute(input)
                 .map(document -> ResponseEntity.ok(GetDocumentByIdGetMapper.toResponse(document)))
                 .orElse(ResponseEntity.notFound().build());
     }
