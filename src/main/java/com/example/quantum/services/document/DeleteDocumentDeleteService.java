@@ -10,12 +10,12 @@ import com.example.quantum.repositories.document.DocumentEntity;
 
 @Service
 @Transactional
-public class DeleteDocumentService {
+public class DeleteDocumentDeleteService {
     
     @Autowired
     private DocumentRepository documentRepository;
 
-    public void delete(UUID documentId) {
+    public void deleteDocument(UUID documentId) {
         DocumentEntity documentEntity = documentRepository.findById(documentId)
             .orElseThrow(() -> new DocumentNotFoundException("Documento não encontrado: " + documentId));
         documentEntity.setActive(false);

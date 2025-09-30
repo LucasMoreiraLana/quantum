@@ -14,16 +14,16 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping("/v1/non-compliance")
+@RequestMapping("/v1/nc")
 public class GetNonComplianceByIdGetController {
 
     @Autowired
     private GetNonComplianceByIdGetService getNonComplianceByIdGetService;
 
-    @GetMapping("/{non-complianceId}")
-    public ResponseEntity<GetNonComplianceByIdGetResponse> getNonComplianceByIdResponse (@PathVariable UUID nonComplianceId){
+    @GetMapping("/{ncId}")
+    public ResponseEntity<GetNonComplianceByIdGetResponse> getNonComplianceByIdResponse (@PathVariable UUID ncId){
 
-        GetNonComplianceByIdGetInput input = new GetNonComplianceByIdGetInput(nonComplianceId);
+        GetNonComplianceByIdGetInput input = new GetNonComplianceByIdGetInput(ncId);
 
         return getNonComplianceByIdGetService.execute(input)
                 .map(nonCompliance -> ResponseEntity.ok(GetNonComplianceByIdGetMapper.toResponse(nonCompliance)))
