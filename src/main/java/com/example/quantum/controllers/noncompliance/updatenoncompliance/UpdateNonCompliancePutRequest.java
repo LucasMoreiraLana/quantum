@@ -1,4 +1,4 @@
-package com.example.quantum.services.noncompliance;
+package com.example.quantum.controllers.noncompliance.updatenoncompliance;
 
 import com.example.quantum.domain.Document;
 import com.example.quantum.enums.Priority;
@@ -7,7 +7,7 @@ import com.example.quantum.enums.Sector;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record UpdateNonCompliancePutInput(
+public record UpdateNonCompliancePutRequest(
 
         UUID nonComplianceId,
         UUID createdBy,

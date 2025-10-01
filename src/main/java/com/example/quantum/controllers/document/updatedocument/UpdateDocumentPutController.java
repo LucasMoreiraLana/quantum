@@ -1,12 +1,10 @@
 package com.example.quantum.controllers.document.updatedocument;
 
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.quantum.services.document.UpdateDocumentPutService;
-
 import jakarta.validation.Valid;
 
 @RestController
@@ -25,10 +23,10 @@ public class UpdateDocumentPutController {
         final var input = UpdateDocumentPutMapper.toInput(documentId, request);
 
         // Service com Input
-        final var updated = updateDocumentPutService.update(input);
+        final var updateDocument = updateDocumentPutService.update(input);
 
         // Domain → Response
-        final var response = UpdateDocumentPutMapper.toResponse(updated);
+        final var response = UpdateDocumentPutMapper.toResponse(updateDocument);
 
         return ResponseEntity.ok(response);
     }
