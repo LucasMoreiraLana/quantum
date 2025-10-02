@@ -12,7 +12,7 @@ public class UpdateDocumentPutService {
     @Autowired
     private DocumentRepository documentRepository;
 
-    public Document update(UpdateDocumentPutInput input) {
+    public Document updateDocument(UpdateDocumentPutInput input) {
         // Busca no banco
         final var existingEntity = documentRepository.findById(input.documentId())
                 .orElseThrow(() -> new RuntimeException("Documento não encontrado!"));

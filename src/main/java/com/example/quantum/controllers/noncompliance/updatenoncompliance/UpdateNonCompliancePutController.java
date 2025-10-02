@@ -16,16 +16,16 @@ public class UpdateNonCompliancePutController {
     @Autowired
     private UpdateNonCompliancePutService updateNonCompliancePutService;
 
-    @PutMapping
+    @PutMapping("/{ncId}")
     public ResponseEntity<UpdateNonCompliancePutResponse> updateNonCompliance(
             @PathVariable UUID ncId,
             @Valid @RequestBody UpdateNonCompliancePutRequest request){
 
         final var input = UpdateNonCompliancePutMapper.toInput(ncId, request);
 
-        final var updateNonCompliance = updateNonCompliancePutService.update(input);
+        final var updatedNonCompliance = updateNonCompliancePutService.updateNonCompliance(input);
 
-        final var response = UpdateNonCompliancePutMapper.toResponse(updateNonCompliance);
+        final var response = UpdateNonCompliancePutMapper.toResponse(updatedNonCompliance);
 
         return ResponseEntity.ok(response);
 

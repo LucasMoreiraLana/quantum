@@ -23,7 +23,7 @@ public class UpdateDocumentPutController {
         final var input = UpdateDocumentPutMapper.toInput(documentId, request);
 
         // Service com Input
-        final var updateDocument = updateDocumentPutService.update(input);
+        final var updateDocument = updateDocumentPutService.updateDocument(input);
 
         // Domain → Response
         final var response = UpdateDocumentPutMapper.toResponse(updateDocument);
