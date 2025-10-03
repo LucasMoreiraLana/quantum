@@ -19,6 +19,7 @@ public record Indicator(
         LocalDate lastDate,
         LocalDate nextMeasurement,
         Classification classification
+
 ) {
 
     public enum UnitOfMeasurement {

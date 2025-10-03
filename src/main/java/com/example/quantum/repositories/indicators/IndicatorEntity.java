@@ -17,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Document(collection = "indicators")
-public class IndicatorsEntity {
+public class IndicatorEntity {
 
     UUID indicatorId;
     @NotNull

@@ -24,6 +24,7 @@ public class GetAllDocumentGetService {
                 .map(DocumentEntityMapper::toDocument) // Entity -> Domain
                 .toList();
         }
+
     }
 
 

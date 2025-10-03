@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.document.getdocument;
+package com.example.quantum.controllers.document.getAlldocument;
 
 import com.example.quantum.domain.Document;
 import com.example.quantum.enums.Sector;

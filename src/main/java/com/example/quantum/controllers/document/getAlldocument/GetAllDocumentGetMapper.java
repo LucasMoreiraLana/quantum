@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.document.getdocument;
+package com.example.quantum.controllers.document.getAlldocument;
 
 
 import java.util.stream.Collectors;
@@ -7,7 +7,6 @@ import com.example.quantum.domain.Document;
 
 
 public class GetAllDocumentGetMapper {
-
 
         public static GetAllDocumentGetResponse toResponse(Document document) {
         return new GetAllDocumentGetResponse(
@@ -28,10 +27,5 @@ public class GetAllDocumentGetMapper {
                         .map(GetAllDocumentGetMapper::toResponse)
                         .collect(Collectors.toList());
         }
-
-       
-        
-
-
 
 }
