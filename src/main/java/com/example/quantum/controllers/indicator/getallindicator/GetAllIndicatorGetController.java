@@ -3,7 +3,7 @@ package com.example.quantum.controllers.indicator.getallindicator;
 
 
 import com.example.quantum.domain.Indicator;
-import com.example.quantum.services.indocator.GetAllIndicatorGetService;
+import com.example.quantum.services.indicator.GetAllIndicatorGetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

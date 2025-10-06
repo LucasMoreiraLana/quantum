@@ -4,6 +4,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.UUID;
 
-public interface IndicatorsRepository extends MongoRepository<IndicatorEntity, UUID>{
+public interface IndicatorRepository extends MongoRepository<IndicatorEntity, UUID>{
 
 }

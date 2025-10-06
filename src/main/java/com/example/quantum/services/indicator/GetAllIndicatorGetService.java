@@ -1,9 +1,9 @@
-package com.example.quantum.services.indocator;
+package com.example.quantum.services.indicator;
 
 
 import com.example.quantum.domain.Indicator;
 import com.example.quantum.repositories.indicators.IndicatorEntityMapper;
-import com.example.quantum.repositories.indicators.IndicatorsRepository;
+import com.example.quantum.repositories.indicators.IndicatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +13,10 @@ import java.util.List;
 public class GetAllIndicatorGetService {
 
     @Autowired
-    private IndicatorsRepository indicatorsRepository;
+    private IndicatorRepository indicatorRepository;
 
     public List<Indicator> getAllIndicator(){
-        return indicatorsRepository.findAll()
+        return indicatorRepository.findAll()
                 .stream()
                 .map(IndicatorEntityMapper::toIndicator)
                 .toList();
