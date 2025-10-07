@@ -19,6 +19,10 @@ public class InsertIndicatorPostService {
 
         final var entity = IndicatorEntityMapper.toEntity(indicator);
 
+        if(indicatorRepository.existsByNameIndicator(indicator.nameIndicator())){
+            throw new IllegalArgumentException("Já existe um indicador com este nome.");
+        }
+
         final var savedEntity = indicatorRepository.save(entity);
 
         return IndicatorEntityMapper.toIndicator(savedEntity);

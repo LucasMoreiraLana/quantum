@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -19,28 +20,29 @@ import java.util.UUID;
 @Document(collection = "indicators")
 public class IndicatorEntity {
 
-    UUID indicatorId;
+    @Id
+    private UUID indicatorId = UUID.randomUUID();
     @NotNull
-    String nameIndicator;
+    private String nameIndicator;
     @NotNull
-    String measurementCriterion;
+    private String measurementCriterion;
     @NotNull
-    Sector sector;
+    private Sector sector;
     @NotNull
-    UUID createdBy;
+    private UUID createdBy;
     @NotNull
-    Indicator.UnitOfMeasurement unitOfMeasurement;
+    private Indicator.UnitOfMeasurement unitOfMeasurement;
     @NotNull
-    Indicator.FrequencyOfMeasurement frequencyOfMeasurement;
+    private Indicator.FrequencyOfMeasurement frequencyOfMeasurement;
     @NotNull
-    String objective;
+    private String objective;
     @NotNull
-    boolean tendency;
+    private boolean tendency;
     @NotNull
-    LocalDate lastDate;
+    private LocalDate lastDate;
     @NotNull
-    LocalDate nextMeasurement;
+    private LocalDate nextMeasurement;
     @NotNull
-    Indicator.Classification classification;
+    private Indicator.Classification classification;
 
 }

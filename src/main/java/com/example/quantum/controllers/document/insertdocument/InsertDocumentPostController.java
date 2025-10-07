@@ -15,7 +15,7 @@ public class InsertDocumentPostController {
     private InsertDocumentPostService insertDocumentPostService;
 
     @PostMapping
-    public ResponseEntity<InsertDocumentPostResponse> create(@Valid @RequestBody InsertDocumentPostRequest request) {
+    public ResponseEntity<InsertDocumentPostResponse> createDocument(@Valid @RequestBody InsertDocumentPostRequest request) {
         // Request → Input
         final var input = InsertDocumentPostMapper.toInput(request);
 

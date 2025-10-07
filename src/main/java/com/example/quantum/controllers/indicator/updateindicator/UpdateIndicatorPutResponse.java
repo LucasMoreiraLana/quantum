@@ -1,37 +1,21 @@
-package com.example.quantum.controllers.indicator.insertindicator;
+package com.example.quantum.controllers.indicator.updateindicator;
 
 import com.example.quantum.domain.Indicator;
 import com.example.quantum.enums.Sector;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record InsertIndicatorPostRequest(
-
-        UUID indicatorId,
-        @NotBlank
+public record UpdateIndicatorPutResponse(
         String nameIndicator,
-        @NotBlank
         String measurementCriterion,
-        @NotNull
         Sector sector,
-        @NotNull
         UUID createdBy,
-        @NotNull
         Indicator.UnitOfMeasurement unitOfMeasurement,
-        @NotNull
         Indicator.FrequencyOfMeasurement frequencyOfMeasurement,
-        @NotBlank
         String objective,
-        @NotNull
         boolean tendency,
-        @NotNull
         LocalDate lastDate,
-        @NotNull
         LocalDate nextMeasurement,
-        @NotNull
         Indicator.Classification classification
-) {
-}
+) {}

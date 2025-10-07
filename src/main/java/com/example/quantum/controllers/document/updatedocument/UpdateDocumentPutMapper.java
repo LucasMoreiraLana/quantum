@@ -23,7 +23,6 @@ public class UpdateDocumentPutMapper {
     // Domain → Response
     public static UpdateDocumentPutResponse toResponse(Document document) {
         return new UpdateDocumentPutResponse(
-
                 document.nameDocument(),
                 document.content(),
                 document.tempoDeRetencao(),
