@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.document.deletedocument;
+package com.example.quantum.controllers.document.deletedocumentbyid;
 
 import java.util.UUID;
 
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.quantum.services.document.DeleteDocumentDeleteService;
+import com.example.quantum.services.document.DeleteDocumentByIdDeleteService;
 
 import jakarta.validation.Valid;
 
@@ -18,11 +18,11 @@ import jakarta.validation.Valid;
 public class DeleteDocumentByIdDeleteController {
 
     @Autowired
-    private DeleteDocumentDeleteService deleteDocumentDeleteService;
+    private DeleteDocumentByIdDeleteService deleteDocumentByIdDeleteService;
 
     @DeleteMapping("/{documentId}")
     public ResponseEntity<Void> deleteDocument(@Valid @PathVariable UUID documentId) {
-        deleteDocumentDeleteService.deleteDocument(documentId);
+        deleteDocumentByIdDeleteService.deleteDocument(documentId);
         return ResponseEntity.noContent().build();
     }
 

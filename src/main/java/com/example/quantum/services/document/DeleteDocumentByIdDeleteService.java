@@ -10,7 +10,7 @@ import com.example.quantum.repositories.document.DocumentEntity;
 
 @Service
 @Transactional
-public class DeleteDocumentDeleteService {
+public class DeleteDocumentByIdDeleteService {
     
     @Autowired
     private DocumentRepository documentRepository;
