@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.quantum.domain.User;
 import com.example.quantum.services.user.GetUserGetService;
 
-@CrossOrigin(origins = "http://localhost:5173")
+
 @RestController
 @RequestMapping("/v1/users")
 public class GetUserGetController {

@@ -2,6 +2,7 @@ package com.example.quantum.repositories.user;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -40,9 +41,11 @@ public class UserEntity {
 
     private boolean active = true;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @NotNull(message = "O setor do usuário precisa ser informado!")
     private Sector sector;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @NotNull(message = "A posição do usuário precisa ser informada!")
     private Position position;
 
