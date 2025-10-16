@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth)")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class PostAuthLoginPostController {
 
@@ -27,7 +27,7 @@ public class PostAuthLoginPostController {
     public ResponseEntity login(@RequestBody PostAuthLoginPostRequest request){
 
         UserEntity entity = this.userRepository.findByEmail(request.email()).orElseThrow(()-> new RuntimeException("O usuário não existe!"));
-        if(passwordEncoder.matches(entity.getPassword(), request.password())){
+        if (passwordEncoder.matches(request.password(), entity.getPassword())){
             String token = this.tokenService.generatedToken(entity);
             return ResponseEntity.ok(new PostAuthLoginPostResponse(entity.getUsername(), token));
         }
