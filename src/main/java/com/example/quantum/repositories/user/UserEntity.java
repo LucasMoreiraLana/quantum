@@ -30,21 +30,16 @@ public class UserEntity {
 
     @NotBlank(message = "O nome de usuário é obrigatório")
     private String username;
-
     @NotBlank(message = "A senha é obrigatória")
     @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres")
     private String password;
-
     @NotBlank(message = "O email é obrigatório")
     @Email(message = "Email inválido")
     private String email;
-
     private boolean active = true;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @NotNull(message = "O setor do usuário precisa ser informado!")
     private Sector sector;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @NotNull(message = "A posição do usuário precisa ser informada!")
     private Position position;

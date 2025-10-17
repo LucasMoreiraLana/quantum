@@ -26,6 +26,7 @@ public class DocumentEntity {
     private UUID createBy;
 
     @NotBlank(message = "O nome do documento não pode ser vazio!")
+    @Size(max=30)
     private String nameDocument;
 
     @NotBlank(message = "A descrição do documento não pode ser vazia!")

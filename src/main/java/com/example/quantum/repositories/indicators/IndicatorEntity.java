@@ -4,6 +4,7 @@ package com.example.quantum.repositories.indicators;
 import com.example.quantum.domain.Indicator;
 import com.example.quantum.enums.Sector;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class IndicatorEntity {
     @Id
     private UUID indicatorId = UUID.randomUUID();
     @NotNull
+    @Size(max=30)
     private String nameIndicator;
     @NotNull
     private String measurementCriterion;

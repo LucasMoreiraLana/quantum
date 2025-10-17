@@ -28,6 +28,10 @@ public class InsertUserPostService {
             throw new IllegalArgumentException("Já existe um usuário com esse nome!");
         }
 
+        if (userRepository.existsByEmail(user.email())){
+            throw new IllegalArgumentException(("Já existe um usuário com esse email!"));
+        }
+
         // transforma domain -> entity
         final var entity = UserEntityMapper.toEntity(user);
 
