@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.UUID;
 
 @Service
 public class TokenService {
@@ -20,16 +21,17 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String generatedToken(UserEntity entity){
+    private final static String ISSUER_NAME = "quantum";
+
+    public String generatedToken(UUID userId){
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
-            String token = JWT.create()
-                    .withIssuer("login-auth-api")
-                    .withSubject(entity.getEmail())
+            return JWT.create()
+                    .withIssuer(ISSUER_NAME)
+                    .withSubject(userId.toString())
                     .withExpiresAt(this.generationExpirationDate())
                     .sign(algorithm);
-            return token;
 
         } catch(JWTCreationException exception) {
             throw new RuntimeException("Erro de autenticação.");
@@ -40,7 +42,7 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
-                    .withIssuer("login-auth-api")
+                    .withIssuer(ISSUER_NAME)
                     .build()
                     .verify(token)
                     .getSubject();

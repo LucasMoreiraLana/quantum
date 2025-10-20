@@ -26,9 +26,9 @@ public class PostAuthLoginPostController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody PostAuthLoginPostRequest request){
 
-        UserEntity entity = this.userRepository.findByEmail(request.email()).orElseThrow(()-> new RuntimeException("O usuário não existe!"));
+        final var entity = this.userRepository.findByEmail(request.email()).orElseThrow(()-> new RuntimeException("O usuário não existe!"));
         if (passwordEncoder.matches(request.password(), entity.getPassword())){
-            String token = this.tokenService.generatedToken(entity);
+            final var token = this.tokenService.generatedToken(entity.getUserId());
             return ResponseEntity.ok(new PostAuthLoginPostResponse(entity.getUsername(), token));
         }
         return ResponseEntity.badRequest().build();
