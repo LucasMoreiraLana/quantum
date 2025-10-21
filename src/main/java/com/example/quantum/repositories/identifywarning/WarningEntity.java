@@ -1,6 +1,7 @@
 package com.example.quantum.repositories.identifywarning;
 
 import com.example.quantum.domain.Process;
+import com.example.quantum.domain.Warning;
 import com.example.quantum.enums.Sector;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,7 +36,7 @@ public class WarningEntity {
     @NotNull
     private int level;
     @NotNull
-    private Avaliation avaliation;
+    private Warning.Avaliation avaliation;
     @NotBlank
     private boolean active;
 
@@ -48,13 +49,14 @@ public class WarningEntity {
     @NotNull
     private int newLevel;
     @NotBlank
-    private Avaliation newAvaliation;
-    private UUID actionId;
-
+    private Warning.Avaliation newAvaliation;
+    @NotNull
+    private int actions;
 
 
     public enum Avaliation{
         RISCO_ALTO,
         RISCO_MEDIO
     }
+
 }
