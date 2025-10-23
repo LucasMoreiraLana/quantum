@@ -7,6 +7,8 @@ import java.util.UUID;
 public record Warning(
 
     UUID warningId,
+    String warningTitle,
+    UUID createdBy,
     String description,
     Process process,
     Sector sector,

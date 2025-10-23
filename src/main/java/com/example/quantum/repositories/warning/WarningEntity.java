@@ -1,4 +1,4 @@
-package com.example.quantum.repositories.identifywarning;
+package com.example.quantum.repositories.warning;
 
 import com.example.quantum.domain.Process;
 import com.example.quantum.domain.Warning;
@@ -22,6 +22,11 @@ public class WarningEntity {
 
     @Id
     private UUID warningId = UUID.randomUUID();
+    @NotBlank
+    @Size(max=30)
+    private String warningTitle;
+    @NotNull
+    private UUID createdBy;
     @NotBlank
     @Size(max=500)
     private String description;

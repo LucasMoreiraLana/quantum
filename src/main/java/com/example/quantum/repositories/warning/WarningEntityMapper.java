@@ -1,4 +1,4 @@
-package com.example.quantum.repositories.identifywarning;
+package com.example.quantum.repositories.warning;
 
 import com.example.quantum.domain.Warning;
 
@@ -7,6 +7,8 @@ public class WarningEntityMapper {
     public static Warning toWarning(WarningEntity entity){
         return new Warning(
                 entity.getWarningId(),
+                entity.getWarningTitle(),
+                entity.getCreatedBy(),
                 entity.getDescription(),
                 entity.getProcess(),
                 entity.getSector(),
@@ -27,6 +29,8 @@ public class WarningEntityMapper {
     public static WarningEntity toEntity(Warning warning){
         WarningEntity entity = new WarningEntity();
         entity.setWarningId(warning.warningId());
+        entity.setWarningTitle(warning.warningTitle());
+        entity.setCreatedBy(warning.createdBy());
         entity.setDescription(warning.description());
         entity.setProcess(warning.process());
         entity.setSector(warning.sector());
