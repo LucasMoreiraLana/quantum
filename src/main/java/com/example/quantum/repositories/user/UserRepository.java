@@ -12,7 +12,6 @@ import java.util.Optional;
 public interface UserRepository extends MongoRepository<UserEntity, UUID> {
     Optional<UserEntity> findByUserId(UUID userId);
     Optional<UserEntity> findByEmail(String email);
-    Optional<UserEntity> findByUsername(String username);
     boolean existsByUsername(String username);
     boolean existsByUsernameAndUserIdNot(String username, UUID userId);
     boolean existsByEmail(String email);

@@ -1,6 +1,5 @@
 package com.example.quantum.services.warning;
 
-import com.example.quantum.controllers.warning.InsertWarningPostRequest;
 import com.example.quantum.domain.Warning;
 import com.example.quantum.repositories.user.UserRepository;
 import com.example.quantum.repositories.warning.WarningEntityMapper;
@@ -19,14 +18,18 @@ public class InsertWarningPostService {
 
 
 
-    public Warning createWarning(InsertWarningPostRequest request, String username){
+    public Warning createWarning(InsertWarningPostInput input){
 
-        var user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado!"));
+        if (!userRepository.existsById(input.createdBy())){
+            throw new IllegalArgumentException("Usuário não encontrado!");
+        }
 
-       return null;
+        final var warning = input.toDomain();
 
+        final var entity = WarningEntityMapper.toEntity(warning);
 
+        final var saved = warningRepository.save(entity);
 
+        return WarningEntityMapper.toWarning(saved);
     }
 }
