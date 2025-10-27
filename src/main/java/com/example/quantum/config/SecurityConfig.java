@@ -35,6 +35,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/users").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/warnings").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/documents").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/process").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

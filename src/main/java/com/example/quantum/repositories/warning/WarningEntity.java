@@ -31,7 +31,7 @@ public class WarningEntity {
     @Size(max=500)
     private String description;
     @NotNull
-    private Process process;
+    private UUID processId;
     @NotNull
     private Sector sector;
     @NotBlank
@@ -46,7 +46,7 @@ public class WarningEntity {
     private boolean active;
 
     @NotNull
-    private com.example.quantum.domain.Document document;
+    private UUID documentId;
     @NotBlank
     private int newProbability;
     @NotBlank

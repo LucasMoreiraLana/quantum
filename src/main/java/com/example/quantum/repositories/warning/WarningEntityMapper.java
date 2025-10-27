@@ -10,14 +10,14 @@ public class WarningEntityMapper {
                 entity.getWarningTitle(),
                 entity.getCreatedBy(),
                 entity.getDescription(),
-                entity.getProcess(),
+                entity.getProcessId(),
                 entity.getSector(),
                 entity.getProbability(),
                 entity.getImpact(),
                 entity.getLevel(),
                 entity.getAvaliation(),
                 entity.isActive(),
-                entity.getDocument(),
+                entity.getDocumentId(),
                 entity.getNewProbability(),
                 entity.getNewImpact(),
                 entity.getNewLevel(),
@@ -32,14 +32,14 @@ public class WarningEntityMapper {
         entity.setWarningTitle(warning.warningTitle());
         entity.setCreatedBy(warning.createdBy());
         entity.setDescription(warning.description());
-        entity.setProcess(warning.process());
+        entity.setProcessId(warning.processId());
         entity.setSector(warning.sector());
         entity.setProbability(warning.probability());
         entity.setImpact(warning.impact());
         entity.setLevel(warning.level());
         entity.setAvaliation(warning.avaliation());
         entity.setActive(warning.active());
-        entity.setDocument(warning.document());
+        entity.setDocumentId(warning.documentId());
         entity.setNewProbability(warning.newProbability());
         entity.setNewImpact(warning.newImpact());
         entity.setNewLevel(warning.newLevel());
