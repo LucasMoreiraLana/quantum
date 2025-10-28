@@ -19,7 +19,7 @@ public class UpdateDocumentPutService {
 
         final var updatedDomain = new Document(
                 input.documentId(),
-                existingEntity.getCreateBy(), // 🔒 nunca altera
+                existingEntity.getCreatedBy(), // 🔒 nunca altera
                 input.nameDocument(),
                 input.content(),
                 input.tempoDeRetencao(),

@@ -26,7 +26,7 @@ public class GetDocumentByIdGetMapper {
 
         return new Document(
                 entity.getDocumentId(),
-                entity.getCreateBy(),
+                entity.getCreatedBy(),
                 entity.getNameDocument(),
                 entity.getContent(),
                 entity.getTempoDeRetencao(),

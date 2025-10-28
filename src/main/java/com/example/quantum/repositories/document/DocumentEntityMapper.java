@@ -6,7 +6,7 @@ public class DocumentEntityMapper {
     public static Document toDocument(DocumentEntity entity) {
         return new Document(
                 entity.getDocumentId(),
-                entity.getCreateBy(),
+                entity.getCreatedBy(),
                 entity.getNameDocument(),
                 entity.getContent(),
                 entity.getTempoDeRetencao(),
@@ -20,7 +20,7 @@ public class DocumentEntityMapper {
     public static DocumentEntity toEntity(Document document) {
         DocumentEntity entity = new DocumentEntity();
         entity.setDocumentId(document.documentId());
-        entity.setCreateBy(document.createdBy());
+        entity.setCreatedBy(document.createdBy());
         entity.setNameDocument(document.nameDocument());
         entity.setContent(document.content());
         entity.setTempoDeRetencao(document.tempoDeRetencao());

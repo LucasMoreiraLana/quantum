@@ -8,7 +8,7 @@ public enum Sector {
         DEPARTAMENTO_PESSOAL,
         RECURSOS_HUMANOS,
         FINANCEIRO,
-        INPECAO,
+        INSPECAO,
         DIRECAO,
         QUALIDADE,
         PLANEJAMENTO,

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class GetUserGetService {
+public class GetAllUserGetService {
 
     @Autowired
     private UserRepository userRepository;
