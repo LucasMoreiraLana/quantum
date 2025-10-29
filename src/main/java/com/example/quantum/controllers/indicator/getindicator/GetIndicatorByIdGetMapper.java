@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.indicator.getindicatorbyid;
+package com.example.quantum.controllers.indicator.getindicator;
 
 import com.example.quantum.domain.Indicator;
 import com.example.quantum.repositories.indicators.IndicatorEntity;

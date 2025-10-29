@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.document.getdocumentbyid;
+package com.example.quantum.controllers.document.getdocument;
 
 import com.example.quantum.domain.Document;
 import com.example.quantum.repositories.document.DocumentEntity;

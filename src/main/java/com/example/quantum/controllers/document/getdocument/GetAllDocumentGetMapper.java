@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.document.getAlldocument;
+package com.example.quantum.controllers.document.getdocument;
 
 
 import java.util.stream.Collectors;

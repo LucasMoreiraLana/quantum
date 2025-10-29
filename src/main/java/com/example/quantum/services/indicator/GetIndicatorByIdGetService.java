@@ -1,7 +1,7 @@
 package com.example.quantum.services.indicator;
 
 
-import com.example.quantum.controllers.indicator.getindicatorbyid.GetIndicatorByIdGetMapper;
+import com.example.quantum.controllers.indicator.getindicator.GetIndicatorByIdGetMapper;
 import com.example.quantum.domain.Indicator;
 import com.example.quantum.repositories.indicators.IndicatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;

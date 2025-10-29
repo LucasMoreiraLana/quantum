@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.noncompliance.getnoncompliancebyid;
+package com.example.quantum.controllers.noncompliance.getnoncompliance;
 
 import com.example.quantum.domain.Document;
 import com.example.quantum.enums.Priority;

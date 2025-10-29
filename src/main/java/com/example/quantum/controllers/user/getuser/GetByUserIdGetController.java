@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.user.getbyiduser;
+package com.example.quantum.controllers.user.getuser;
 
 
 import com.example.quantum.services.user.GetByUserIdGetInput;

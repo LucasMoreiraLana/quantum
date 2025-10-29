@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.document.getAlldocument;
+package com.example.quantum.controllers.document.getdocument;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

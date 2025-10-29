@@ -1,7 +1,7 @@
 package com.example.quantum.services.document;
 
 
-import com.example.quantum.controllers.document.getdocumentbyid.GetDocumentByIdGetMapper;
+import com.example.quantum.controllers.document.getdocument.GetDocumentByIdGetMapper;
 import com.example.quantum.domain.Document;
 import com.example.quantum.repositories.document.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;

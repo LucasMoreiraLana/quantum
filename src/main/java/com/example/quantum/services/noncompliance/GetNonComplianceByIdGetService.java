@@ -1,6 +1,6 @@
 package com.example.quantum.services.noncompliance;
 
-import com.example.quantum.controllers.noncompliance.getnoncompliancebyid.GetNonComplianceByIdGetMapper;
+import com.example.quantum.controllers.noncompliance.getnoncompliance.GetNonComplianceByIdGetMapper;
 import com.example.quantum.domain.NonCompliance;
 import com.example.quantum.repositories.noncompliance.NonComplianceRepository;
 import org.springframework.beans.factory.annotation.Autowired;

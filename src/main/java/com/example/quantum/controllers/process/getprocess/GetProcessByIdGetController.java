@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.process.getprocessbyid;
+package com.example.quantum.controllers.process.getprocess;
 
 
 

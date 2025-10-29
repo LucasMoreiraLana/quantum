@@ -1,6 +1,5 @@
-package com.example.quantum.controllers.noncompliance.getnoncompliancebyid;
+package com.example.quantum.controllers.noncompliance.getnoncompliance;
 
-import com.example.quantum.controllers.noncompliance.getnoncompliance.GetAllNonComplianceGetResponse;
 import com.example.quantum.domain.NonCompliance;
 import com.example.quantum.repositories.noncompliance.NonComplianceEntity;
 

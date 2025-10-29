@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.document.getdocumentbyid;
+package com.example.quantum.controllers.document.getdocument;
 
 
 import com.example.quantum.services.document.GetDocumentByIdGetInput;

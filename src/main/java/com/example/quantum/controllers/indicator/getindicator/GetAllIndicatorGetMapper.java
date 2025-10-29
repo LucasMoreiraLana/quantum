@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.indicator.getallindicator;
+package com.example.quantum.controllers.indicator.getindicator;
 
 import com.example.quantum.domain.Indicator;
 

@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.indicator.getallindicator;
+package com.example.quantum.controllers.indicator.getindicator;
 
 import com.example.quantum.domain.Indicator;
 import com.example.quantum.enums.Sector;
@@ -6,8 +6,7 @@ import com.example.quantum.enums.Sector;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record GetAllIndicatorGetResponse(
-
+public record GetIndicatorByIdGetResponse(
         UUID indicatorId,
         String nameIndicator,
         String measurementCriterion,
@@ -20,5 +19,4 @@ public record GetAllIndicatorGetResponse(
         LocalDate lastDate,
         LocalDate nextMeasurement,
         Indicator.Classification classification
-
 ) {}

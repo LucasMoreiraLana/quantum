@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.indicator.getindicatorbyid;
+package com.example.quantum.controllers.indicator.getindicator;
 
 
 import com.example.quantum.services.indicator.GetIndicatorByIdGetInput;

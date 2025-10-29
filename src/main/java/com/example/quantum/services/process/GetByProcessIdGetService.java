@@ -2,7 +2,7 @@ package com.example.quantum.services.process;
 
 
 
-import com.example.quantum.controllers.process.getprocessbyid.GetProcessByIdGetMapper;
+import com.example.quantum.controllers.process.getprocess.GetProcessByIdGetMapper;
 import com.example.quantum.domain.Process;
 import com.example.quantum.repositories.process.ProcessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
