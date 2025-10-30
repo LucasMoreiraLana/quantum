@@ -17,9 +17,10 @@ public class GetAllWarningGetService {
     @Autowired
     private WarningRepository warningRepository;
 
-    public List<Warning> toResponse(){
-        List<WarningEntity> entities = warningRepository.findAll();
-        return entities.stream()
+    public List<Warning> getAllWarning(){
+
+        return warningRepository.findAll()
+                .stream()
                 .map(WarningEntityMapper::toWarning)
                 .collect(Collectors.toList());
     }
