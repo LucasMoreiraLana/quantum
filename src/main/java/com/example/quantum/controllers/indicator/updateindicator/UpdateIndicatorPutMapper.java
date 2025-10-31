@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class UpdateIndicatorPutMapper {
 
-    public static UpdateIndicatorPutInput toInput(UUID indicatorId, UpdateIndicatorPutRequest request){
+    public static UpdateIndicatorPutInput toIndicatorInput(UUID indicatorId, UpdateIndicatorPutRequest request){
         return new UpdateIndicatorPutInput(
                 indicatorId,
                 request.nameIndicator(),
@@ -25,7 +25,7 @@ public class UpdateIndicatorPutMapper {
     }
 
 
-    public static UpdateIndicatorPutResponse toResponse(Indicator indicator){
+    public static UpdateIndicatorPutResponse toIndicatorResponse(Indicator indicator){
         return new UpdateIndicatorPutResponse(
                 indicator.nameIndicator(),
                 indicator.measurementCriterion(),

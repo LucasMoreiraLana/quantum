@@ -3,7 +3,6 @@ package com.example.quantum.controllers.indicator.insertindicator;
 
 import com.example.quantum.services.indicator.InsertIndicatorPostService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,11 +20,11 @@ public class InsertIndicatorPostController {
     @PostMapping
     public ResponseEntity<InsertIndicatorPostResponse> createIndicator(@Valid @RequestBody InsertIndicatorPostRequest request){
 
-        final var input = InsertIndicatorPostMapper.toInput(request);
+        final var input = InsertIndicatorPostMapper.toIndicatorInput(request);
 
         final var indicator = insertIndicatorPostService.createIndicator(input);
 
-        final var response = InsertIndicatorPostMapper.toResponse(indicator);
+        final var response = InsertIndicatorPostMapper.toIndicatorResponse(indicator);
 
         return ResponseEntity.ok(response);
     }

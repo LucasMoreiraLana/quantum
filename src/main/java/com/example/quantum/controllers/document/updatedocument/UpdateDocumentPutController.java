@@ -20,13 +20,13 @@ public class UpdateDocumentPutController {
             @Valid @RequestBody UpdateDocumentPutRequest request) {
 
         // Request → Input
-        final var input = UpdateDocumentPutMapper.toInput(documentId, request);
+        final var input = UpdateDocumentPutMapper.toDocumentInput(documentId, request);
 
         // Service com Input
         final var updateDocument = updateDocumentPutService.updateDocument(input);
 
         // Domain → Response
-        final var response = UpdateDocumentPutMapper.toResponse(updateDocument);
+        final var response = UpdateDocumentPutMapper.toDocumentResponse(updateDocument);
 
         return ResponseEntity.ok(response);
     }

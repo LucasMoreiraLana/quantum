@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class GetAllIndicatorGetMapper{
 
-    public static GetAllIndicatorGetResponse toResponse(Indicator indicator){
+    public static GetAllIndicatorGetResponse toIndicatorResponse(Indicator indicator){
         return new GetAllIndicatorGetResponse(
                 indicator.indicatorId(),
                 indicator.nameIndicator(),
@@ -24,9 +24,9 @@ public class GetAllIndicatorGetMapper{
         );
     }
 
-    public static List<GetAllIndicatorGetResponse> toResponseList(List<Indicator> indicators){
+    public static List<GetAllIndicatorGetResponse> toIndicatorResponseList(List<Indicator> indicators){
         return indicators.stream()
-                .map(GetAllIndicatorGetMapper::toResponse)
+                .map(GetAllIndicatorGetMapper::toIndicatorResponse)
                 .collect(Collectors.toList());
     }
 

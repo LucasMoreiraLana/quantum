@@ -22,7 +22,7 @@ public class GetAllDocumentGetController {
     @GetMapping
     public ResponseEntity<List<GetAllDocumentGetResponse>> getAllDocuments() {
         List<Document> documents = getAllDocumentGetService.getAllDocuments();
-        return ResponseEntity.ok(GetAllDocumentGetMapper.toResponseList(documents));
+        return ResponseEntity.ok(GetAllDocumentGetMapper.toResponseDocumentList(documents));
 }
 
 }

@@ -22,7 +22,7 @@ public class GetAllIndicatorGetController {
     @GetMapping
     public ResponseEntity<List<GetAllIndicatorGetResponse>> getAllIndicators(){
         List<Indicator> indicators = getAllIndicatorGetService.getAllIndicator();
-        return ResponseEntity.ok(GetAllIndicatorGetMapper.toResponseList(indicators));
+        return ResponseEntity.ok(GetAllIndicatorGetMapper.toIndicatorResponseList(indicators));
     }
 
 

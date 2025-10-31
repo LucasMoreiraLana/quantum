@@ -20,11 +20,11 @@ public class UpdateIndicatorPutController {
             @PathVariable UUID indicatorId,
             @Valid @RequestBody UpdateIndicatorPutRequest request) {
 
-        final var input = UpdateIndicatorPutMapper.toInput(indicatorId, request);
+        final var input = UpdateIndicatorPutMapper.toIndicatorInput(indicatorId, request);
 
         final var updateIndicator = updateIndicatorPutService.updateIndicator(input);
 
-        final var response = UpdateIndicatorPutMapper.toResponse(updateIndicator);
+        final var response = UpdateIndicatorPutMapper.toIndicatorResponse(updateIndicator);
 
         return ResponseEntity.ok(response);
     }

@@ -23,7 +23,7 @@ public class InsertDocumentPostController {
         final var document = insertDocumentPostService.createDocument(input);
 
         // Domain → Response
-        final var response = InsertDocumentPostMapper.toResponse(document);
+        final var response = InsertDocumentPostMapper.toDocumentResponse(document);
 
         return ResponseEntity.ok(response);
     }

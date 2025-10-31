@@ -8,7 +8,7 @@ import com.example.quantum.domain.Document;
 
 public class GetAllDocumentGetMapper {
 
-        public static GetAllDocumentGetResponse toResponse(Document document) {
+        public static GetAllDocumentGetResponse toDocumentResponse(Document document) {
         return new GetAllDocumentGetResponse(
                 document.documentId(),
                 document.createdBy(),
@@ -22,9 +22,9 @@ public class GetAllDocumentGetMapper {
             );
         }
 
-        public static List<GetAllDocumentGetResponse> toResponseList(List<Document> documents) {
+        public static List<GetAllDocumentGetResponse> toResponseDocumentList(List<Document> documents) {
                 return documents.stream()
-                        .map(GetAllDocumentGetMapper::toResponse)
+                        .map(GetAllDocumentGetMapper::toDocumentResponse)
                         .collect(Collectors.toList());
         }
 

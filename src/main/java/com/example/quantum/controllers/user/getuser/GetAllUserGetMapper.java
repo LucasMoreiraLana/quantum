@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class GetAllUserGetMapper {
 
-    public static GetAllUserGetResponse toResponse(User user){
+    public static GetAllUserGetResponse toUserResponse(User user){
         return new GetAllUserGetResponse(
                 user.userId(),
                 user.username(),
@@ -18,9 +18,9 @@ public class GetAllUserGetMapper {
         );
     }
 
-    public static List<GetAllUserGetResponse> toResponseList(List<User> users){
+    public static List<GetAllUserGetResponse> toResponseUsersList(List<User> users){
         return users.stream()
-                .map(GetAllUserGetMapper::toResponse)
+                .map(GetAllUserGetMapper::toUserResponse)
                 .collect(Collectors.toList());
     }
 }

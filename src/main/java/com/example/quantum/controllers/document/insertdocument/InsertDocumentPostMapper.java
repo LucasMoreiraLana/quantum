@@ -19,7 +19,7 @@ public class InsertDocumentPostMapper {
     }
 
     // Domain → Response
-    public static InsertDocumentPostResponse toResponse(Document document) {
+    public static InsertDocumentPostResponse toDocumentResponse(Document document) {
         return new InsertDocumentPostResponse(
                 document.documentId(),
                 document.createdBy(),

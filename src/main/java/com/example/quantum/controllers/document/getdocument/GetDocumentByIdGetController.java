@@ -20,12 +20,12 @@ public class GetDocumentByIdGetController {
     private GetDocumentByIdGetService getDocumentByIdGetService;
 
     @GetMapping("/{documentId}")
-    public ResponseEntity<GetDocumentByIdGetResponse> getByIdResponse (@PathVariable UUID documentId){
+    public ResponseEntity<GetDocumentByIdGetResponse> getDocumentByIdResponse (@PathVariable UUID documentId){
 
         GetDocumentByIdGetInput input = new GetDocumentByIdGetInput(documentId);
 
         return getDocumentByIdGetService.execute(input)
-                .map(document -> ResponseEntity.ok(GetDocumentByIdGetMapper.toResponse(document)))
+                .map(document -> ResponseEntity.ok(GetDocumentByIdGetMapper.toDocumentResponse(document)))
                 .orElse(ResponseEntity.notFound().build());
     }
 }

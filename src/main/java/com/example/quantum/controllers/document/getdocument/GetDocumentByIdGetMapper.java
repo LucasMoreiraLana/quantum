@@ -6,7 +6,7 @@ import com.example.quantum.repositories.document.DocumentEntity;
 
 public class GetDocumentByIdGetMapper {
 
-    public static GetDocumentByIdGetResponse toResponse(Document document){
+    public static GetDocumentByIdGetResponse toDocumentResponse(Document document){
         return new GetDocumentByIdGetResponse(
                 document.documentId(),
                 document.createdBy(),

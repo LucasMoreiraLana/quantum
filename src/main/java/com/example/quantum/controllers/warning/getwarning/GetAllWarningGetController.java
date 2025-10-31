@@ -1,7 +1,6 @@
 package com.example.quantum.controllers.warning.getwarning;
 
 
-import com.example.quantum.controllers.user.getuser.GetAllUserGetMapper;
 import com.example.quantum.domain.Warning;
 import com.example.quantum.services.warning.GetAllWarningGetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,9 @@ public class GetAllWarningGetController {
     private GetAllWarningGetService getAllWarningGetService;
 
     @GetMapping
-    public ResponseEntity<List<GetAllWarningGetResponse>> findAllWargning() {
+    public ResponseEntity<List<GetAllWarningGetResponse>> findAllWarning() {
         List<Warning> warnings = getAllWarningGetService.getAllWarning();
-        return ResponseEntity.ok(GetAllWarningGetMapper.toResponseList(warnings));
+        return ResponseEntity.ok(GetAllWarningGetMapper.toResponseWarningsList(warnings));
     }
 
 

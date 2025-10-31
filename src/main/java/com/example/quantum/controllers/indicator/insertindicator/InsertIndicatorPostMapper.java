@@ -5,7 +5,7 @@ import com.example.quantum.services.indicator.InsertIndicatorPostInput;
 
 public class InsertIndicatorPostMapper {
 
-    public static InsertIndicatorPostInput toInput(InsertIndicatorPostRequest request){
+    public static InsertIndicatorPostInput toIndicatorInput(InsertIndicatorPostRequest request){
         return new InsertIndicatorPostInput(
                 request.nameIndicator(),
                 request.measurementCriterion(),
@@ -21,7 +21,7 @@ public class InsertIndicatorPostMapper {
         );
     }
 
-    public static InsertIndicatorPostResponse toResponse(Indicator indicator) {
+    public static InsertIndicatorPostResponse toIndicatorResponse(Indicator indicator) {
         return new InsertIndicatorPostResponse(
                 indicator.nameIndicator(),
                 indicator.measurementCriterion(),

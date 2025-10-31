@@ -5,7 +5,7 @@ import com.example.quantum.repositories.indicators.IndicatorEntity;
 
 public class GetIndicatorByIdGetMapper {
 
-    public static GetIndicatorByIdGetResponse toResponse(Indicator indicator){
+    public static GetIndicatorByIdGetResponse toIndicatorResponse(Indicator indicator){
         return new GetIndicatorByIdGetResponse(
                 indicator.indicatorId(),
                 indicator.nameIndicator(),

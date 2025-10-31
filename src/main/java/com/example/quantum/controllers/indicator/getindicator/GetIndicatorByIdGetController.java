@@ -25,7 +25,7 @@ public class GetIndicatorByIdGetController {
         GetIndicatorByIdGetInput input = new GetIndicatorByIdGetInput(indicatorId);
 
         return getIndicatorByIdService.execute(input)
-                .map(indicator -> ResponseEntity.ok(GetIndicatorByIdGetMapper.toResponse(indicator)))
+                .map(indicator -> ResponseEntity.ok(GetIndicatorByIdGetMapper.toIndicatorResponse(indicator)))
                 .orElse(ResponseEntity.notFound().build());
     }
 }
