@@ -10,7 +10,7 @@ import com.example.quantum.exceptions.UserNotFoundException;
 
 
 @Service
-public class DeleteByUserIdDeleteService {
+public class DeleteUserByIdDeleteService {
 
     @Autowired
     private UserRepository userRepository;

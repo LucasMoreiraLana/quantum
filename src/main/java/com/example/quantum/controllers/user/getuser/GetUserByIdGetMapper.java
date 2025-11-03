@@ -3,10 +3,10 @@ package com.example.quantum.controllers.user.getuser;
 import com.example.quantum.domain.User;
 import com.example.quantum.repositories.user.UserEntity;
 
-public class GetByIdUserGetMapper {
+public class GetUserByIdGetMapper {
 
-    public static GetByIdUserGetResponse toResponse(User user){
-        return new GetByIdUserGetResponse(
+    public static GetUserByIdGetResponse toUserByIdResponse(User user){
+        return new GetUserByIdGetResponse(
             user.userId(),
             user.username(),
             user.email(),

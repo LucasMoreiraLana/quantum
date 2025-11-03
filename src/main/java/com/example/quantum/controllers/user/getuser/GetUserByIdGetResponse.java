@@ -5,7 +5,7 @@ import com.example.quantum.enums.Sector;
 
 import java.util.UUID;
 
-public record GetByIdUserGetResponse(
+public record GetUserByIdGetResponse(
     UUID userId,
     String userName,
     String email,

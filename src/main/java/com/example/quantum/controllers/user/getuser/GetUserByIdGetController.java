@@ -1,8 +1,8 @@
 package com.example.quantum.controllers.user.getuser;
 
 
-import com.example.quantum.services.user.GetByUserIdGetInput;
-import com.example.quantum.services.user.GetByUserIdGetService;
+import com.example.quantum.services.user.GetUserByIdGetInput;
+import com.example.quantum.services.user.GetUserByIdGetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,18 +14,18 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/users")
-public class GetByUserIdGetController {
+public class GetUserByIdGetController {
 
     @Autowired
-    private GetByUserIdGetService getByUserIdGetService;
+    private GetUserByIdGetService getUserByIdGetService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<GetByIdUserGetResponse> getByIdResponse (@PathVariable UUID userId){
+    public ResponseEntity<GetUserByIdGetResponse> getByIdResponse (@PathVariable UUID userId){
 
-        GetByUserIdGetInput input = new GetByUserIdGetInput(userId);
+        GetUserByIdGetInput input = new GetUserByIdGetInput(userId);
 
-        return getByUserIdGetService.execute(input)
-                .map(user -> ResponseEntity.ok(GetByIdUserGetMapper.toResponse(user)))
+        return getUserByIdGetService.execute(input)
+                .map(user -> ResponseEntity.ok(GetUserByIdGetMapper.toUserByIdResponse(user)))
                 .orElse(ResponseEntity.notFound().build());
     }
 }
