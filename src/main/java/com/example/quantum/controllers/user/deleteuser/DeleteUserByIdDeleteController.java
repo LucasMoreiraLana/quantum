@@ -1,4 +1,4 @@
-package com.example.quantum.controllers.user.deleteuserbyid;
+package com.example.quantum.controllers.user.deleteuser;
 
 import java.util.UUID;
 

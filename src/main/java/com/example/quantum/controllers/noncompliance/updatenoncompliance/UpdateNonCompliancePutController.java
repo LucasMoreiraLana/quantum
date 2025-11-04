@@ -21,11 +21,11 @@ public class UpdateNonCompliancePutController {
             @PathVariable UUID ncId,
             @Valid @RequestBody UpdateNonCompliancePutRequest request){
 
-        final var input = UpdateNonCompliancePutMapper.toInput(ncId, request);
+        final var input = UpdateNonCompliancePutMapper.toNonComplianceInput(ncId, request);
 
         final var updatedNonCompliance = updateNonCompliancePutService.updateNonCompliance(input);
 
-        final var response = UpdateNonCompliancePutMapper.toResponse(updatedNonCompliance);
+        final var response = UpdateNonCompliancePutMapper.toNonComplianceResponse(updatedNonCompliance);
 
         return ResponseEntity.ok(response);
 

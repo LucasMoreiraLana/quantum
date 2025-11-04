@@ -7,7 +7,7 @@ import java.util.UUID;
 public class UpdateNonCompliancePutMapper {
 
 
-    public static UpdateNonCompliancePutInput toInput(UUID ncId, UpdateNonCompliancePutRequest request){
+    public static UpdateNonCompliancePutInput toNonComplianceInput(UUID ncId, UpdateNonCompliancePutRequest request){
         return new UpdateNonCompliancePutInput(
                 ncId,
                 request.createdBy(),
@@ -23,7 +23,7 @@ public class UpdateNonCompliancePutMapper {
         );
     }
 
-    public static UpdateNonCompliancePutResponse toResponse(NonCompliance nonCompliance){
+    public static UpdateNonCompliancePutResponse toNonComplianceResponse(NonCompliance nonCompliance){
         return new UpdateNonCompliancePutResponse(
                 nonCompliance.createdBy(),
                 nonCompliance.dateOpening(),

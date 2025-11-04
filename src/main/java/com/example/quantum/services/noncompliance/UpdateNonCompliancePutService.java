@@ -25,7 +25,6 @@ public class UpdateNonCompliancePutService {
         final var existingProcess = processRepository.findById(input.processId())
                 .orElseThrow(() -> new RuntimeException("Processo não encontrado."));
 
-
         final var updatedDomain = new NonCompliance(
                 input.nonComplianceId(),
                 existingNonCompliance.getCreatedBy(),
