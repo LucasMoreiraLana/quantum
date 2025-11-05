@@ -6,16 +6,19 @@ import com.example.quantum.enums.Sector;
 import java.util.UUID;
 
 public record UpdateWarningPutRequest(
-        UUID warningId,
         String warningTitle,
         String description,
         UUID processId,
-        UUID documentId,
         Sector sector,
         int probability,
         int impact,
         int level,
         Warning.Avaliation avaliation,
-        boolean active
-) {
-}
+        boolean active,
+        UUID documentId,
+        int newProbability,
+        int newImpact,
+        int newLevel,
+        Warning.Avaliation newAvaliation,
+        int actions
+) {}

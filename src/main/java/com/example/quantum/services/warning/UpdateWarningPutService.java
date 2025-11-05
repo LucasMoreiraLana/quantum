@@ -33,10 +33,10 @@ public class UpdateWarningPutService {
         final var existingDocument = documentRepository.findById(input.documentId())
                 .orElseThrow(() -> new RuntimeException("Documento não encontrado."));
 
-        final var updateWarning = new Warning(
-                input.warningId(),
+        final var updatedWarning = new Warning(
+                existingWarning.getWarningId(),
                 input.warningTitle(),
-                input.createdBy(),
+                existingWarning.getCreatedBy(),
                 input.description(),
                 existingProcess.getProcessId(),
                 input.sector(),
@@ -53,7 +53,8 @@ public class UpdateWarningPutService {
                 input.actions()
         );
 
-        final var updatedEntity = WarningEntityMapper.toEntity(updateWarning);
+
+        final var updatedEntity = WarningEntityMapper.toEntity(updatedWarning);
 
         final var savedEntity = warningRepository.save(updatedEntity);
 

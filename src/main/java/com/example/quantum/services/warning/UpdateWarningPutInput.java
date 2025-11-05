@@ -8,7 +8,6 @@ import java.util.UUID;
 public record UpdateWarningPutInput(
         UUID warningId,
         String warningTitle,
-        UUID createdBy,
         String description,
         UUID processId,
         Sector sector,
