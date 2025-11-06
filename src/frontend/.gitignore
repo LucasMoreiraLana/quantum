@@ -1,0 +1,33 @@
+# Flutter/Dart/Pub related
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+flutter_*.png
+*.lock
+
+# Visual Studio Code
+.vscode/
+.idea/
+
+# Android/IntelliJ
+*.iml
+.gradle/
+local.properties
+**/android/key.properties
+
+# iOS
+Pods/
+DerivedData/
+
+# Web
+lib/generated_plugin_registrant.dart
+
+# Linux/Mac/Windows
+linux/
+macos/
+windows/
+
+# Misc
+*.log
