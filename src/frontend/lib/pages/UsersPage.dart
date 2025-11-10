@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
+import 'UserDetailPage.dart'; // Corrigido: Adicionado a extensão '.dart' e assumindo nome exato do arquivo
 
-// --- NOVAS DEFINIÇÕES DE ENUM ---
+// --- DEFINIÇÕES DE ENUM ---
 // Baseado no seu Java record
 enum Position {
   ADMINISTRADOR,
@@ -12,9 +13,7 @@ enum Position {
   ESTAGIARIO
 }
 
-// !! ATENÇÃO !!
-// Você precisa substituir este enum placeholder
-// pelos valores do seu enum `Sector` do backend.
+// Enum para Sector, baseado no backend
 enum Sector {
   ADMINISTRATIVO,
   ALMOXARIFADO,
@@ -33,7 +32,7 @@ enum Sector {
   PINTURA,
   MANUTENCAO
 }
-// --- FIM DAS NOVAS DEFINIÇÕES ---
+// --- FIM DAS DEFINIÇÕES ---
 
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
@@ -46,7 +45,7 @@ class _UsersPageState extends State<UsersPage> {
   final ApiService api = ApiService();
   List<dynamic> users = [];
   bool _loading = true;
-  String? _error; // Para armazenar a mensagem de erro
+  String? _error;
 
   @override
   void initState() {
@@ -55,7 +54,6 @@ class _UsersPageState extends State<UsersPage> {
   }
 
   Future<void> loadUsers() async {
-    // Garante que o estado de loading seja ativado no início
     if (!_loading) {
       setState(() {
         _loading = true;
@@ -65,36 +63,30 @@ class _UsersPageState extends State<UsersPage> {
 
     try {
       final data = await api.getUsers();
+      print('JSON da listagem: $data'); // Debug: Verifique se 'userId' aparece aqui
       setState(() {
         users = data;
         _loading = false;
-        _error = null; // Limpa qualquer erro anterior
+        _error = null;
       });
     } catch (e) {
       setState(() {
         _loading = false;
-        _error = e.toString(); // Armazena a mensagem de erro
-        users = []; // Limpa os usuários em caso de erro
+        _error = e.toString();
+        users = [];
       });
-      // O SnackBar pode ser mantido ou removido,
-      // já que agora exibimos o erro na tela.
-      // ScaffoldMessenger.of(context)
-      //     .showSnackBar(SnackBar(content: Text('Erro: $_error')));
     }
   }
 
-  /// Mostra o diálogo para criar um novo usuário
   void _showCreateUserDialog() {
     showDialog(
       context: context,
-      barrierDismissible: false, // O usuário não pode fechar clicando fora
+      barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return _CreateUserForm(
           api: api,
-          // Passamos uma função de callback para recarregar a lista
           onUserCreated: () {
-            loadUsers(); // Recarrega a lista de usuários
-            // Mostra uma mensagem de sucesso
+            loadUsers();
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Usuário criado com sucesso!'),
@@ -110,30 +102,26 @@ class _UsersPageState extends State<UsersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Usando uma cor do tema Material 3 para a AppBar
       appBar: AppBar(
         title: const Text('Gestão de Usuários'),
-        // Um tom sutil que combina com o body
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: _loading ? null : loadUsers, // Só permite recarregar se não estiver carregando
+            onPressed: _loading ? null : loadUsers,
             tooltip: 'Recarregar',
           ),
         ],
       ),
-      body: _buildBody(), // Usamos um método auxiliar para limpar o build
+      body: _buildBody(),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showCreateUserDialog, // ATUALIZADO: Chama o diálogo
+        onPressed: _showCreateUserDialog,
         tooltip: 'Adicionar Usuário',
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  /// Método auxiliar para construir o corpo da página
-  /// tratando os diferentes estados (loading, error, empty, data)
   Widget _buildBody() {
     if (_loading) {
       return const Center(child: CircularProgressIndicator());
@@ -202,32 +190,36 @@ class _UsersPageState extends State<UsersPage> {
       );
     }
 
-    // Se temos dados, exibimos a lista
     return RefreshIndicator(
-      onRefresh: loadUsers, // Permite "puxar para recarregar"
+      onRefresh: loadUsers,
       child: ListView.builder(
-        // Adiciona um padding geral na lista
         padding: const EdgeInsets.all(16.0),
         itemCount: users.length,
         itemBuilder: (context, index) {
           final user = users[index];
-          final username = user['username'] ?? 'Usuário sem nome';
+          final username = user['username'] ?? 'Usuário sem nome'; // Ajustado para 'userName'
           final email = user['email'] ?? 'Sem email';
 
           return Card(
-            // O margin já está sendo definido no tema (main.dart)
-            // margin: const EdgeInsets.only(bottom: 16), // Apenas um exemplo
-            clipBehavior: Clip.antiAlias, // Para o InkWell funcionar bem
+            clipBehavior: Clip.antiAlias,
             child: InkWell(
               onTap: () {
-                // TODO: Navegar para a página de detalhes do usuário
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => UserDetailPage(userId: user['id'])));
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Clicou em $username')),
+                final userId = user['userId']; // Ajustado para 'userId'
+                print('ID do usuário clicado: $userId'); // Debug
+                if (userId == null || userId.toString().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Erro: ID do usuário não encontrado! Verifique o backend.')),
+                  );
+                  return;
+                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserDetailPage(userId: userId.toString()),
+                  ),
                 );
               },
               child: ListTile(
-                // Ícone principal
                 leading: CircleAvatar(
                   backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                   child: Text(
@@ -238,17 +230,14 @@ class _UsersPageState extends State<UsersPage> {
                     ),
                   ),
                 ),
-                // Título
                 title: Text(
                   username,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                // Subtítulo
                 subtitle: Text(
                   email,
                   style: TextStyle(color: Colors.grey.shade600),
                 ),
-                // Ícone à direita (indica que é clicável)
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
               ),
             ),
@@ -259,11 +248,10 @@ class _UsersPageState extends State<UsersPage> {
   }
 }
 
-// NOVO WIDGET: Formulário de Criação de Usuário
-// Este é um widget com seu-próprio-estado para ser usado dentro do diálogo
+// WIDGET: Formulário de Criação de Usuário
 class _CreateUserForm extends StatefulWidget {
   final ApiService api;
-  final VoidCallback onUserCreated; // Callback para recarregar a lista
+  final VoidCallback onUserCreated;
 
   const _CreateUserForm({
     required this.api,
@@ -275,13 +263,12 @@ class _CreateUserForm extends StatefulWidget {
 }
 
 class __CreateUserFormState extends State<_CreateUserForm> {
-  final _formKey = GlobalKey<FormState>(); // Chave para validar o formulário
+  final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  // NOVOS CAMPOS DE ESTADO
-  bool _isActive = true; // Padrão: usuário é criado ativo
+  bool _isActive = true;
   Sector? _selectedSector;
   Position? _selectedPosition;
 
@@ -290,7 +277,6 @@ class __CreateUserFormState extends State<_CreateUserForm> {
 
   @override
   void dispose() {
-    // Limpa os controllers quando o widget é removido
     _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -298,7 +284,6 @@ class __CreateUserFormState extends State<_CreateUserForm> {
   }
 
   Future<void> _submitForm() async {
-    // Verifica se o formulário é válido
     if (_formKey.currentState?.validate() ?? false) {
       setState(() {
         _isLoading = true;
@@ -306,25 +291,20 @@ class __CreateUserFormState extends State<_CreateUserForm> {
       });
 
       try {
-        // Chama a API
         await widget.api.createUser(
           _usernameController.text,
           _emailController.text,
           _passwordController.text,
-          _isActive, // Enviando o valor do switch
-          _selectedSector!.name, // Enviando o nome do enum
-          _selectedPosition!.name, // Enviando o nome do enum
+          _isActive,
+          _selectedSector!.name,
+          _selectedPosition!.name,
         );
 
-        // Se deu certo, fecha o diálogo
         if (mounted) {
           Navigator.of(context).pop();
         }
-        // Chama o callback para atualizar a lista na UsersPage
         widget.onUserCreated();
-
       } catch (e) {
-        // Se deu erro, exibe a mensagem no diálogo
         setState(() {
           _isLoading = false;
           _errorMessage = e.toString().replaceFirst('Exception: ', '');
@@ -337,12 +317,11 @@ class __CreateUserFormState extends State<_CreateUserForm> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Novo Usuário'),
-      // SingleChildScrollView evita que o teclado quebre o layout
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
           child: Column(
-            mainAxisSize: MainAxisSize.min, // Ocupa o mínimo de espaço
+            mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
                 controller: _usernameController,
@@ -357,7 +336,7 @@ class __CreateUserFormState extends State<_CreateUserForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16), // Espaçamento
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(
@@ -375,14 +354,14 @@ class __CreateUserFormState extends State<_CreateUserForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16), // Espaçamento
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _passwordController,
                 decoration: const InputDecoration(
                   labelText: 'Senha',
                   icon: Icon(Icons.lock),
                 ),
-                obscureText: true, // Esconde a senha
+                obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Campo obrigatório';
@@ -393,9 +372,8 @@ class __CreateUserFormState extends State<_CreateUserForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16), // Espaçamento
+              const SizedBox(height: 16),
 
-              // NOVO CAMPO: CARGO (POSITION)
               DropdownButtonFormField<Position>(
                 value: _selectedPosition,
                 decoration: const InputDecoration(
@@ -405,7 +383,7 @@ class __CreateUserFormState extends State<_CreateUserForm> {
                 items: Position.values.map((pos) {
                   return DropdownMenuItem(
                     value: pos,
-                    child: Text(pos.name), // Exibe 'ADMINISTRADOR', 'DIRETOR', etc.
+                    child: Text(pos.name),
                   );
                 }).toList(),
                 onChanged: (Position? newValue) {
@@ -415,9 +393,8 @@ class __CreateUserFormState extends State<_CreateUserForm> {
                 },
                 validator: (value) => value == null ? 'Campo obrigatório' : null,
               ),
-              const SizedBox(height: 16), // Espaçamento
+              const SizedBox(height: 16),
 
-              // NOVO CAMPO: SETOR (SECTOR)
               DropdownButtonFormField<Sector>(
                 value: _selectedSector,
                 decoration: const InputDecoration(
@@ -427,7 +404,7 @@ class __CreateUserFormState extends State<_CreateUserForm> {
                 items: Sector.values.map((sec) {
                   return DropdownMenuItem(
                     value: sec,
-                    child: Text(sec.name), // Exibe 'TI', 'FINANCEIRO', etc.
+                    child: Text(sec.name),
                   );
                 }).toList(),
                 onChanged: (Sector? newValue) {
@@ -437,9 +414,8 @@ class __CreateUserFormState extends State<_CreateUserForm> {
                 },
                 validator: (value) => value == null ? 'Campo obrigatório' : null,
               ),
-              const SizedBox(height: 16), // Espaçamento
+              const SizedBox(height: 16),
 
-              // NOVO CAMPO: ATIVO (ACTIVE)
               SwitchListTile(
                 title: const Text('Usuário Ativo'),
                 value: _isActive,
@@ -448,17 +424,12 @@ class __CreateUserFormState extends State<_CreateUserForm> {
                     _isActive = value;
                   });
                 },
-                secondary: Icon(_isActive
-                    ? Icons.check_circle
-                    : Icons.remove_circle_outline),
+                secondary: Icon(_isActive ? Icons.check_circle : Icons.remove_circle_outline),
               ),
 
               const SizedBox(height: 16),
-              // Exibe um indicador de loading enquanto cria o usuário
-              if (_isLoading)
-                const CircularProgressIndicator()
-              // Exibe uma mensagem de erro se a criação falhar
-              else if (_errorMessage != null)
+              if (_isLoading) const CircularProgressIndicator(),
+              if (_errorMessage != null)
                 Text(
                   _errorMessage!,
                   style: TextStyle(color: Theme.of(context).colorScheme.error),
@@ -468,14 +439,12 @@ class __CreateUserFormState extends State<_CreateUserForm> {
         ),
       ),
       actions: [
-        // Botão de Cancelar
         TextButton(
           onPressed: _isLoading ? null : () => Navigator.of(context).pop(),
           child: const Text('Cancelar'),
         ),
-        // Botão de Salvar
         ElevatedButton(
-          onPressed: _isLoading ? null : _submitForm, // Desabilitado se estiver carregando
+          onPressed: _isLoading ? null : _submitForm,
           child: const Text('Salvar'),
         ),
       ],

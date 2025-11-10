@@ -41,7 +41,7 @@ class ApiService {
       }),
     );
 
-    if (response.statusCode == 201) { // 201 (Created) é o status comum para POST
+    if (response.statusCode == 200) { // 201 (Created) é o status comum para POST
       return jsonDecode(response.body);
     } else {
       // Tenta extrair uma mensagem de erro do corpo da resposta
@@ -54,6 +54,24 @@ class ApiService {
       } catch (e) {
         // Ignora se o corpo não for um JSON válido
       }
+      throw Exception(errorMessage);
+    }
+  }
+
+  // NOVO MÉTODO: Busca um usuário por ID
+  Future<Map<String, dynamic>> getUserById(String userId) async {
+    final response = await http.get(Uri.parse('$baseUrl/users/$userId'));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      String errorMessage = 'Erro ao buscar usuário: ${response.statusCode}';
+      try {
+        final errorBody = jsonDecode(response.body);
+        if (errorBody['message'] != null) {
+          errorMessage = errorBody['message'];
+        }
+      } catch (e) {}
       throw Exception(errorMessage);
     }
   }
