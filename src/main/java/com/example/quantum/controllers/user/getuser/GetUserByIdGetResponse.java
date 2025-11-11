@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public record GetUserByIdGetResponse(
     UUID userId,
-    String userName,
+    String username,
     String email,
     boolean active,
     Sector sector,

@@ -44,6 +44,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/v1/documents").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/process").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/v1/warnings/{warningId}").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/v1/users/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

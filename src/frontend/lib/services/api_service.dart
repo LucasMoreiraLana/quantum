@@ -1,37 +1,42 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = "http://localhost:8080/v1";
+  // Ajuste a URL base conforme sua configuração
+  final String baseUrl = 'http://localhost:8080/v1';
 
-  /// Busca a lista de usuários
+  // ============= MÉTODOS EXISTENTES =============
+
   Future<List<dynamic>> getUsers() async {
     final response = await http.get(Uri.parse('$baseUrl/users'));
-
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      return json.decode(response.body);
     } else {
-      throw Exception('Erro ao carregar usuários: ${response.statusCode}');
+      throw Exception('Falha ao carregar usuários: ${response.statusCode}');
     }
   }
 
-  /// Cria um novo usuário
-  /// Retorna o usuário criado como um Map
-  Future<Map<String, dynamic>> createUser(
+  Future<Map<String, dynamic>> getUserById(String userId) async {
+    final response = await http.get(Uri.parse('$baseUrl/users/$userId'));
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Falha ao carregar detalhes do usuário: ${response.statusCode}');
+    }
+  }
+
+  Future<void> createUser(
       String username,
       String email,
       String password,
       bool active,
-      String sector, // Enviado como String
-      String position, // Enviado como String
+      String sector,
+      String position,
       ) async {
     final response = await http.post(
       Uri.parse('$baseUrl/users'),
-      headers: <String, String>{
-        // Informa à API que estamos enviando JSON
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{ // Alterado para dynamic
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
         'username': username,
         'email': email,
         'password': password,
@@ -41,38 +46,94 @@ class ApiService {
       }),
     );
 
-    if (response.statusCode == 200) { // 201 (Created) é o status comum para POST
-      return jsonDecode(response.body);
-    } else {
-      // Tenta extrair uma mensagem de erro do corpo da resposta
-      String errorMessage = 'Erro ao criar usuário: ${response.statusCode}';
-      try {
-        final errorBody = jsonDecode(response.body);
-        if (errorBody['message'] != null) {
-          errorMessage = errorBody['message'];
-        }
-      } catch (e) {
-        // Ignora se o corpo não for um JSON válido
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw Exception('Falha ao criar usuário: ${response.body}');
+    }
+  }
+
+  // ============= NOVOS MÉTODOS =============
+
+  /// Atualiza os dados de um usuário
+  Future<Map<String, dynamic>> updateUser(
+      String userId, {
+        required String username,
+        required String email,
+        String? password, // Senha opcional (só envia se foi alterada)
+        required bool active,
+        required String sector,
+        required String position,
+      }) async {
+    final Map<String, dynamic> body = {
+      'username': username,
+      'email': email,
+      'active': active,
+      'sector': sector,
+      'position': position,
+    };
+
+    // Só inclui a senha se foi fornecida (permite editar sem alterar senha)
+    if (password != null && password.isNotEmpty) {
+      body['password'] = password;
+    }
+
+    final response = await http.put(
+      Uri.parse('$baseUrl/users/$userId'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(body),
+    );
+
+    if (response.statusCode == 200) {
+      // Se a API retornar o usuário atualizado
+      if (response.body.isNotEmpty) {
+        return json.decode(response.body);
       }
+      // Se retornar vazio (status 200 sem body)
+      return {'success': true};
+    } else {
+      final errorMessage = response.body.isNotEmpty
+          ? json.decode(response.body)['message'] ?? 'Erro desconhecido'
+          : 'Erro ao atualizar usuário';
       throw Exception(errorMessage);
     }
   }
 
-  // NOVO MÉTODO: Busca um usuário por ID
-  Future<Map<String, dynamic>> getUserById(String userId) async {
-    final response = await http.get(Uri.parse('$baseUrl/users/$userId'));
+  /// Alterna o status ativo/inativo de um usuário
+  /// Primeiro busca o usuário, depois atualiza apenas o campo 'active'
+  Future<void> toggleUserStatus(String userId, bool newStatus) async {
+    // Busca os dados atuais do usuário
+    final currentUser = await getUserById(userId);
 
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      String errorMessage = 'Erro ao buscar usuário: ${response.statusCode}';
-      try {
-        final errorBody = jsonDecode(response.body);
-        if (errorBody['message'] != null) {
-          errorMessage = errorBody['message'];
-        }
-      } catch (e) {}
+    // Atualiza mantendo todos os outros campos
+    final response = await http.put(
+      Uri.parse('$baseUrl/users/$userId'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'username': currentUser['username'],
+        'email': currentUser['email'],
+        'active': newStatus,
+        'sector': currentUser['sector'],
+        'position': currentUser['position'],
+        // Não enviamos a senha na atualização de status
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      final errorMessage = response.body.isNotEmpty
+          ? json.decode(response.body)['message'] ?? 'Erro desconhecido'
+          : 'Erro ao alterar status do usuário';
       throw Exception(errorMessage);
     }
+  }
+
+  /// Busca apenas usuários ativos
+  Future<List<dynamic>> getActiveUsers() async {
+    final allUsers = await getUsers();
+    return allUsers.where((user) => user['active'] == true).toList();
+  }
+
+  /// Busca apenas usuários inativos
+  Future<List<dynamic>> getInactiveUsers() async {
+    final allUsers = await getUsers();
+    return allUsers.where((user) => user['active'] == false).toList();
   }
 }

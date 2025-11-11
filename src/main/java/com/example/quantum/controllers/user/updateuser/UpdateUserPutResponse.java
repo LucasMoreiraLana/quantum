@@ -4,7 +4,7 @@ import com.example.quantum.domain.User;
 import com.example.quantum.enums.Sector;
 
 public record UpdateUserPutResponse(
-        String userName,
+        String username,
         String password,
         String email,
         boolean isActive,
