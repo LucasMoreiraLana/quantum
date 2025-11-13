@@ -1,45 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/api_service.dart';
-
-// Enums (devem estar no mesmo arquivo ou importados)
-enum Position {
-  ADMINISTRADOR,
-  DIRETOR,
-  GESTOR,
-  ENGENHEIRO,
-  ANALISTA,
-  ESTAGIARIO
-}
-
-enum Sector {
-  ADMINISTRATIVO,
-  ALMOXARIFADO,
-  COMPRAS,
-  DEPARTAMENTO_PESSOAL,
-  RECURSOS_HUMANOS,
-  FINANCEIRO,
-  INSPECAO,
-  DIRECAO,
-  QUALIDADE,
-  PLANEJAMENTO,
-  SEGURANCA_DO_TRABALHO,
-  TECNOLOGIA_DA_INFORMACAO,
-  DETALHAMENTO,
-  COMERCIAL,
-  PINTURA,
-  MANUTENCAO
-}
-
-extension EnumFormatting on Enum {
-  String get displayName {
-    return name
-        .replaceAll('_', ' ')
-        .split(' ')
-        .map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase())
-        .join(' ');
-  }
-}
+import '../../models/enums.dart';  // Ajuste o caminho relativo se necessário
+import '../services/auth_service.dart';
 
 class UserDetailPage extends StatefulWidget {
   final String userId;
@@ -52,10 +15,12 @@ class UserDetailPage extends StatefulWidget {
 
 class _UserDetailPageState extends State<UserDetailPage> with SingleTickerProviderStateMixin {
   final ApiService api = ApiService();
+  final AuthService authService = AuthService();
   Map<String, dynamic>? user;
   bool _loading = true;
   String? _error;
   late AnimationController _animationController;
+  bool _hasManagementPermission = false;
 
   @override
   void initState() {
@@ -64,7 +29,12 @@ class _UserDetailPageState extends State<UserDetailPage> with SingleTickerProvid
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
-    loadUserDetails();
+    _loadData();  // Carrega dados e permissões
+  }
+
+  Future<void> _loadData() async {
+    _hasManagementPermission = await authService.hasManagementPermission();
+    await loadUserDetails();
   }
 
   @override
@@ -565,7 +535,7 @@ class _UserDetailPageState extends State<UserDetailPage> with SingleTickerProvid
                 ),
               ]),
               const SizedBox(height: 32),
-              _buildActionButtons(),
+              if (_hasManagementPermission) _buildActionButtons(),  // Só mostra se tiver permissão
             ],
           ),
         ),

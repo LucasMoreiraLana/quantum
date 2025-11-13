@@ -1,35 +1,8 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
-import 'UserDetailPage.dart';
-
-// --- DEFINIÇÕES DE ENUM ---
-enum Position {
-  ADMINISTRADOR,
-  DIRETOR,
-  GESTOR,
-  ENGENHEIRO,
-  ANALISTA,
-  ESTAGIARIO
-}
-
-enum Sector {
-  ADMINISTRATIVO,
-  ALMOXARIFADO,
-  COMPRAS,
-  DEPARTAMENTO_PESSOAL,
-  RECURSOS_HUMANOS,
-  FINANCEIRO,
-  INSPECAO,
-  DIRECAO,
-  QUALIDADE,
-  PLANEJAMENTO,
-  SEGURANCA_DO_TRABALHO,
-  TECNOLOGIA_DA_INFORMACAO,
-  DETALHAMENTO,
-  COMERCIAL,
-  PINTURA,
-  MANUTENCAO
-}
+import '../pages/user_detail_page.dart';
+import '../../models/enums.dart';  // Ajuste o caminho relativo se necessário
+import '../services/auth_service.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
@@ -40,6 +13,7 @@ class UsersPage extends StatefulWidget {
 
 class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMixin {
   final ApiService api = ApiService();
+  final AuthService authService = AuthService();
   List<dynamic> users = [];
   List<dynamic> filteredUsers = [];
   bool _loading = true;
@@ -50,6 +24,9 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
   // Filtro de status: 'all', 'active', 'inactive'
   String _statusFilter = 'active';
 
+  // Permissões do usuário
+  bool _hasManagementPermission = false;
+
   @override
   void initState() {
     super.initState();
@@ -57,7 +34,13 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    loadUsers();
+    _loadData();  // Carrega permissões e usuários
+  }
+
+  Future<void> _loadData() async {
+    _hasManagementPermission = await authService.hasManagementPermission();
+    setState(() {});  // Atualiza o estado para refletir a permissão
+    await loadUsers();
   }
 
   @override
@@ -80,7 +63,7 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
       if (mounted) {
         setState(() {
           users = data;
-          filteredUsers = data;
+          _applyFilters();
           _loading = false;
           _error = null;
         });
@@ -98,22 +81,43 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
     }
   }
 
-  void _filterUsers(String query) {
-    setState(() {
-      if (query.isEmpty) {
-        filteredUsers = users;
-      } else {
-        filteredUsers = users.where((user) {
-          final username = (user['username'] ?? '').toString().toLowerCase();
-          final email = (user['email'] ?? '').toString().toLowerCase();
-          final position = (user['position'] ?? '').toString().toLowerCase();
-          final searchLower = query.toLowerCase();
+  void _applyFilters() {
+    List<dynamic> result = users;
 
-          return username.contains(searchLower) ||
-              email.contains(searchLower) ||
-              position.contains(searchLower);
-        }).toList();
-      }
+    // Filtro por status
+    if (_statusFilter == 'active') {
+      result = result.where((user) => user['active'] == true).toList();
+    } else if (_statusFilter == 'inactive') {
+      result = result.where((user) => user['active'] == false).toList();
+    }
+
+    // Filtro por busca
+    if (_searchController.text.isNotEmpty) {
+      final searchLower = _searchController.text.toLowerCase();
+      result = result.where((user) {
+        final username = (user['username'] ?? '').toString().toLowerCase();
+        final email = (user['email'] ?? '').toString().toLowerCase();
+        final position = (user['position'] ?? '').toString().toLowerCase();
+
+        return username.contains(searchLower) ||
+            email.contains(searchLower) ||
+            position.contains(searchLower);
+      }).toList();
+    }
+
+    setState(() {
+      filteredUsers = result;
+    });
+  }
+
+  void _filterUsers(String query) {
+    _applyFilters();
+  }
+
+  void _changeStatusFilter(String filter) {
+    setState(() {
+      _statusFilter = filter;
+      _applyFilters();
     });
   }
 
@@ -197,6 +201,14 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
             ),
           ),
 
+          // Filtros de status (Todos, Ativos, Inativos)
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: _buildStatusFilters(),
+            ),
+          ),
+
           // Estatísticas rápidas
           if (!_loading && _error == null && users.isNotEmpty)
             SliverToBoxAdapter(
@@ -212,7 +224,8 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
           ),
         ],
       ),
-      floatingActionButton: ScaleTransition(
+      floatingActionButton: _hasManagementPermission  // Só mostra se tiver permissão
+          ? ScaleTransition(
         scale: CurvedAnimation(
           parent: _fabAnimationController,
           curve: Curves.easeOutBack,
@@ -223,7 +236,8 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
           label: const Text('Novo Usuário'),
           elevation: 4,
         ),
-      ),
+      )
+          : null,
     );
   }
 
@@ -279,6 +293,8 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
             label: 'Total',
             value: users.length.toString(),
             color: Colors.blue,
+            onTap: () => _changeStatusFilter('all'),
+            isSelected: _statusFilter == 'all',
           ),
         ),
         const SizedBox(width: 12),
@@ -288,6 +304,8 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
             label: 'Ativos',
             value: activeUsers.toString(),
             color: Colors.green,
+            onTap: () => _changeStatusFilter('active'),
+            isSelected: _statusFilter == 'active',
           ),
         ),
         const SizedBox(width: 12),
@@ -297,6 +315,8 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
             label: 'Inativos',
             value: inactiveUsers.toString(),
             color: Colors.orange,
+            onTap: () => _changeStatusFilter('inactive'),
+            isSelected: _statusFilter == 'inactive',
           ),
         ),
       ],
@@ -308,34 +328,136 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
     required String label,
     required String value,
     required Color color,
+    required VoidCallback onTap,
+    required bool isSelected,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: isSelected ? color.withOpacity(0.2) : color.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isSelected ? color : color.withOpacity(0.3),
+              width: isSelected ? 2 : 1,
+            ),
+          ),
+          child: Column(
+            children: [
+              Icon(icon, color: color, size: 28),
+              const SizedBox(height: 8),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
+              ),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: color.withOpacity(0.8),
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-      child: Column(
-        children: [
-          Icon(icon, color: color, size: 28),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+    );
+  }
+
+  Widget _buildStatusFilters() {
+    return Row(
+      children: [
+        Expanded(
+          child: _buildFilterChip(
+            label: 'Todos',
+            icon: Icons.people_rounded,
+            isSelected: _statusFilter == 'all',
+            onTap: () => _changeStatusFilter('all'),
+            color: Colors.blue,
           ),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: color.withOpacity(0.8),
-            ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: _buildFilterChip(
+            label: 'Ativos',
+            icon: Icons.check_circle_rounded,
+            isSelected: _statusFilter == 'active',
+            onTap: () => _changeStatusFilter('active'),
+            color: Colors.green,
           ),
-        ],
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: _buildFilterChip(
+            label: 'Inativos',
+            icon: Icons.remove_circle_rounded,
+            isSelected: _statusFilter == 'inactive',
+            onTap: () => _changeStatusFilter('inactive'),
+            color: Colors.orange,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFilterChip({
+    required String label,
+    required IconData icon,
+    required bool isSelected,
+    required VoidCallback onTap,
+    required Color color,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+          decoration: BoxDecoration(
+            color: isSelected ? color : Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isSelected ? color : Theme.of(context).colorScheme.outline.withOpacity(0.3),
+              width: isSelected ? 2 : 1,
+            ),
+            boxShadow: isSelected ? [
+              BoxShadow(
+                color: color.withOpacity(0.3),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ] : [],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 18,
+                color: isSelected ? Colors.white : color,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: TextStyle(
+                  color: isSelected ? Colors.white : Theme.of(context).colorScheme.onSurface,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                  fontSize: 13,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
