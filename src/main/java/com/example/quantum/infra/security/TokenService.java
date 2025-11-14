@@ -8,8 +8,10 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.quantum.domain.User;
 import com.example.quantum.repositories.user.UserEntity;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -23,18 +25,19 @@ public class TokenService {
 
     private final static String ISSUER_NAME = "quantum";
 
-    public String generatedToken(UUID userId){
+    public String generatedToken(UserEntity entity){
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             return JWT.create()
                     .withIssuer(ISSUER_NAME)
-                    .withSubject(userId.toString())
+                    .withSubject(entity.getUserId().toString())
+                    .withClaim("position", entity.getPosition().name())
                     .withExpiresAt(this.generationExpirationDate())
                     .sign(algorithm);
 
         } catch(JWTCreationException exception) {
-            throw new RuntimeException("Erro de autenticação.");
+            throw new RuntimeException("Erro ao gerar token");
         }
     }
 
@@ -54,6 +57,5 @@ public class TokenService {
     private Instant generationExpirationDate(){
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-3"));
     }
-
 
 }

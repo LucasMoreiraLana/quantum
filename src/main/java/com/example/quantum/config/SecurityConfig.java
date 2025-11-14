@@ -38,13 +38,20 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/users/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/users").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/warnings").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/documents").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/process").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/v1/warnings/{warningId}").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/v1/users/**").permitAll()
+
+                        // 👇 Somente ADMIN pode criar usuários
+                        .requestMatchers(HttpMethod.POST, "/v1/users").hasRole("ADMINISTRADOR")
+
+                        // 👇 ADMIN e GESTOR podem atualizar
+                        .requestMatchers(HttpMethod.PUT, "/v1/users/**")
+                        .hasAnyRole("ADMINISTRADOR", "GESTOR")
+
+                        // 👇 Apenas ADMIN pode deletar
+                        .requestMatchers(HttpMethod.DELETE, "/v1/users/**").hasRole("ADMINISTRADOR")
+
+                        // 👇 Todos os cargos podem visualizar usuários, exceto anônimos
+                        .requestMatchers(HttpMethod.GET, "/v1/users/**").authenticated()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

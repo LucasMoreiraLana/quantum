@@ -5,7 +5,11 @@ import com.example.quantum.domain.User;
 import com.example.quantum.repositories.user.UserEntityMapper;
 import com.example.quantum.repositories.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.access.AccessDeniedException;
+
 
 @Service
 public class UpdateUserPutService {
@@ -14,16 +18,22 @@ public class UpdateUserPutService {
     private UserRepository userRepository;
 
     public User updateUser(UpdateUserPutInput input) {
-        // Busca no banco
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String role = auth.getAuthorities().iterator().next().getAuthority();
+
+        if (!role.equals("ROLE_ADMINISTRADOR") && !role.equals("ROLE_GESTOR")) {
+            throw new AccessDeniedException("Você não tem permissão para atualizar usuários.");
+        }
+
+        // 🔥 2) Continua com a lógica normal
         final var existingEntity = userRepository.findById(input.userId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        // Verifica se já existe outro usuário com o mesmo nome
+        // Verifica duplicidade
         if (userRepository.existsByUsernameAndUserIdNot(input.username(), input.userId())) {
             throw new RuntimeException("Já existe um usuário com esse nome");
         }
 
-        // Atualiza os campos permitidos
         final var updatedUser = new User(
                 existingEntity.getUserId(),
                 input.username(),
@@ -34,13 +44,9 @@ public class UpdateUserPutService {
                 input.position()
         );
 
-        // Domain → Entity
         final var updatedEntity = UserEntityMapper.toEntity(updatedUser);
-
-        // Salva no banco
         final var savedEntity = userRepository.save(updatedEntity);
 
-        // Entity → Domain
         return UserEntityMapper.toUser(savedEntity);
     }
 }

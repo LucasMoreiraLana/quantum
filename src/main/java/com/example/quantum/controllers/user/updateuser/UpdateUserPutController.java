@@ -19,26 +19,26 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/v1/users")
 public class UpdateUserPutController {
-    
+
     @Autowired
     private UpdateUserPutService updateUserPutService;
 
-
     @PutMapping("/{userId}")
-    public ResponseEntity<UpdateUserPutInput> updateUser(
+    public ResponseEntity<UpdateUserPutResponse> updateUser(
             @PathVariable UUID userId,
             @Valid @RequestBody UpdateUserPutRequest request) {
 
         // Request → Input
         final var input = UpdateUserPutMapper.toInput(userId, request);
 
-        // Service com Input
+        // Service → Domain
         final var updated = updateUserPutService.updateUser(input);
 
         // Domain → Response
         final var response = UpdateUserPutMapper.toResponse(updated);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.ok(response); // 👍 corrigido
     }
 
 }
+

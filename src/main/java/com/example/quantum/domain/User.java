@@ -23,8 +23,11 @@ public record User(
         GESTOR,
         ENGENHEIRO,
         ANALISTA,
-        ESTAGIARIO
+        ESTAGIARIO;
 
+        public String asRole() {
+            return "ROLE_" + this.name();
+        }
     }
 
 }
