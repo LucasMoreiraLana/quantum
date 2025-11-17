@@ -613,7 +613,7 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
           color: Colors.transparent,
           child: InkWell(
             borderRadius: BorderRadius.circular(16),
-            onTap: () {
+            onTap: () async {  // ← Adicione async aqui
               final userId = user['userId'];
               if (userId == null || userId.toString().isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -632,12 +632,16 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
                 );
                 return;
               }
-              Navigator.push(
+              // Em _buildUserCard, dentro do onTap:
+              // Navega e espera o retorno
+              await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => UserDetailPage(userId: userId.toString()),
                 ),
               );
+              // Quando voltar, recarrega a lista
+              loadUsers();
             },
             child: Padding(
               padding: const EdgeInsets.all(16),
