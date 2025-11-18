@@ -82,6 +82,12 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
+    // Obtenha a largura da tela para responsividade
+    final screenWidth = MediaQuery.of(context).size.width;
+    int crossAxisCount = 2; // Padrão para telas pequenas
+    if (screenWidth > 600) crossAxisCount = 3; // Para telas médias (ex.: tablets)
+    if (screenWidth > 900) crossAxisCount = 4; // Para telas grandes
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
       appBar: AppBar(
@@ -96,6 +102,119 @@ class _HomePageState extends State<HomePage> {
           ),
           const SizedBox(width: 8),
         ],
+      ),
+      drawer: Drawer(  // Adicionado: Menu lateral (Drawer)
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CircleAvatar(
+                    radius: 28,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    child: Text(
+                      (_currentUser['username'] ?? '?')[0].toUpperCase(),
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    _currentUser['username'] ?? 'Usuário',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    _formatPosition(_currentUser['position']),
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home_rounded),
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.pop(context);  // Fecha o drawer
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.people_rounded),
+              title: const Text('Usuários'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const UsersPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.description_rounded),
+              title: const Text('Documentos'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Em desenvolvimento')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.assignment_rounded),
+              title: const Text('Processos'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Em desenvolvimento')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.warning_rounded),
+              title: const Text('Não Conformidades'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Em desenvolvimento')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings_rounded),
+              title: const Text('Configurações'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Em desenvolvimento')),
+                );
+              },
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.logout_rounded),
+              title: const Text('Sair'),
+              onTap: () {
+                Navigator.pop(context);
+                _handleLogout();
+              },
+            ),
+          ],
+        ),
       ),
       body: CustomScrollView(
         slivers: [
@@ -167,15 +286,15 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          // Módulos/Funcionalidades
+          // Módulos/Funcionalidades - Ajustado para ser mais compacto
           SliverPadding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(16), // Reduzido de 24 para 16
             sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 1.1,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount, // Dinâmico: 2, 3 ou 4 colunas
+                mainAxisSpacing: 12, // Reduzido de 16 para 12
+                crossAxisSpacing: 12, // Reduzido de 16 para 12
+                childAspectRatio: 1.5, // Mais largo (reduz altura, cabem mais na tela)
               ),
               delegate: SliverChildListDelegate([
                 _buildModuleCard(
@@ -183,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                   icon: Icons.people_rounded,
                   title: 'Usuários',
                   subtitle: 'Gestão de usuários',
-                  color: Colors.blue,
+                  color: Colors.green,
                   onTap: () {
                     Navigator.push(
                       context,
@@ -193,10 +312,10 @@ class _HomePageState extends State<HomePage> {
                 ),
                 _buildModuleCard(
                   context,
-                  icon: Icons.dashboard_rounded,
-                  title: 'Dashboard',
-                  subtitle: 'Visão geral',
-                  color: Colors.green,
+                  icon: Icons.description_rounded,
+                  title: 'Documentos',
+                  subtitle: 'Documentos e dados',
+                  color: Colors.orange,
                   onTap: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Em desenvolvimento')),
@@ -205,10 +324,22 @@ class _HomePageState extends State<HomePage> {
                 ),
                 _buildModuleCard(
                   context,
-                  icon: Icons.description_rounded,
-                  title: 'Relatórios',
-                  subtitle: 'Documentos e dados',
-                  color: Colors.orange,
+                  icon: Icons.assignment_rounded,
+                  title: 'Processos',
+                  subtitle: 'Processos e Informações Adicionais',
+                  color: Colors.blue,
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Em desenvolvimento')),
+                    );
+                  },
+                ),
+                _buildModuleCard(
+                  context,
+                  icon: Icons.warning_rounded,
+                  title: 'Não Conformidades',
+                  subtitle: 'Não Conformidades e Informações Adicionais',
+                  color: Colors.red,
                   onTap: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Em desenvolvimento')),
@@ -231,12 +362,12 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          // Informações de permissão
+          // Informações de permissão - Ajustado para ser mais compacto
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Reduzido
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(12), // Reduzido de 16 para 12
                 decoration: BoxDecoration(
                   color: _hasManagementPermission
                       ? Colors.green.withOpacity(0.1)
@@ -319,27 +450,27 @@ class _HomePageState extends State<HomePage> {
           onTap: onTap,
           borderRadius: BorderRadius.circular(16),
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(16), // Reduzido de 20 para 16
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(12), // Reduzido de 16 para 12
                   decoration: BoxDecoration(
                     color: color.withOpacity(0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     icon,
-                    size: 32,
+                    size: 28, // Reduzido de 32 para 28
                     color: color,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12), // Reduzido de 16 para 12
                 Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 14, // Reduzido de 16 para 14
                     fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.center,
@@ -348,10 +479,12 @@ class _HomePageState extends State<HomePage> {
                 Text(
                   subtitle,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 11, // Reduzido de 12 para 11
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                   textAlign: TextAlign.center,
+                  maxLines: 2, // Para evitar overflow se subtitle for longa
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
