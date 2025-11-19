@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../services/auth_service.dart';
+import 'auth_service.dart';
 
 class ApiService {
   // Ajuste a URL base conforme sua configuração
@@ -18,7 +18,7 @@ class ApiService {
     };
   }
 
-  // ============= MÉTODOS EXISTENTES (AGORA COM AUTH) =============
+  // ============= USUÁRIOS =============
 
   Future<List<dynamic>> getUsers() async {
     final headers = await _getHeaders();
@@ -73,9 +73,6 @@ class ApiService {
     }
   }
 
-  // ============= NOVOS MÉTODOS (AGORA COM AUTH) =============
-
-  /// Atualiza os dados de um usuário
   Future<Map<String, dynamic>> updateUser(
       String userId, {
         required String username,
@@ -119,7 +116,6 @@ class ApiService {
     }
   }
 
-  /// Alterna o status ativo/inativo de um usuário
   Future<void> toggleUserStatus(String userId, bool newStatus) async {
     final currentUser = await getUserById(userId);
     final headers = await _getHeaders();
@@ -146,15 +142,51 @@ class ApiService {
     }
   }
 
-  /// Busca apenas usuários ativos
   Future<List<dynamic>> getActiveUsers() async {
     final allUsers = await getUsers();
     return allUsers.where((user) => user['active'] == true).toList();
   }
 
-  /// Busca apenas usuários inativos
   Future<List<dynamic>> getInactiveUsers() async {
     final allUsers = await getUsers();
     return allUsers.where((user) => user['active'] == false).toList();
+  }
+
+  // ============= DOCUMENTOS =============
+
+  Future<List<dynamic>> getDocuments() async {
+    final headers = await _getHeaders();
+    final response = await http.get(Uri.parse('$baseUrl/documents'), headers: headers);
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else {
+      throw Exception('Falha ao carregar documentos: ${response.statusCode}');
+    }
+  }
+
+  Future<Map<String, dynamic>> getDocumentById(String documentId) async {
+    final headers = await _getHeaders();
+    final response = await http.get(Uri.parse('$baseUrl/documents/$documentId'), headers: headers);
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else if (response.statusCode == 404) {
+      throw Exception('Documento não encontrado');
+    } else {
+      throw Exception('Falha ao carregar documento: ${response.statusCode}');
+    }
+  }
+
+  Future<List<dynamic>> getActiveDocuments() async {
+    final allDocuments = await getDocuments();
+    return allDocuments.where((doc) => doc['active'] == true).toList();
+  }
+
+  Future<List<dynamic>> getInactiveDocuments() async {
+    final allDocuments = await getDocuments();
+    return allDocuments.where((doc) => doc['active'] == false).toList();
   }
 }
