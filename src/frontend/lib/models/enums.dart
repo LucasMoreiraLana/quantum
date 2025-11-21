@@ -44,15 +44,22 @@ enum DocumentOrigin {
   EXTERNO
 }
 
-// ========== EXTENSÃO PARA FORMATAÇÃO ==========
+// ========== EXTENSÃO PARA FORMATAÇÃO DE EXIBIÇÃO ==========
 
 extension EnumFormatting on Enum {
+  /// Retorna o nome formatado para exibição (com espaços e capitalizado)
   String get displayName {
     return name
         .replaceAll('_', ' ')
         .split(' ')
         .map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase())
         .join(' ');
+  }
+
+  /// Retorna o nome original do enum (como está definido)
+  /// Para enviar ao backend exatamente como esperado
+  String get apiValue {
+    return name;
   }
 }
 

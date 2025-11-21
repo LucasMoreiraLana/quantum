@@ -52,6 +52,8 @@ public class SecurityConfig {
                         // 👇 Todos os cargos podem visualizar usuários, exceto anônimos
                         .requestMatchers(HttpMethod.GET, "/v1/users/**").authenticated()
 
+                        .requestMatchers(HttpMethod.POST, "/v1/documents").hasRole("ADMINISTRADOR")
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

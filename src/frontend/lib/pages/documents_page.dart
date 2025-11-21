@@ -3,6 +3,46 @@ import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import 'document_detail_page.dart';
 
+
+
+// Definições dos enums (adicionadas aqui para corrigir os erros; mova para models/enums.dart se preferir)
+enum DocumentType {
+  REGISTRO,
+  PROCEDIMENTO,
+  INSTRUCAO_TECNICA,
+  FORMULARIO,
+  REGULAMENTO,
+  SISTEMA_INFORMATIZADO;
+
+
+  String get displayName {
+    return name.replaceAll('_', ' ').toLowerCase().split(' ').map((word) => word[0].toUpperCase() + word.substring(1)).join(' ');
+  }
+}
+
+enum DocumentOrigin {
+  INTERNO,
+  EXTERNO;
+
+  String get displayName {
+    return name.replaceAll('_', ' ').toLowerCase().split(' ').map((word) => word[0].toUpperCase() + word.substring(1)).join(' ');
+  }
+}
+
+enum Sector {
+  ADMINISTRATIVO,
+  FINANCEIRO,
+  RECURSOS_HUMANOS,
+  OPERACIONAL,
+  TI,
+  VENDAS,
+  MARKETING;
+
+  String get displayName {
+    return name.replaceAll('_', ' ').toLowerCase().split(' ').map((word) => word[0].toUpperCase() + word.substring(1)).join(' ');
+  }
+}
+
 class DocumentsPage extends StatefulWidget {
   const DocumentsPage({super.key});
 
@@ -120,6 +160,37 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
     });
   }
 
+  void _showCreateDocumentDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return _CreateDocumentForm(
+          api: api,
+          onDocumentCreated: () {
+            loadDocuments();
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Row(
+                    children: [
+                      Icon(Icons.check_circle, color: Colors.white),
+                      SizedBox(width: 12),
+                      Text('Documento criado com sucesso!'),
+                    ],
+                  ),
+                  backgroundColor: Colors.green.shade600,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+              );
+            }
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -191,6 +262,21 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
           ),
         ],
       ),
+      floatingActionButton: _hasManagementPermission
+          ? ScaleTransition(
+        scale: CurvedAnimation(
+          parent: _fabAnimationController,
+          curve: Curves.easeOutBack,
+        ),
+        child: FloatingActionButton.extended(
+          onPressed: _showCreateDocumentDialog,
+          icon: const Icon(Icons.add_rounded),
+          label: const Text('Novo Documento'),
+          elevation: 4,
+          backgroundColor: Colors.orange,
+        ),
+      )
+          : null,
     );
   }
 
@@ -742,6 +828,351 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// ==================== FORMULÁRIO DE CRIAÇÃO DE DOCUMENTO ====================
+
+class _CreateDocumentForm extends StatefulWidget {
+  final ApiService api;
+  final VoidCallback onDocumentCreated;
+
+  const _CreateDocumentForm({
+    required this.api,
+    required this.onDocumentCreated,
+  });
+
+  @override
+  State<_CreateDocumentForm> createState() => __CreateDocumentFormState();
+}
+
+class __CreateDocumentFormState extends State<_CreateDocumentForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _contentController = TextEditingController();
+  final _retentionController = TextEditingController();
+
+  DocumentType? _selectedType;
+  DocumentOrigin? _selectedOrigin;
+  Sector? _selectedSector;
+
+  bool _isLoading = false;
+  String? _errorMessage;
+
+  final AuthService _authService = AuthService();
+  String? _currentUserId;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentUser();
+  }
+
+  Future<void> _loadCurrentUser() async {
+    final user = await _authService.getCurrentUser();
+    setState(() {
+      _currentUserId = user['userId'];
+    });
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _contentController.dispose();
+    _retentionController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submitForm() async {
+    if (!(_formKey.currentState?.validate() ?? false)) {
+      return;
+    }
+
+    if (_currentUserId == null) {
+      setState(() {
+        _errorMessage = 'Erro ao identificar usuário. Faça login novamente.';
+      });
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      await widget.api.createDocument(
+        createdBy: _currentUserId!,
+        nameDocument: _nameController.text,
+        content: _contentController.text,
+        tempoDeRetencao: int.parse(_retentionController.text),
+        type: _selectedType!.name,
+        origin: _selectedOrigin!.name,
+        sector: _selectedSector!.name,
+      );
+
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+      widget.onDocumentCreated();
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        _errorMessage = e.toString().replaceFirst('Exception: ', '');
+      });
+    }
+  }
+
+  InputDecoration _buildInputDecoration(String label, IconData icon, {Widget? suffix, String? hint}) {
+    return InputDecoration(
+      labelText: label,
+      hintText: hint,
+      prefixIcon: Icon(icon),
+      suffixIcon: suffix,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.outline.withOpacity(0.5)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Colors.orange, width: 2),
+      ),
+      filled: true,
+      fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 600),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Header do Dialog
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.orange.withOpacity(0.3),
+                    Theme.of(context).colorScheme.surface,
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.description_rounded,
+                      color: Colors.orange.shade700,
+                      size: 28,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Text(
+                    'Novo Documento',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Formulário
+            Flexible(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: _buildInputDecoration(
+                          'Nome do Documento',
+                          Icons.title_rounded,
+                          hint: 'Ex: Manual de Procedimentos',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Campo obrigatório';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _contentController,
+                        decoration: _buildInputDecoration(
+                          'Descrição/Conteúdo',
+                          Icons.subject_rounded,
+                          hint: 'Descreva o conteúdo do documento',
+                        ),
+                        maxLines: 3,
+                        maxLength: 5000,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Campo obrigatório';
+                          }
+                          if (value.length > 5000) {
+                            return 'Máximo de 5000 caracteres';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _retentionController,
+                        decoration: _buildInputDecoration(
+                          'Tempo de Retenção (anos)',
+                          Icons.schedule_rounded,
+                          hint: 'Ex: 5',
+                        ),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Campo obrigatório';
+                          }
+                          final number = int.tryParse(value);
+                          if (number == null || number <= 0) {
+                            return 'Deve ser um número maior que zero';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      DropdownButtonFormField<DocumentType>(
+                        value: _selectedType,
+                        decoration: _buildInputDecoration('Tipo de Documento', Icons.category_outlined),
+                        items: DocumentType.values.map((type) {
+                          return DropdownMenuItem(
+                            value: type,
+                            child: Text(type.displayName),
+                          );
+                        }).toList(),
+                        onChanged: (value) => setState(() => _selectedType = value),
+                        validator: (value) => value == null ? 'Campo obrigatório' : null,
+                      ),
+                      const SizedBox(height: 16),
+                      DropdownButtonFormField<DocumentOrigin>(
+                        value: _selectedOrigin,
+                        decoration: _buildInputDecoration('Origem', Icons.source_rounded),
+                        items: DocumentOrigin.values.map((origin) {
+                          return DropdownMenuItem(
+                            value: origin,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  origin == DocumentOrigin.INTERNO ? Icons.business : Icons.public,
+                                  size: 20,
+                                  color: Colors.orange,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(origin.displayName),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) => setState(() => _selectedOrigin = value),
+                        validator: (value) => value == null ? 'Campo obrigatório' : null,
+                      ),
+                      const SizedBox(height: 16),
+                      DropdownButtonFormField<Sector>(
+                        value: _selectedSector,
+                        decoration: _buildInputDecoration('Setor', Icons.business_rounded),
+                        items: Sector.values.map((sector) {
+                          return DropdownMenuItem(
+                            value: sector,
+                            child: Text(sector.displayName),
+                          );
+                        }).toList(),
+                        onChanged: (value) => setState(() => _selectedSector = value),
+                        validator: (value) => value == null ? 'Campo obrigatório' : null,
+                      ),
+                      if (_isLoading) ...[
+                        const SizedBox(height: 24),
+                        const Center(child: CircularProgressIndicator()),
+                      ],
+                      if (_errorMessage != null) ...[
+                        const SizedBox(height: 16),
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.errorContainer,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.error_outline, color: Theme.of(context).colorScheme.error),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  _errorMessage!,
+                                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            // Botões de ação
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: _isLoading ? null : () => Navigator.of(context).pop(),
+                    child: const Text('Cancelar'),
+                  ),
+                  const SizedBox(width: 12),
+                  FilledButton.icon(
+                    onPressed: _isLoading ? null : _submitForm,
+                    icon: const Icon(Icons.save_rounded),
+                    label: const Text('Criar Documento'),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -189,4 +189,41 @@ class ApiService {
     final allDocuments = await getDocuments();
     return allDocuments.where((doc) => doc['active'] == false).toList();
   }
+
+  Future<void> createDocument({
+    required String createdBy,
+    required String nameDocument,
+    required String content,
+    required int tempoDeRetencao,
+    required String type,
+    required String origin,
+    required String sector,
+  }) async {
+    final headers = await _getHeaders();
+    final response = await http.post(
+      Uri.parse('$baseUrl/documents'),
+      headers: headers,
+      body: json.encode({
+        'createdBy': createdBy,
+        'nameDocument': nameDocument,
+        'content': content,
+        'tempoDeRetencao': tempoDeRetencao,
+        'type': type,
+        'origin': origin,
+        'sector': sector,
+      }),
+    );
+
+    if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else if (response.statusCode != 200 && response.statusCode != 201) {
+      // Tenta extrair mensagem de erro do backend
+      try {
+        final errorBody = json.decode(response.body);
+        throw Exception(errorBody['message'] ?? 'Falha ao criar documento');
+      } catch (e) {
+        throw Exception('Falha ao criar documento: ${response.body}');
+      }
+    }
+  }
 }
