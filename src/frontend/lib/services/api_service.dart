@@ -226,4 +226,69 @@ class ApiService {
       }
     }
   }
+
+  Future<void> updateDocument({
+    required String documentId,
+    required String nameDocument,
+    required String content,
+    required int tempoDeRetencao,
+    required bool active,
+    required String type,
+    required String origin,
+    required String sector,
+  }) async {
+    final headers = await _getHeaders();
+    final response = await http.put(
+      Uri.parse('$baseUrl/documents/$documentId'),
+      headers: headers,
+      body: json.encode({
+        'nameDocument': nameDocument,
+        'content': content,
+        'tempoDeRetencao': tempoDeRetencao,
+        'active': active,
+        'type': type,
+        'origin': origin,
+        'sector': sector,
+      }),
+    );
+
+    if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else if (response.statusCode != 200) {
+      // Tenta extrair mensagem de erro do backend
+      try {
+        final errorBody = json.decode(response.body);
+        throw Exception(errorBody['message'] ?? 'Falha ao atualizar documento');
+      } catch (e) {
+        throw Exception('Falha ao atualizar documento: ${response.body}');
+      }
+    }
+  }
+
+  Future<void> toggleDocumentStatus(String documentId, bool newStatus) async {
+    final currentDoc = await getDocumentById(documentId);
+    final headers = await _getHeaders();
+    final response = await http.put(
+      Uri.parse('$baseUrl/documents/$documentId'),
+      headers: headers,
+      body: json.encode({
+        'nameDocument': currentDoc['nameDocument'],
+        'content': currentDoc['content'],
+        'tempoDeRetencao': currentDoc['tempoDeRetencao'],
+        'active': newStatus,
+        'type': currentDoc['type'],
+        'origin': currentDoc['origin'],
+        'sector': currentDoc['sector'],
+      }),
+    );
+
+    if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else if (response.statusCode != 200) {
+      final errorMessage = response.body.isNotEmpty
+          ? json.decode(response.body)['message'] ?? 'Erro desconhecido'
+          : 'Erro ao alterar status do documento';
+      throw Exception(errorMessage);
+    }
+  }
 }
