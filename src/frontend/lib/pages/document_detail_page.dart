@@ -52,18 +52,23 @@ class _DocumentDetailPageState extends State<DocumentDetailPage>
     });
 
     try {
-      final data = await api.getDocumentById(widget.documentId);
+      var data = await api.getDocumentById(widget.documentId);
 
-      // Debug: verificar o valor recebido
-      print('Documento carregado - tempoDeRetencao: ${data['tempoDeRetencao']} (${data['tempoDeRetencao'].runtimeType})');
+      // ←←← CORREÇÃO TEMPORÁRIA (enquanto o backend não arrumar o GET /{id})
+      if (data['tempoDeRetencao'] == null) {
+        print('Campo tempoDeRetencao veio null → buscando da lista geral...');
+        final allDocs = await api.getDocuments();
+        final found = allDocs.firstWhere((d) => d['documentId'] == widget.documentId, orElse: () => null);
+        if (found != null) {
+          data = found;  // substitui pelo que veio certo da lista
+        }
+      }
 
       setState(() {
         document = data;
         _loading = false;
       });
 
-      // Reset e restart da animação
-      _animationController.reset();
       _animationController.forward();
     } catch (e) {
       setState(() {

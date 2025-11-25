@@ -3,12 +3,14 @@ package com.example.quantum.controllers.document.updatedocument;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import com.example.quantum.services.document.UpdateDocumentPutService;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/v1/documents")
+@Transactional
 public class UpdateDocumentPutController {
 
     @Autowired

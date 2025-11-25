@@ -52,7 +52,11 @@ public class SecurityConfig {
                         // 👇 Todos os cargos podem visualizar usuários, exceto anônimos
                         .requestMatchers(HttpMethod.GET, "/v1/users/**").authenticated()
 
-                        .requestMatchers(HttpMethod.POST, "/v1/documents").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.POST, "/v1/documents/**").hasAnyRole("ADMINISTRADOR", "GESTOR")
+
+                        .requestMatchers(HttpMethod.GET, "/v1/documents").authenticated()
+
+                        .requestMatchers(HttpMethod.PUT, "/v1/documents/**").hasAnyRole("ADMINISTRADOR", "GESTOR")
 
                         .anyRequest().authenticated()
                 )

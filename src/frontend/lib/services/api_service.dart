@@ -157,8 +157,18 @@ class ApiService {
   Future<List<dynamic>> getDocuments() async {
     final headers = await _getHeaders();
     final response = await http.get(Uri.parse('$baseUrl/documents'), headers: headers);
+
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      final List<dynamic> docs = json.decode(response.body);
+
+      // PRINT TEMPORÁRIO — NÃO REMOVA AINDA
+      print('=== TODOS OS DOCUMENTOS DO BACKEND ===');
+      for (var doc in docs) {
+        print('ID: ${doc['documentId']} | name: ${doc['nameDocument']} | tempoDeRetencao: ${doc['tempoDeRetencao']} (tipo: ${doc['tempoDeRetencao'].runtimeType})');
+      }
+      print('=====================================');
+
+      return docs;
     } else if (response.statusCode == 401) {
       throw Exception('Sessão expirada. Faça login novamente.');
     } else {
