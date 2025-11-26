@@ -160,14 +160,6 @@ class ApiService {
 
     if (response.statusCode == 200) {
       final List<dynamic> docs = json.decode(response.body);
-
-      // PRINT TEMPORÁRIO — NÃO REMOVA AINDA
-      print('=== TODOS OS DOCUMENTOS DO BACKEND ===');
-      for (var doc in docs) {
-        print('ID: ${doc['documentId']} | name: ${doc['nameDocument']} | tempoDeRetencao: ${doc['tempoDeRetencao']} (tipo: ${doc['tempoDeRetencao'].runtimeType})');
-      }
-      print('=====================================');
-
       return docs;
     } else if (response.statusCode == 401) {
       throw Exception('Sessão expirada. Faça login novamente.');
