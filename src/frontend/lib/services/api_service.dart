@@ -267,22 +267,43 @@ class ApiService {
     }
   }
 
+  // Substitua o método toggleDocumentStatus no api_service.dart por este:
+
   Future<void> toggleDocumentStatus(String documentId, bool newStatus) async {
+    print('\n🌐 API: toggleDocumentStatus');
+    print('   DocumentId: $documentId');
+    print('   Novo Status (active): $newStatus');
+
     final currentDoc = await getDocumentById(documentId);
+
+    print('   📄 Documento atual:');
+    print('      - Nome: ${currentDoc['nameDocument']}');
+    print('      - Active ANTES: ${currentDoc['active']}');
+
     final headers = await _getHeaders();
+
+    final bodyData = {
+      'nameDocument': currentDoc['nameDocument'],
+      'content': currentDoc['content'],
+      'tempoDeRetencao': currentDoc['tempoDeRetencao'],
+      'active': newStatus,  // ← ESTE É O CAMPO CRÍTICO
+      'type': currentDoc['type'],
+      'origin': currentDoc['origin'],
+      'sector': currentDoc['sector'],
+    };
+
+    print('   📤 Body enviado para API:');
+    print('      ${json.encode(bodyData)}');
+
     final response = await http.put(
       Uri.parse('$baseUrl/documents/$documentId'),
       headers: headers,
-      body: json.encode({
-        'nameDocument': currentDoc['nameDocument'],
-        'content': currentDoc['content'],
-        'tempoDeRetencao': currentDoc['tempoDeRetencao'],
-        'active': newStatus,
-        'type': currentDoc['type'],
-        'origin': currentDoc['origin'],
-        'sector': currentDoc['sector'],
-      }),
+      body: json.encode(bodyData),
     );
+
+    print('   📥 Resposta da API:');
+    print('      Status Code: ${response.statusCode}');
+    print('      Body: ${response.body}');
 
     if (response.statusCode == 401) {
       throw Exception('Sessão expirada. Faça login novamente.');
@@ -292,5 +313,7 @@ class ApiService {
           : 'Erro ao alterar status do documento';
       throw Exception(errorMessage);
     }
+
+    print('   ✅ Status alterado com sucesso!\n');
   }
 }

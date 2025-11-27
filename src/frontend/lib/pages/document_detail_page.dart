@@ -165,7 +165,18 @@ class _DocumentDetailPageState extends State<DocumentDetailPage>
     );
   }
 
+  // Substitua o método _toggleDocumentStatus no document_detail_page.dart por este:
+
   Future<void> _toggleDocumentStatus(bool newStatus) async {
+    print('\n╔════════════════════════════════════════════════════════╗');
+    print('║      DEBUG: ALTERANDO STATUS DO DOCUMENTO             ║');
+    print('╚════════════════════════════════════════════════════════╝');
+    print('📄 Documento ID: ${widget.documentId}');
+    print('📄 Nome: ${document!['nameDocument']}');
+    print('🔄 Status ANTES: ${document!['active']}');
+    print('🔄 Novo status: $newStatus');
+    print('');
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -173,10 +184,29 @@ class _DocumentDetailPageState extends State<DocumentDetailPage>
     );
 
     try {
+      // Chama a API para alterar o status
       await api.toggleDocumentStatus(widget.documentId, newStatus);
+      print('✅ API toggleDocumentStatus chamada com sucesso!');
+
       if (mounted) Navigator.pop(context);
 
+      // Recarrega o documento para pegar o status atualizado
+      print('🔄 Recarregando documento...');
       await loadDocumentDetails();
+
+      // Verifica se o status foi realmente alterado
+      print('');
+      print('📊 VERIFICAÇÃO PÓS-ALTERAÇÃO:');
+      print('   Status DEPOIS do reload: ${document!['active']}');
+      print('   Status esperado: $newStatus');
+
+      if (document!['active'] == newStatus) {
+        print('   ✅ Status CONFIRMADO como alterado!');
+      } else {
+        print('   ⚠️  ATENÇÃO: Status NÃO foi alterado no backend!');
+        print('   Possível causa: O backend não está persistindo a alteração');
+      }
+      print('═══════════════════════════════════════════════════════════\n');
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -189,14 +219,22 @@ class _DocumentDetailPageState extends State<DocumentDetailPage>
               ],
             ),
             backgroundColor: newStatus ? Colors.green.shade600 : Colors.orange.shade600,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           ),
         );
       }
     } catch (e) {
+      print('❌ ERRO ao alterar status: $e');
+      print('═══════════════════════════════════════════════════════════\n');
+
       if (mounted) Navigator.pop(context);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro: $e'), backgroundColor: Colors.red.shade600),
+          SnackBar(
+            content: Text('Erro: $e'),
+            backgroundColor: Colors.red.shade600,
+          ),
         );
       }
     }

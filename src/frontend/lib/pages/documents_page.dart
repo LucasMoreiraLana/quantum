@@ -2,54 +2,13 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import 'document_detail_page.dart';
-
-
-
-// Definições dos enums (adicionadas aqui para corrigir os erros; mova para models/enums.dart se preferir)
-enum DocumentType {
-  REGISTRO,
-  PROCEDIMENTO,
-  INSTRUCAO_TECNICA,
-  FORMULARIO,
-  REGULAMENTO,
-  SISTEMA_INFORMATIZADO;
-
-
-  String get displayName {
-    return name.replaceAll('_', ' ').toLowerCase().split(' ').map((word) => word[0].toUpperCase() + word.substring(1)).join(' ');
-  }
-}
-
-enum DocumentOrigin {
-  INTERNO,
-  EXTERNO;
-
-  String get displayName {
-    return name.replaceAll('_', ' ').toLowerCase().split(' ').map((word) => word[0].toUpperCase() + word.substring(1)).join(' ');
-  }
-}
-
-enum Sector {
-  ADMINISTRATIVO,
-  FINANCEIRO,
-  RECURSOS_HUMANOS,
-  OPERACIONAL,
-  TI,
-  VENDAS,
-  MARKETING;
-
-  String get displayName {
-    return name.replaceAll('_', ' ').toLowerCase().split(' ').map((word) => word[0].toUpperCase() + word.substring(1)).join(' ');
-  }
-}
+import '../models/enums.dart'; // Importe os enums do arquivo separado
 
 class DocumentsPage extends StatefulWidget {
   const DocumentsPage({super.key});
-
   @override
   State<DocumentsPage> createState() => _DocumentsPageState();
 }
-
 class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProviderStateMixin {
   final ApiService api = ApiService();
   final AuthService authService = AuthService();
@@ -59,13 +18,10 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
   String? _error;
   final TextEditingController _searchController = TextEditingController();
   late AnimationController _fabAnimationController;
-
   // Filtro de status: 'all', 'active', 'inactive'
   String _statusFilter = 'active';
-
   // Permissões do usuário
   bool _hasManagementPermission = false;
-
   @override
   void initState() {
     super.initState();
@@ -75,20 +31,17 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
     );
     _loadData();
   }
-
   Future<void> _loadData() async {
     _hasManagementPermission = await authService.hasManagementPermission();
     setState(() {});
     await loadDocuments();
   }
-
   @override
   void dispose() {
     _searchController.dispose();
     _fabAnimationController.dispose();
     super.dispose();
   }
-
   Future<void> loadDocuments() async {
     if (mounted && !_loading) {
       setState(() {
@@ -96,7 +49,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
         _error = null;
       });
     }
-
     try {
       final data = await api.getDocuments();
       if (mounted) {
@@ -119,17 +71,14 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
       }
     }
   }
-
   void _applyFilters() {
     List<dynamic> result = documents;
-
     // Filtro por status
     if (_statusFilter == 'active') {
       result = result.where((doc) => doc['active'] == true).toList();
     } else if (_statusFilter == 'inactive') {
       result = result.where((doc) => doc['active'] == false).toList();
     }
-
     // Filtro por busca
     if (_searchController.text.isNotEmpty) {
       final searchLower = _searchController.text.toLowerCase();
@@ -137,29 +86,24 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
         final name = (doc['nameDocument'] ?? '').toString().toLowerCase();
         final content = (doc['content'] ?? '').toString().toLowerCase();
         final type = (doc['type'] ?? '').toString().toLowerCase();
-
         return name.contains(searchLower) ||
             content.contains(searchLower) ||
             type.contains(searchLower);
       }).toList();
     }
-
     setState(() {
       filteredDocuments = result;
     });
   }
-
   void _filterDocuments(String query) {
     _applyFilters();
   }
-
   void _changeStatusFilter(String filter) {
     setState(() {
       _statusFilter = filter;
       _applyFilters();
     });
   }
-
   void _showCreateDocumentDialog() {
     showDialog(
       context: context,
@@ -190,7 +134,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -230,7 +173,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
               const SizedBox(width: 8),
             ],
           ),
-
           // Barra de busca
           SliverToBoxAdapter(
             child: Padding(
@@ -238,7 +180,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
               child: _buildSearchBar(),
             ),
           ),
-
           // Filtros de status
           SliverToBoxAdapter(
             child: Padding(
@@ -246,7 +187,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
               child: _buildStatusFilters(),
             ),
           ),
-
           // Estatísticas
           if (!_loading && _error == null && documents.isNotEmpty)
             SliverToBoxAdapter(
@@ -255,7 +195,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
                 child: _buildStatsCards(),
               ),
             ),
-
           // Conteúdo principal
           SliverToBoxAdapter(
             child: _buildBody(),
@@ -279,7 +218,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
           : null,
     );
   }
-
   Widget _buildSearchBar() {
     return Container(
       decoration: BoxDecoration(
@@ -319,11 +257,9 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
       ),
     );
   }
-
   Widget _buildStatsCards() {
     final activeDocs = documents.where((d) => d['active'] == true).length;
     final inactiveDocs = documents.length - activeDocs;
-
     return Row(
       children: [
         Expanded(
@@ -361,7 +297,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
       ],
     );
   }
-
   Widget _buildStatCard({
     required IconData icon,
     required String label,
@@ -411,7 +346,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
       ),
     );
   }
-
   Widget _buildStatusFilters() {
     return Row(
       children: [
@@ -447,7 +381,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
       ],
     );
   }
-
   Widget _buildFilterChip({
     required String label,
     required IconData icon,
@@ -502,7 +435,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
       ),
     );
   }
-
   Widget _buildBody() {
     if (_loading) {
       return const Center(
@@ -512,7 +444,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
         ),
       );
     }
-
     if (_error != null) {
       return Center(
         child: Padding(
@@ -559,7 +490,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
         ),
       );
     }
-
     if (filteredDocuments.isEmpty) {
       final isSearching = _searchController.text.isNotEmpty;
       return Center(
@@ -602,7 +532,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
         ),
       );
     }
-
     return RefreshIndicator(
       onRefresh: loadDocuments,
       child: ListView.builder(
@@ -617,14 +546,12 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
       ),
     );
   }
-
   Widget _buildDocumentCard(Map<String, dynamic> doc, int index) {
     final name = doc['nameDocument'] ?? 'Documento sem nome';
     final content = doc['content'] ?? '';
     final type = doc['type'] ?? 'REGISTRO';
     final isActive = doc['active'] == true;
     final origin = doc['origin'] ?? 'INTERNO';
-
     // ←←← CORREÇÃO DO TEMPO DE RETENÇÃO (agora funciona 100%) ←←←
     int getRetentionYears() {
       final value = doc['tempoDeRetencao'];
@@ -634,7 +561,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
       if (value is num) return value.toInt();
       return 0;
     }
-
     IconData getIconByType(String docType) {
       switch (docType) {
         case 'REGISTRO': return Icons.assignment_rounded;
@@ -646,7 +572,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
         default: return Icons.description_rounded;
       }
     }
-
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0.0, end: 1.0),
       duration: Duration(milliseconds: 300 + (index * 50)),
@@ -671,7 +596,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
             onTap: () async {
               final docId = doc['documentId'];
               if (docId == null || docId.toString().isEmpty) return;
-
               // Navega e recarrega ao voltar
               await Navigator.push(
                 context,
@@ -796,51 +720,40 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
     );
   }
 }
-
 // ==================== FORMULÁRIO DE CRIAÇÃO DE DOCUMENTO ====================
-
 class _CreateDocumentForm extends StatefulWidget {
   final ApiService api;
   final VoidCallback onDocumentCreated;
-
   const _CreateDocumentForm({
     required this.api,
     required this.onDocumentCreated,
   });
-
   @override
   State<_CreateDocumentForm> createState() => __CreateDocumentFormState();
 }
-
 class __CreateDocumentFormState extends State<_CreateDocumentForm> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _contentController = TextEditingController();
   final _retentionController = TextEditingController();
-
   DocumentType? _selectedType;
   DocumentOrigin? _selectedOrigin;
   Sector? _selectedSector;
-
   bool _isLoading = false;
   String? _errorMessage;
-
   final AuthService _authService = AuthService();
   String? _currentUserId;
-
   @override
   void initState() {
     super.initState();
     _loadCurrentUser();
   }
-
   Future<void> _loadCurrentUser() async {
     final user = await _authService.getCurrentUser();
     setState(() {
       _currentUserId = user['userId'];
     });
   }
-
   @override
   void dispose() {
     _nameController.dispose();
@@ -848,24 +761,20 @@ class __CreateDocumentFormState extends State<_CreateDocumentForm> {
     _retentionController.dispose();
     super.dispose();
   }
-
   Future<void> _submitForm() async {
     if (!(_formKey.currentState?.validate() ?? false)) {
       return;
     }
-
     if (_currentUserId == null) {
       setState(() {
         _errorMessage = 'Erro ao identificar usuário. Faça login novamente.';
       });
       return;
     }
-
     setState(() {
       _isLoading = true;
       _errorMessage = null;
     });
-
     try {
       await widget.api.createDocument(
         createdBy: _currentUserId!,
@@ -876,7 +785,6 @@ class __CreateDocumentFormState extends State<_CreateDocumentForm> {
         origin: _selectedOrigin!.name,
         sector: _selectedSector!.name,
       );
-
       if (mounted) {
         Navigator.of(context).pop();
       }
@@ -888,7 +796,6 @@ class __CreateDocumentFormState extends State<_CreateDocumentForm> {
       });
     }
   }
-
   InputDecoration _buildInputDecoration(String label, IconData icon, {Widget? suffix, String? hint}) {
     return InputDecoration(
       labelText: label,
@@ -910,7 +817,6 @@ class __CreateDocumentFormState extends State<_CreateDocumentForm> {
       fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -961,7 +867,6 @@ class __CreateDocumentFormState extends State<_CreateDocumentForm> {
                 ],
               ),
             ),
-
             // Formulário
             Flexible(
               child: SingleChildScrollView(
@@ -1105,7 +1010,6 @@ class __CreateDocumentFormState extends State<_CreateDocumentForm> {
                 ),
               ),
             ),
-
             // Botões de ação
             Container(
               padding: const EdgeInsets.all(24),
