@@ -14,6 +14,7 @@ public class UpdateDocumentPutMapper {
                 request.nameDocument(),
                 request.content(),
                 request.tempoDeRetencao(),
+                request.active(),
                 request.type(),
                 request.origin(),
                 request.sector()

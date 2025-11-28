@@ -11,6 +11,7 @@ public record UpdateDocumentPutRequest(
         String nameDocument,
         String content,
         int tempoDeRetencao,
+        boolean active,
         Document.Type type,
         Document.Origin origin,
         Sector sector

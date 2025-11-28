@@ -25,7 +25,7 @@ public class UpdateDocumentPutService {
                 input.nameDocument(),
                 input.content(),
                 input.tempoDeRetencao(),
-                existingEntity.isActive(),
+                input.active(),
                 input.type(),
                 input.origin(),
                 input.sector()
