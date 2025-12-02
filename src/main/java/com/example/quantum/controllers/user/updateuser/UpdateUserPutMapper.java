@@ -15,6 +15,7 @@ public class UpdateUserPutMapper {
                 request.username(),
                 request.password(),
                 request.email(),
+                request.active(),
                 request.sector(),
                 request.position()
         );

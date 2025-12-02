@@ -236,21 +236,31 @@ class _UserDetailPageState extends State<UserDetailPage> with SingleTickerProvid
   }
 
   Future<void> _toggleUserStatus(bool newStatus) async {
-    // Mostra loading
+    print('\n╔════════════════════════════════════════════════════════╗');
+    print('║      DEBUG: ALTERANDO STATUS DO USUÁRIO               ║');
+    print('╚════════════════════════════════════════════════════════╝');
+    print('👤 Usuário ID: ${widget.userId}');
+    print('👤 Nome: ${user!['username']}');
+    print('🔄 Status ANTES: ${user!['active']}');
+    print('🔄 Novo status: $newStatus');
+    print('');
+
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
+      builder: (_) => const Center(child: CircularProgressIndicator()),
     );
 
     try {
+      // Chama a API para alterar o status
       await api.toggleUserStatus(widget.userId, newStatus);
+      print('✅ API toggleUserStatus chamada com sucesso!');
 
-      if (mounted) {
-        Navigator.of(context).pop(); // Remove loading
+      if (mounted) Navigator.pop(context);
 
-        // Se desativou, volta para a página anterior
-        if (!newStatus) {
+      // Se desativou, não recarrega, apenas volta
+      if (!newStatus) {
+        if (mounted) {
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -258,7 +268,7 @@ class _UserDetailPageState extends State<UserDetailPage> with SingleTickerProvid
                 children: [
                   Icon(Icons.check_circle, color: Colors.white),
                   SizedBox(width: 12),
-                  Text('Usuário desativado com sucesso!'),
+                  Text('Usuário desativado!'),
                 ],
               ),
               backgroundColor: Colors.orange.shade600,
@@ -266,35 +276,59 @@ class _UserDetailPageState extends State<UserDetailPage> with SingleTickerProvid
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
           );
-        } else {
-          // Se ativou, recarrega os dados
-          loadUserDetails();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Row(
-                children: [
-                  Icon(Icons.check_circle, color: Colors.white),
-                  SizedBox(width: 12),
-                  Text('Usuário ativado com sucesso!'),
-                ],
-              ),
-              backgroundColor: Colors.green.shade600,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            ),
-          );
         }
+        print('   ⚠️  Verificação pós-alteração não realizada (página fechada após desativação)');
+        print('═══════════════════════════════════════════════════════════\n');
+        return;
+      }
+
+      // Se ativou, recarrega o usuário para pegar o status atualizado
+      print('🔄 Recarregando usuário...');
+      await loadUserDetails();
+
+      // Verifica se o status foi realmente alterado
+      print('');
+      print('📊 VERIFICAÇÃO PÓS-ALTERAÇÃO:');
+      print('   Status DEPOIS do reload: ${user!['active']}');
+      print('   Status esperado: $newStatus');
+
+      if (user!['active'] == newStatus) {
+        print('   ✅ Status CONFIRMADO como alterado!');
+      } else {
+        print('   ⚠️  ATENÇÃO: Status NÃO foi alterado no backend!');
+        print('   Possível causa: O backend não está persistindo a alteração');
+      }
+      print('═══════════════════════════════════════════════════════════\n');
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle, color: Colors.white),
+                const SizedBox(width: 12),
+                Text(newStatus ? 'Usuário ativado!' : 'Usuário desativado!'),
+              ],
+            ),
+            backgroundColor: newStatus ? Colors.green.shade600 : Colors.orange.shade600,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+        );
       }
     } catch (e) {
+      print('❌ ERRO ao alterar status: $e');
+      print('═══════════════════════════════════════════════════════════\n');
+
+      if (mounted) Navigator.pop(context);
       if (mounted) {
-        Navigator.of(context).pop(); // Remove loading
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
               children: [
                 const Icon(Icons.error_outline, color: Colors.white),
                 const SizedBox(width: 12),
-                Expanded(child: Text('Erro: ${e.toString()}')),
+                Expanded(child: Text('Erro: $e')),
               ],
             ),
             backgroundColor: Colors.red.shade600,

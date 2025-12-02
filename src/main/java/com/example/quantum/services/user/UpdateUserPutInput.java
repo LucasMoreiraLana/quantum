@@ -11,6 +11,7 @@ public record UpdateUserPutInput(
         String username,
         String password,
         String email,
+        boolean active,
         Sector sector,
         User.Position position
 

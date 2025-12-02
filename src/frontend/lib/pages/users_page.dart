@@ -51,12 +51,10 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
   }
 
   Future<void> loadUsers() async {
-    if (mounted && !_loading) {
-      setState(() {
-        _loading = true;
-        _error = null;
-      });
-    }
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
 
     try {
       final data = await api.getUsers();
@@ -104,6 +102,9 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
             position.contains(searchLower);
       }).toList();
     }
+
+    // Ordena alfabeticamente por username
+    result.sort((a, b) => (a['username'] ?? '').compareTo(b['username'] ?? ''));
 
     setState(() {
       filteredUsers = result;
@@ -201,15 +202,7 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
             ),
           ),
 
-          // Filtros de status (Todos, Ativos, Inativos)
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: _buildStatusFilters(),
-            ),
-          ),
-
-          // Estatísticas rápidas
+          // Estatísticas rápidas (agora servem como filtros)
           if (!_loading && _error == null && users.isNotEmpty)
             SliverToBoxAdapter(
               child: Padding(
@@ -290,7 +283,7 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
         Expanded(
           child: _buildStatCard(
             icon: Icons.people_rounded,
-            label: 'Total',
+            label: 'Todos',
             value: users.length.toString(),
             color: Colors.blue,
             onTap: () => _changeStatusFilter('all'),
@@ -364,95 +357,6 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
                   fontSize: 12,
                   color: color.withOpacity(0.8),
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatusFilters() {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildFilterChip(
-            label: 'Todos',
-            icon: Icons.people_rounded,
-            isSelected: _statusFilter == 'all',
-            onTap: () => _changeStatusFilter('all'),
-            color: Colors.blue,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: _buildFilterChip(
-            label: 'Ativos',
-            icon: Icons.check_circle_rounded,
-            isSelected: _statusFilter == 'active',
-            onTap: () => _changeStatusFilter('active'),
-            color: Colors.green,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: _buildFilterChip(
-            label: 'Inativos',
-            icon: Icons.remove_circle_rounded,
-            isSelected: _statusFilter == 'inactive',
-            onTap: () => _changeStatusFilter('inactive'),
-            color: Colors.orange,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFilterChip({
-    required String label,
-    required IconData icon,
-    required bool isSelected,
-    required VoidCallback onTap,
-    required Color color,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-          decoration: BoxDecoration(
-            color: isSelected ? color : Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: isSelected ? color : Theme.of(context).colorScheme.outline.withOpacity(0.3),
-              width: isSelected ? 2 : 1,
-            ),
-            boxShadow: isSelected ? [
-              BoxShadow(
-                color: color.withOpacity(0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
-            ] : [],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                size: 18,
-                color: isSelected ? Colors.white : color,
-              ),
-              const SizedBox(width: 6),
-              Text(
-                label,
-                style: TextStyle(
-                  color: isSelected ? Colors.white : Theme.of(context).colorScheme.onSurface,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  fontSize: 13,
                 ),
               ),
             ],
@@ -613,7 +517,7 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
           color: Colors.transparent,
           child: InkWell(
             borderRadius: BorderRadius.circular(16),
-            onTap: () async {  // ← Adicione async aqui
+            onTap: () async {
               final userId = user['userId'];
               if (userId == null || userId.toString().isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -632,15 +536,12 @@ class _UsersPageState extends State<UsersPage> with SingleTickerProviderStateMix
                 );
                 return;
               }
-              // Em _buildUserCard, dentro do onTap:
-              // Navega e espera o retorno
               await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => UserDetailPage(userId: userId.toString()),
                 ),
               );
-              // Quando voltar, recarrega a lista
               loadUsers();
             },
             child: Padding(
