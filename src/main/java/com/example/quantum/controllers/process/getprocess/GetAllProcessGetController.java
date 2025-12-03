@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/process")
+@RequestMapping("/v1/processes")
 public class GetAllProcessGetController {
 
     @Autowired

@@ -12,7 +12,7 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping("/v1/process")
+@RequestMapping("/v1/processes")
 public class DeleteProcessDeleteByIdController {
 
     @Autowired

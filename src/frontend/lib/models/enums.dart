@@ -44,6 +44,14 @@ enum DocumentOrigin {
   EXTERNO
 }
 
+
+enum Cycle {
+  P,
+  D,
+  C,
+  A
+}
+
 // ========== EXTENSÃO PARA FORMATAÇÃO DE EXIBIÇÃO ==========
 
 extension EnumFormatting on Enum {
@@ -99,6 +107,16 @@ class EnumHelper {
     if (value == null) return null;
     try {
       return DocumentOrigin.values.firstWhere((e) => e.name == value);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  //Process
+  static Cycle? cycleFromString(String? value) {
+    if (value == null) return null;
+    try {
+      return Cycle.values.firstWhere((e) => e.name == value);
     } catch (e) {
       return null;
     }

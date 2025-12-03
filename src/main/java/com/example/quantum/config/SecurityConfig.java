@@ -34,10 +34,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ único CORS oficial
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+
+                        // 1. CORREÇÃO CRÍTICA: Permite o pre-flight OPTIONS do CORS
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
+
+                        // =======================================================
+                        // ROTAS DE USUÁRIOS
+                        // =======================================================
 
                         // 👇 Somente ADMIN pode criar usuários
                         .requestMatchers(HttpMethod.POST, "/v1/users").hasRole("ADMINISTRADOR")
@@ -52,12 +60,34 @@ public class SecurityConfig {
                         // 👇 Todos os cargos podem visualizar usuários, exceto anônimos
                         .requestMatchers(HttpMethod.GET, "/v1/users/**").authenticated()
 
-                        .requestMatchers(HttpMethod.POST, "/v1/documents/**").hasAnyRole("ADMINISTRADOR", "GESTOR")
+                        // =======================================================
+                        // ROTAS DE DOCUMENTOS
+                        // =======================================================
 
                         .requestMatchers(HttpMethod.GET, "/v1/documents").authenticated()
-
+                        .requestMatchers(HttpMethod.POST, "/v1/documents").hasAnyRole("ADMINISTRADOR", "GESTOR")
                         .requestMatchers(HttpMethod.PUT, "/v1/documents/**").hasAnyRole("ADMINISTRADOR", "GESTOR")
+                        .requestMatchers(HttpMethod.DELETE, "/v1/documents/**").hasRole("ADMINISTRADOR")
 
+
+                        // =======================================================
+                        // ROTAS DE PROCESSOS (AGORA CONSISTENTEMENTE EM /v1/processes)
+                        // =======================================================
+
+                        // 👇 GET: Todos autenticados podem visualizar processos
+                        .requestMatchers(HttpMethod.GET, "/v1/processes/**").authenticated()
+
+                        // 👇 POST: ADMIN e GESTOR podem criar processos
+                        .requestMatchers(HttpMethod.POST, "/v1/processes").hasAnyRole("ADMINISTRADOR", "GESTOR")
+
+                        // 👇 PUT: ADMIN e GESTOR podem atualizar
+                        .requestMatchers(HttpMethod.PUT, "/v1/processes/**").hasAnyRole("ADMINISTRADOR", "GESTOR")
+
+                        // 👇 DELETE: Apenas ADMIN pode deletar
+                        .requestMatchers(HttpMethod.DELETE, "/v1/processes/**").hasRole("ADMINISTRADOR")
+
+
+                        // Qualquer outra requisição deve ser autenticada
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
@@ -65,12 +95,13 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ Apenas aqui configuramos o CORS
+    // A configuração de CORS não mudou, mas garante a consistência
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOriginPattern("http://localhost:*");
         configuration.addAllowedOriginPattern("http://127.0.0.1:*");
+        // É CRÍTICO que OPTIONS esteja aqui (o que já estava!)
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

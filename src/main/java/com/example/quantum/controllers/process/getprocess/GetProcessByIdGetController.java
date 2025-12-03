@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/v1/process")
+@RequestMapping("/v1/processes")
 public class GetProcessByIdGetController {
 
     @Autowired

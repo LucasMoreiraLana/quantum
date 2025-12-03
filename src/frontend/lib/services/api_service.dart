@@ -318,4 +318,99 @@ class ApiService {
 
     print('   ✅ Status alterado com sucesso!\n');
   }
+
+  // ============= PROCESSOS =============
+
+  Future<List<dynamic>> getProcesses() async {
+    final headers = await _getHeaders();
+    final response = await http.get(Uri.parse('$baseUrl/processes'), headers: headers);
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else {
+      throw Exception('Falha ao carregar processos: ${response.statusCode}');
+    }
+  }
+
+  Future<Map<String, dynamic>> getProcessById(String processId) async {
+    final headers = await _getHeaders();
+    final response = await http.get(Uri.parse('$baseUrl/processes/$processId'), headers: headers);
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else {
+      throw Exception('Falha ao carregar detalhes do processo: ${response.statusCode}');
+    }
+  }
+
+  Future<void> createProcess({
+    required String createdBy,
+    required String nameProcess,
+    required String dateApproval, // Formato yyyy-MM-dd
+    required String dateConclusion, // Formato yyyy-MM-dd
+    required String sector,
+    required String cyclePDCA,
+  }) async {
+    final headers = await _getHeaders();
+    final response = await http.post(
+      Uri.parse('$baseUrl/processes'),
+      headers: headers,
+      body: json.encode({
+        'createdBy': createdBy,
+        'nameProcess': nameProcess,
+        'dateApproval': dateApproval,
+        'dateConclusion': dateConclusion,
+        'sector': sector,
+        'cyclePDCA': cyclePDCA,
+      }),
+    );
+
+    if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else if (response.statusCode != 200 && response.statusCode != 201) {
+      try {
+        final errorBody = json.decode(response.body);
+        throw Exception(errorBody['message'] ?? 'Falha ao criar processo');
+      } catch (e) {
+        throw Exception('Falha ao criar processo: ${response.body}');
+      }
+    }
+  }
+
+  Future<void> updateProcess({
+    required String processId,
+    required String nameProcess,
+    required String dateApproval,
+    required String dateConclusion,
+    required String sector,
+    required String cyclePDCA,
+  }) async {
+    final headers = await _getHeaders();
+    final response = await http.put(
+      Uri.parse('$baseUrl/processes/$processId'),
+      headers: headers,
+      body: json.encode({
+        'nameProcess': nameProcess,
+        'dateApproval': dateApproval,
+        'dateConclusion': dateConclusion,
+        'sector': sector,
+        'cyclePDCA': cyclePDCA,
+      }),
+    );
+
+    if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else if (response.statusCode != 200) {
+      try {
+        final errorBody = json.decode(response.body);
+        throw Exception(errorBody['message'] ?? 'Falha ao atualizar processo');
+      } catch (e) {
+        throw Exception('Falha ao atualizar processo: ${response.body}');
+      }
+    }
+  }
 }
