@@ -14,9 +14,9 @@ public record InsertProcessPostRequest(
         @NotNull
         String nameProcess,
         @NotNull
-        @JsonFormat(pattern = "dd/MM/yyyy")
+        @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate dateApproval,
-        @JsonFormat(pattern = "dd/MM/yyyy")
+        @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate dateConclusion,
         @NotNull
         Sector sector,
