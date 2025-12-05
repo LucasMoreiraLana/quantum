@@ -189,7 +189,11 @@ class _ProcessDetailPageState extends State<ProcessDetailPage> with SingleTicker
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(label, style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.grey)),
-                Text(value.toString(), style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
+                // Corrigido: Verifica se o valor é null antes de chamar toString()
+                Text(
+                    value == null ? 'Não informado' : value.toString(),
+                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16)
+                ),
               ],
             ),
           ),
@@ -219,14 +223,24 @@ class _EditProcessFormState extends State<_EditProcessForm> {
   late Cycle _cycle;
   bool _saving = false;
 
+  // Arquivo: process_detail_page.dart (Dentro de _EditProcessFormState)
+
   @override
   void initState() {
     super.initState();
-    _nameCtrl = TextEditingController(text: widget.process['nameProcess']);
-    _approvalCtrl = TextEditingController(text: widget.process['dateApproval']);
-    _conclusionCtrl = TextEditingController(text: widget.process['dateConclusion']);
-    _sector = Sector.values.firstWhere((e) => e.name == widget.process['sector'], orElse: () => Sector.ADMINISTRATIVO);
-    _cycle = Cycle.values.firstWhere((e) => e.name == widget.process['cyclePDCA'], orElse: () => Cycle.P);
+
+    final processId = widget.process['processId'] as String? ?? '';
+    final createdBy = widget.process['createdBy'] as String? ?? '';
+
+    _nameCtrl = TextEditingController(text: widget.process['nameProcess'] ?? '');
+    _approvalCtrl = TextEditingController(text: widget.process['dateApproval'] ?? '');
+    _conclusionCtrl = TextEditingController(text: widget.process['dateConclusion'] ?? '');
+
+    final sectorName = widget.process['sector'] as String? ?? 'ADMINISTRATIVO';
+    _sector = Sector.values.firstWhere((e) => e.name == sectorName, orElse: () => Sector.ADMINISTRATIVO);
+
+    final cycleName = widget.process['cyclePDCA'] as String? ?? 'P';
+    _cycle = Cycle.values.firstWhere((e) => e.name == cycleName, orElse: () => Cycle.P);
   }
 
   Future<void> _selectDate(TextEditingController controller) async {
