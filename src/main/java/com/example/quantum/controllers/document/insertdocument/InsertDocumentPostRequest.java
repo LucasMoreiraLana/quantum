@@ -21,6 +21,8 @@ public record InsertDocumentPostRequest(
         @Positive(message = "O tempo de retenção deve ser maior que zero!")
         int tempoDeRetencao,
 
+        boolean active,
+
         @NotNull(message = "O tipo do documento precisa ser informado!")
         Document.Type type,
 

@@ -21,9 +21,12 @@ public record InsertUserPostRequest(
     @Email(message = "Email inválido")
     String email,
 
+    boolean active,
+
     @NotNull(message = "O setor do usuário precisa ser informado!")
     Sector sector,
 
     @NotNull(message = "A posição do usuário precisa ser informada!")
     Position position
+
 ) {}
