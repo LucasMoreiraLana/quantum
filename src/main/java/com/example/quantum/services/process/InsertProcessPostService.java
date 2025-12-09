@@ -15,6 +15,8 @@ public class InsertProcessPostService {
     private ProcessRepository processRepository;
 
     public Process insertProcess(InsertProcessPostInput input){
+        // O input.toDomain() (se estiver como no exemplo acima)
+        // já usará o createdBy injetado para criar a entidade Process.
         final var process = input.toDomain();
 
         final var entity = ProcessEntityMapper.toEntity(process);

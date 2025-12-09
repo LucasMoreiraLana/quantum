@@ -8,11 +8,9 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.UUID;
 
+
 public record UpdateProcessPutRequest(
-        @NotNull
-        UUID processId,
-        @NotNull
-        UUID createdBy,
+        // CORREÇÃO: Remova o @NotNull para que o campo possa ser nulo/omitido na requisição PUT
         @NotNull
         String nameProcess,
         @JsonFormat(pattern = "yyyy-MM-dd")

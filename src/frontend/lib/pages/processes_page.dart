@@ -476,7 +476,6 @@ class _CreateProcessFormState extends State<_CreateProcessForm> {
 
     try {
       await widget.api.createProcess(
-        createdBy: _currentUserId!,
         nameProcess: _nameController.text,
         dateApproval: _approvalDateController.text,
         dateConclusion: _conclusionDateController.text,

@@ -348,7 +348,6 @@ class ApiService {
   }
 
   Future<void> createProcess({
-    required String createdBy,
     required String nameProcess,
     required String dateApproval, // Formato yyyy-MM-dd
     required String dateConclusion, // Formato yyyy-MM-dd
@@ -360,7 +359,6 @@ class ApiService {
       Uri.parse('$baseUrl/processes'),
       headers: headers,
       body: json.encode({
-        'createdBy': createdBy,
         'nameProcess': nameProcess,
         'dateApproval': dateApproval,
         'dateConclusion': dateConclusion,

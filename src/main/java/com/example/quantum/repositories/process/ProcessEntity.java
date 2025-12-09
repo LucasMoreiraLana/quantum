@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Document(collection = "process")
+@Document(collection = "processes")
 @NoArgsConstructor
 @Getter
 @Setter

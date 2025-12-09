@@ -10,7 +10,7 @@ public class UpdateProcessPutMapper {
     public static UpdateProcessPutInput toInput(UUID processId, UpdateProcessPutRequest request){
         return new UpdateProcessPutInput(
                 processId,
-                request.createdBy(),
+                null,
                 request.nameProcess(),
                 request.dateApproval(),
                 request.dateConclusion(),

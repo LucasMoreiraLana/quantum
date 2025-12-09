@@ -5,20 +5,10 @@ import com.example.quantum.services.process.InsertProcessPostInput;
 
 public class InsertProcessPostMapper {
 
-    //request -> input
-    public static InsertProcessPostInput toInput(InsertProcessPostRequest request){
-        return new InsertProcessPostInput(
-                request.createdBy(),
-                request.nameProcess(),
-                request.dateApproval(),
-                request.dateConclusion(),
-                request.sector(),
-                request.cyclePDCA()
-        );
-    }
 
     //Domain -> response
     public static InsertProcessPostResponse toResponse(Process process){
+        // Mantenha o toResponse como está
         return new InsertProcessPostResponse(
                 process.createdBy(),
                 process.nameProcess(),

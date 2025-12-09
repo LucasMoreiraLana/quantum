@@ -1,37 +1,50 @@
 package com.example.quantum.controllers.process.insertprocess;
 
-
-
-
 import com.example.quantum.services.process.InsertProcessPostService;
+import com.example.quantum.services.process.InsertProcessPostInput;
+import com.example.quantum.repositories.user.UserEntity;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+// ADICIONAR IMPORTS DO LOGGER
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.UUID; // Para clareza
 
 @RestController
 @RequestMapping("/v1/processes")
 public class InsertProcessPostController {
 
+    // INICIALIZAÇÃO DO LOGGER
+    private static final Logger log = LoggerFactory.getLogger(InsertProcessPostController.class);
+
     @Autowired
     private InsertProcessPostService insertProcessPostService;
 
     @PostMapping
-    public ResponseEntity<InsertProcessPostResponse> create(@Valid @RequestBody InsertProcessPostRequest request){
+    public ResponseEntity<InsertProcessPostResponse> create(
+            @Valid @RequestBody InsertProcessPostRequest request,
+            @AuthenticationPrincipal UserEntity loggedUser
+    ) {
+        final var createdBy = loggedUser.getUserId();
+        final var processId = UUID.randomUUID();  // ✅ Gera o UUID aqui
 
-        //request -> input
-        final var input = InsertProcessPostMapper.toInput(request);
+        final var input = new InsertProcessPostInput(
+                processId,
+                createdBy,
+                request.nameProcess(),
+                request.dateApproval(),
+                request.dateConclusion(),
+                request.sector(),
+                request.cyclePDCA()
+        );
 
-        //input -> domain
         final var process = insertProcessPostService.insertProcess(input);
-
-        //domain -> response
         final var response = InsertProcessPostMapper.toResponse(process);
 
         return ResponseEntity.ok(response);
-
     }
 }
