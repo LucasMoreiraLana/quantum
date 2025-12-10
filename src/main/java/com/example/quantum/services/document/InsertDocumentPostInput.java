@@ -8,6 +8,7 @@ import java.util.UUID;
 
 public record InsertDocumentPostInput(
 
+        UUID documentId,
         UUID createdBy,
         String nameDocument,
         String content,
@@ -20,7 +21,7 @@ public record InsertDocumentPostInput(
 
     public Document toDomain() {
         return new Document(
-                UUID.randomUUID(),  // id gerado aqui
+                this.documentId,  // id gerado aqui
                 this.createdBy,
                 this.nameDocument,
                 this.content,

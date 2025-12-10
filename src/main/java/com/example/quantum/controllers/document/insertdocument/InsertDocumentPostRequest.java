@@ -8,27 +8,11 @@ import jakarta.validation.constraints.*;
 import java.util.UUID;
 
 public record InsertDocumentPostRequest(
-        @NotNull(message = "Você precisa informar o usuário associado ao documento!")
-        UUID createdBy,
-
-        @NotBlank(message = "O nome do documento não pode ser vazio!")
         String nameDocument,
-
-        @NotBlank(message = "A descrição do documento não pode ser vazia!")
-        @Size(max = 5000)
         String content,
-
-        @Positive(message = "O tempo de retenção deve ser maior que zero!")
-        int tempoDeRetencao,
-
+        int tempoRetencao,
         boolean active,
-
-        @NotNull(message = "O tipo do documento precisa ser informado!")
-        Document.Type type,
-
-        @NotNull(message = "A origem do documento precisa ser informada!")
-        Document.Origin origin,
-
-        @NotNull(message = "O setor do documento precisa ser informado!")
+        Document type,
+        Document origin,
         Sector sector
 ) {}

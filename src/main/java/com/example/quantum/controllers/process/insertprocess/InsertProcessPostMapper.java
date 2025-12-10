@@ -7,8 +7,7 @@ public class InsertProcessPostMapper {
 
 
     //Domain -> response
-    public static InsertProcessPostResponse toResponse(Process process){
-        // Mantenha o toResponse como está
+    public static InsertProcessPostResponse toProcessResponse(Process process){
         return new InsertProcessPostResponse(
                 process.createdBy(),
                 process.nameProcess(),

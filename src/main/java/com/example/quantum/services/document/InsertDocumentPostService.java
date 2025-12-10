@@ -15,14 +15,8 @@ public class InsertDocumentPostService {
     @Autowired
     private DocumentRepository documentRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
     public Document createDocument(InsertDocumentPostInput input) {
 
-        if (!userRepository.existsById(input.createdBy())){
-            throw new IllegalArgumentException("Usuário não encontrado!");
-        }
         // Input → Domain
         final var document = input.toDomain();
 

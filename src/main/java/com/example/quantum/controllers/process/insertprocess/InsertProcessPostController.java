@@ -25,7 +25,7 @@ public class InsertProcessPostController {
     private InsertProcessPostService insertProcessPostService;
 
     @PostMapping
-    public ResponseEntity<InsertProcessPostResponse> create(
+    public ResponseEntity<InsertProcessPostResponse> createProcess(
             @Valid @RequestBody InsertProcessPostRequest request,
             @AuthenticationPrincipal UserEntity loggedUser
     ) {
@@ -43,7 +43,7 @@ public class InsertProcessPostController {
         );
 
         final var process = insertProcessPostService.insertProcess(input);
-        final var response = InsertProcessPostMapper.toResponse(process);
+        final var response = InsertProcessPostMapper.toProcessResponse(process);
 
         return ResponseEntity.ok(response);
     }

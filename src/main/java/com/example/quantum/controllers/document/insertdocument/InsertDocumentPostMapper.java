@@ -5,23 +5,9 @@ import com.example.quantum.services.document.InsertDocumentPostInput;
 
 public class InsertDocumentPostMapper {
 
-    // Request → Input
-    public static InsertDocumentPostInput toInput(InsertDocumentPostRequest request) {
-        return new InsertDocumentPostInput(
-                request.createdBy(),
-                request.nameDocument(),
-                request.content(),
-                request.tempoDeRetencao(),
-                request.type(),
-                request.origin(),
-                request.sector()
-        );
-    }
-
     // Domain → Response
     public static InsertDocumentPostResponse toDocumentResponse(Document document) {
         return new InsertDocumentPostResponse(
-                document.documentId(),
                 document.createdBy(),
                 document.nameDocument(),
                 document.content(),

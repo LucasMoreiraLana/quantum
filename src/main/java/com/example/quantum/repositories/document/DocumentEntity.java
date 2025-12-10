@@ -23,6 +23,7 @@ public class DocumentEntity {
     @Id
     private UUID documentId;
 
+    @NotNull
     private UUID createdBy;
 
     @NotBlank(message = "O nome do documento não pode ser vazio!")
