@@ -1,6 +1,8 @@
 package com.example.quantum.services.document;
 
 import com.example.quantum.domain.Document;
+import com.example.quantum.enums.DocumentOrigin;
+import com.example.quantum.enums.DocumentType;
 import com.example.quantum.enums.Sector;
 
 import java.util.UUID;
@@ -11,8 +13,8 @@ public record UpdateDocumentPutInput(
         String content,
         int tempoDeRetencao,
         boolean active,
-        Document.Type type,
-        Document.Origin origin,
+        DocumentType type,
+        DocumentOrigin origin,
         Sector sector
 ) {}
 

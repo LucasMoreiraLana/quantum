@@ -1,6 +1,8 @@
 package com.example.quantum.repositories.document;
 
 import com.example.quantum.domain.Document;
+import com.example.quantum.enums.DocumentOrigin;
+import com.example.quantum.enums.DocumentType;
 import com.example.quantum.enums.Sector;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -40,10 +42,10 @@ public class DocumentEntity {
     private boolean active = true;
 
     @NotNull(message = "O tipo do documento precisa ser informado!")
-    private Document.Type type; 
+    private DocumentType type;
 
     @NotNull(message = "A origem do documento precisa ser informada!")
-    private Document.Origin origin;
+    private DocumentOrigin origin;
 
     @NotNull(message = "O setor do documento precisa ser informado!")
     private Sector sector;

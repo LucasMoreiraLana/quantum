@@ -719,7 +719,6 @@ class __CreateUserFormState extends State<_CreateUserForm> {
         _usernameController.text,
         _emailController.text,
         _passwordController.text,
-        _isActive,
         _selectedSector!.name,
         _selectedPosition!.name,
       );

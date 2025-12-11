@@ -1,18 +1,23 @@
 package com.example.quantum.controllers.document.insertdocument;
 
-
-import com.example.quantum.domain.Document;
+import com.example.quantum.enums.DocumentOrigin;
+import com.example.quantum.enums.DocumentType;
 import com.example.quantum.enums.Sector;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 
-import java.util.UUID;
-
 public record InsertDocumentPostRequest(
-        String nameDocument,
-        String content,
-        int tempoRetencao,
-        boolean active,
-        Document type,
-        Document origin,
-        Sector sector
+
+        @NotBlank String nameDocument,
+        @NotBlank String content,
+        @NotNull @Min(1) int tempoDeRetencao, // Use @Min(1) para garantir um valor válido
+
+        @JsonFormat(shape = JsonFormat.Shape.STRING)
+        @NotNull DocumentType type,
+
+        @JsonFormat(shape = JsonFormat.Shape.STRING)
+        @NotNull DocumentOrigin origin,
+
+        @JsonFormat(shape = JsonFormat.Shape.STRING)
+        @NotNull Sector sector
 ) {}

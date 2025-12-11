@@ -48,7 +48,6 @@ class ApiService {
       String username,
       String email,
       String password,
-      bool active,
       String sector,
       String position,
       ) async {
@@ -60,7 +59,6 @@ class ApiService {
         'username': username,
         'email': email,
         'password': password,
-        'active': active,
         'sector': sector,
         'position': position,
       }),
@@ -193,11 +191,9 @@ class ApiService {
   }
 
   Future<void> createDocument({
-    required String createdBy,
     required String nameDocument,
     required String content,
-    required int tempoDeRetencao,
-    bool active = true,
+    required int tempoDeRetencao, // Argumento pode manter o 'De' para leitura no Dart
     required String type,
     required String origin,
     required String sector,
@@ -207,11 +203,9 @@ class ApiService {
       Uri.parse('$baseUrl/documents'),
       headers: headers,
       body: json.encode({
-        'createdBy': createdBy,
         'nameDocument': nameDocument,
         'content': content,
         'tempoDeRetencao': tempoDeRetencao,
-        'active': active,
         'type': type,
         'origin': origin,
         'sector': sector,

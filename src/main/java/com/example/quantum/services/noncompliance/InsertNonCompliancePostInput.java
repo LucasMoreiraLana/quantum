@@ -2,6 +2,7 @@ package com.example.quantum.services.noncompliance;
 
 import com.example.quantum.domain.Document;
 import com.example.quantum.domain.NonCompliance;
+import com.example.quantum.enums.DocumentOrigin;
 import com.example.quantum.enums.Priority;
 import com.example.quantum.enums.Sector;
 
@@ -14,7 +15,7 @@ public record InsertNonCompliancePostInput(
         LocalDate dateOpening,
         UUID ProcessId,          // apenas o ID do processo
         Sector sector,
-        Document.Origin origin,
+        DocumentOrigin origin,
         Priority priority,
         String customer,
         String description,

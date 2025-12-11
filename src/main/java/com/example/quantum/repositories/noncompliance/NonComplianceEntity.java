@@ -2,6 +2,7 @@ package com.example.quantum.repositories.noncompliance;
 
 
 
+import com.example.quantum.enums.DocumentOrigin;
 import com.example.quantum.enums.Priority;
 import com.example.quantum.enums.Sector;
 import jakarta.validation.constraints.NotNull;
@@ -36,7 +37,7 @@ public class NonComplianceEntity {
     private Sector sector;
 
     @NotNull
-    private com.example.quantum.domain.Document.Origin origin;
+    private DocumentOrigin origin;
 
     @NotNull
     private Priority priority;

@@ -240,12 +240,15 @@ class _DocumentDetailPageState extends State<DocumentDetailPage>
     }
   }
 
+  // ... seu código antes do buildBody()
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
       body: CustomScrollView(
         slivers: [
+          // ... SliverAppBar
           SliverAppBar(
             expandedHeight: 200,
             pinned: true,
@@ -324,6 +327,13 @@ class _DocumentDetailPageState extends State<DocumentDetailPage>
               _buildSectionTitle('Informações do Documento', Icons.info_rounded),
               const SizedBox(height: 12),
               _buildInfoCard([
+                // NOVO: Adicionando o campo "Criado por" aqui
+                _buildInfoTile(
+                    icon: Icons.person_outline,
+                    label: 'Criado Por',
+                    value: document!['createdByName'] ?? 'Usuário Desconhecido' // <-- USA O NOVO CAMPO
+                ),
+                // FIM DO NOVO CAMPO
                 _buildInfoTile(
                     icon: Icons.badge_outlined,
                     label: 'ID',

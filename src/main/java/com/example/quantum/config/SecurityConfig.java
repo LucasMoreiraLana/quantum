@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
 
-                        // 1. CORREÇÃO CRÍTICA: Permite o pre-flight OPTIONS do CORS
+                        // 1. Permite o pre-flight OPTIONS do CORS
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
@@ -48,14 +48,14 @@ public class SecurityConfig {
                         // =======================================================
 
                         // 👇 Somente ADMIN pode criar usuários
-                        .requestMatchers(HttpMethod.POST, "/v1/users").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.POST, "/v1/users").hasAuthority("ROLE_ADMINISTRADOR")
 
                         // 👇 ADMIN e GESTOR podem atualizar
                         .requestMatchers(HttpMethod.PUT, "/v1/users/**")
-                        .hasAnyRole("ADMINISTRADOR", "GESTOR")
+                        .hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_GESTOR")
 
                         // 👇 Apenas ADMIN pode deletar
-                        .requestMatchers(HttpMethod.DELETE, "/v1/users/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.DELETE, "/v1/users/**").hasAuthority("ROLE_ADMINISTRADOR")
 
                         // 👇 Todos os cargos podem visualizar usuários, exceto anônimos
                         .requestMatchers(HttpMethod.GET, "/v1/users/**").authenticated()
@@ -65,26 +65,28 @@ public class SecurityConfig {
                         // =======================================================
 
                         .requestMatchers(HttpMethod.GET, "/v1/documents").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/v1/documents").hasAnyRole("ADMINISTRADOR", "GESTOR")
-                        .requestMatchers(HttpMethod.PUT, "/v1/documents/**").hasAnyRole("ADMINISTRADOR", "GESTOR")
-                        .requestMatchers(HttpMethod.DELETE, "/v1/documents/**").hasRole("ADMINISTRADOR")
+                        // CORREÇÃO: Usando hasAnyAuthority com prefixo ROLE_
+                        .requestMatchers(HttpMethod.POST, "/v1/documents").hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_GESTOR")
+                        // CORREÇÃO: Usando hasAnyAuthority com prefixo ROLE_
+                        .requestMatchers(HttpMethod.PUT, "/v1/documents/**").hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_GESTOR")
+                        .requestMatchers(HttpMethod.DELETE, "/v1/documents/**").hasAuthority("ROLE_ADMINISTRADOR")
 
 
                         // =======================================================
-                        // ROTAS DE PROCESSOS (AGORA CONSISTENTEMENTE EM /v1/processes)
+                        // ROTAS DE PROCESSOS
                         // =======================================================
 
                         // 👇 GET: Todos autenticados podem visualizar processos
                         .requestMatchers(HttpMethod.GET, "/v1/processes/**").authenticated()
 
-                        // 👇 POST: ADMIN e GESTOR podem criar processos
-                        .requestMatchers(HttpMethod.POST, "/v1/processes").hasAnyRole("ADMINISTRADOR", "GESTOR")
+                        // CORREÇÃO: Usando hasAnyAuthority com prefixo ROLE_
+                        .requestMatchers(HttpMethod.POST, "/v1/processes").hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_GESTOR")
 
-                        // 👇 PUT: ADMIN e GESTOR podem atualizar
-                        .requestMatchers(HttpMethod.PUT, "/v1/processes/**").hasAnyRole("ADMINISTRADOR", "GESTOR")
+                        // CORREÇÃO: Usando hasAnyAuthority com prefixo ROLE_
+                        .requestMatchers(HttpMethod.PUT, "/v1/processes/**").hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_GESTOR")
 
                         // 👇 DELETE: Apenas ADMIN pode deletar
-                        .requestMatchers(HttpMethod.DELETE, "/v1/processes/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.DELETE, "/v1/processes/**").hasAuthority("ROLE_ADMINISTRADOR")
 
 
                         // Qualquer outra requisição deve ser autenticada
@@ -95,13 +97,12 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // A configuração de CORS não mudou, mas garante a consistência
+    // A configuração de CORS
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOriginPattern("http://localhost:*");
         configuration.addAllowedOriginPattern("http://127.0.0.1:*");
-        // É CRÍTICO que OPTIONS esteja aqui (o que já estava!)
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

@@ -720,7 +720,6 @@ class _DocumentsPageState extends State<DocumentsPage> with SingleTickerProvider
     );
   }
 }
-// ==================== FORMULÁRIO DE CRIAÇÃO DE DOCUMENTO ====================
 class _CreateDocumentForm extends StatefulWidget {
   final ApiService api;
   final VoidCallback onDocumentCreated;
@@ -731,6 +730,7 @@ class _CreateDocumentForm extends StatefulWidget {
   @override
   State<_CreateDocumentForm> createState() => __CreateDocumentFormState();
 }
+
 class __CreateDocumentFormState extends State<_CreateDocumentForm> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
@@ -741,19 +741,26 @@ class __CreateDocumentFormState extends State<_CreateDocumentForm> {
   Sector? _selectedSector;
   bool _isLoading = false;
   String? _errorMessage;
-  final AuthService _authService = AuthService();
-  String? _currentUserId;
+
+  // REMOVIDO: final AuthService _authService = AuthService();
+  // REMOVIDO: String? _currentUserId;
+
   @override
   void initState() {
     super.initState();
-    _loadCurrentUser();
+    // REMOVIDO: _loadCurrentUser(); (Não é mais necessário, pois o backend injeta o ID)
   }
+
+  // REMOVIDO: _loadCurrentUser() (Não é mais necessário)
+  /*
   Future<void> _loadCurrentUser() async {
     final user = await _authService.getCurrentUser();
     setState(() {
       _currentUserId = user['userId'];
     });
   }
+  */
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -761,23 +768,30 @@ class __CreateDocumentFormState extends State<_CreateDocumentForm> {
     _retentionController.dispose();
     super.dispose();
   }
+
   Future<void> _submitForm() async {
     if (!(_formKey.currentState?.validate() ?? false)) {
       return;
     }
+
+    // REMOVIDO: A verificação de _currentUserId, pois ele não é mais usado.
+    /*
     if (_currentUserId == null) {
       setState(() {
         _errorMessage = 'Erro ao identificar usuário. Faça login novamente.';
       });
       return;
     }
+    */
+
     setState(() {
       _isLoading = true;
       _errorMessage = null;
     });
+
     try {
       await widget.api.createDocument(
-        createdBy: _currentUserId!,
+        // Os campos 'createdBy' e 'active' NÃO SÃO ENVIADOS (Correto)
         nameDocument: _nameController.text,
         content: _contentController.text,
         tempoDeRetencao: int.parse(_retentionController.text),
@@ -785,6 +799,7 @@ class __CreateDocumentFormState extends State<_CreateDocumentForm> {
         origin: _selectedOrigin!.name,
         sector: _selectedSector!.name,
       );
+
       if (mounted) {
         Navigator.of(context).pop();
       }
@@ -796,6 +811,7 @@ class __CreateDocumentFormState extends State<_CreateDocumentForm> {
       });
     }
   }
+
   InputDecoration _buildInputDecoration(String label, IconData icon, {Widget? suffix, String? hint}) {
     return InputDecoration(
       labelText: label,
@@ -817,6 +833,7 @@ class __CreateDocumentFormState extends State<_CreateDocumentForm> {
       fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -1005,38 +1022,30 @@ class __CreateDocumentFormState extends State<_CreateDocumentForm> {
                           ),
                         ),
                       ],
+                      // Botão de Submissão
+                      const SizedBox(height: 24),
+                      ElevatedButton.icon(
+                        onPressed: _isLoading ? null : _submitForm,
+                        icon: const Icon(Icons.add_task_rounded),
+                        label: const Text('Criar Documento'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('Cancelar'),
+                      ),
                     ],
                   ),
                 ),
-              ),
-            ),
-            // Botões de ação
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: _isLoading ? null : () => Navigator.of(context).pop(),
-                    child: const Text('Cancelar'),
-                  ),
-                  const SizedBox(width: 12),
-                  FilledButton.icon(
-                    onPressed: _isLoading ? null : _submitForm,
-                    icon: const Icon(Icons.save_rounded),
-                    label: const Text('Criar Documento'),
-                    style: FilledButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                    ),
-                  ),
-                ],
               ),
             ),
           ],

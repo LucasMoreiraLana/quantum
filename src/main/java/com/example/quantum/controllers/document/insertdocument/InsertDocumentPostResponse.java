@@ -1,6 +1,8 @@
 package com.example.quantum.controllers.document.insertdocument;
 
 import com.example.quantum.domain.Document;
+import com.example.quantum.enums.DocumentOrigin;
+import com.example.quantum.enums.DocumentType;
 import com.example.quantum.enums.Sector;
 
 import java.util.UUID;
@@ -10,8 +12,9 @@ public record InsertDocumentPostResponse(
         String nameDocument,
         String content,
         int tempoDeRetencao,
-        Document.Type type,
-        Document.Origin origin,
+        DocumentType type,
+        DocumentOrigin origin,
         Sector sector,
-        boolean active
+        boolean active,
+        String createdByName
 ) {}
