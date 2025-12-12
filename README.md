@@ -1,2 +1,2 @@
 # Quantum
-API de gestão da qualidade/administração de empresas.
+Projeto FullStack Java/SpringBoot + Flutter para gestão da qualidade/administração de empresas.
