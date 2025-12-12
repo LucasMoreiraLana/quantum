@@ -2,10 +2,18 @@ package com.example.quantum.controllers.process.getprocess;
 
 import com.example.quantum.domain.Process;
 import com.example.quantum.repositories.process.ProcessEntity;
+import com.example.quantum.services.process.GetProcessServiceGetOutput;
+
 
 public class GetProcessByIdGetMapper {
 
-    public static GetProcessByIdGetResponse toResponse(Process process) {
+    // 1. MÉTODO DE RESPOSTA CORRIGIDO (Recebe o Output do Service)
+    public static GetProcessByIdGetResponse toResponse(GetProcessServiceGetOutput output) {
+        final Process process = output.process();
+
+        // Obtém o nome ou usa o fallback
+        final String createdByName = output.createdByName().orElse("Usuário Desconhecido");
+
         return new GetProcessByIdGetResponse(
                 process.processId(),
                 process.createdBy(),
@@ -13,11 +21,14 @@ public class GetProcessByIdGetMapper {
                 process.dateApproval(),
                 process.dateConclusion(),
                 process.sector(),
-                process.cyclePDCA()
+                process.cyclePDCA(),
+
+                // NOVO CAMPO: Mapeia o nome
+                createdByName
         );
     }
 
-    // Converte de Entity (banco) para Domain (negócio)
+    // 2. Converte de Entity (banco) para Domain (negócio) - Permanece o mesmo
     public static Process toDomain(ProcessEntity entity) {
         if (entity == null) return null;
 
