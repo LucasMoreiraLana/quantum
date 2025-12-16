@@ -1,6 +1,5 @@
 package com.example.quantum.controllers.noncompliance.getnoncompliance;
 
-import com.example.quantum.domain.Document;
 import com.example.quantum.enums.DocumentOrigin;
 import com.example.quantum.enums.Priority;
 import com.example.quantum.enums.Sector;
@@ -19,5 +18,5 @@ public record GetNonComplianceByIdGetResponse(
         String customer,
         String description,
         boolean efficacy,
-        LocalDate datePrevision
-) {}
+        LocalDate datePrevision,
+        String createdByName) {}

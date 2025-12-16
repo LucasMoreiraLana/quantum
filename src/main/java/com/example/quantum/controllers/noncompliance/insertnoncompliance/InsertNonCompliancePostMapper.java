@@ -2,12 +2,18 @@ package com.example.quantum.controllers.noncompliance.insertnoncompliance;
 
 import com.example.quantum.domain.NonCompliance;
 import com.example.quantum.services.noncompliance.InsertNonCompliancePostInput;
+import com.example.quantum.services.noncompliance.InserNonComplianceServicePostOutput;
+import java.util.UUID; // IMPORT NECESSÁRIO!
 
 public class InsertNonCompliancePostMapper {
 
     public static InsertNonCompliancePostInput toInput(InsertNonCompliancePostRequest request){
-        return new InsertNonCompliancePostInput(
 
+        // CORREÇÃO: Gerar o ID único para a nova Inconformidade
+        final UUID nonComplianceId = UUID.randomUUID();
+
+        return new InsertNonCompliancePostInput(
+                nonComplianceId, // 1. O ID GERADO É O PRIMEIRO ARGUMENTO
                 request.createdBy(),
                 request.dateOpening(),
                 request.processId(),
@@ -18,12 +24,14 @@ public class InsertNonCompliancePostMapper {
                 request.description(),
                 request.efficacy(),
                 request.datePrevision()
-
-
         );
     }
 
-    public static InsertNonCompliancePostResponse toResponse(NonCompliance nonCompliance){
+    // Mantido o método toResponse corrigido anteriormente para o DTO de Saída
+    public static InsertNonCompliancePostResponse toResponse(InserNonComplianceServicePostOutput output){
+
+        final NonCompliance nonCompliance = output.nonCompliance();
+        final String createdByName = output.createdByName();
 
         return new InsertNonCompliancePostResponse(
                 nonCompliance.nonComplianceId(),
@@ -36,7 +44,8 @@ public class InsertNonCompliancePostMapper {
                 nonCompliance.customer(),
                 nonCompliance.description(),
                 nonCompliance.efficacy(),
-                nonCompliance.datePrevision()
+                nonCompliance.datePrevision(),
+                createdByName
         );
     }
 }

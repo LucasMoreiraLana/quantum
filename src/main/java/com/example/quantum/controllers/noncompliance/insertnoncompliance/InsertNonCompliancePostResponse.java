@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public record InsertNonCompliancePostResponse(
         UUID nonComplianceId,
-        UUID createdBy,
+        UUID createdBy, // Mantido, pois é o ID
         LocalDate dateOpening,
         UUID processId,
         Sector sector,
@@ -20,7 +20,10 @@ public record InsertNonCompliancePostResponse(
         String customer,
         String description,
         boolean efficacy,
-        LocalDate datePrevision
+        LocalDate datePrevision,
+
+        // NOVO CAMPO: Nome do criador
+        String createdByName
 
 ) {
 }

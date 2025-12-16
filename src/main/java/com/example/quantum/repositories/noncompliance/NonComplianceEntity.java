@@ -1,7 +1,6 @@
 package com.example.quantum.repositories.noncompliance;
 
 
-
 import com.example.quantum.enums.DocumentOrigin;
 import com.example.quantum.enums.Priority;
 import com.example.quantum.enums.Sector;
@@ -25,13 +24,13 @@ public class NonComplianceEntity {
     private UUID nonComplianceId;
 
     @NotNull
-    private UUID createdBy;
+    private UUID createdBy; // O método getCreatedBy() é gerado aqui!
 
     @NotNull
     private UUID processId;
 
     @NotNull
-    private LocalDate dateOpening;
+    private LocalDate dateOpening; // CORRETO: dateOpening
 
     @NotNull
     private Sector sector;
@@ -52,13 +51,6 @@ public class NonComplianceEntity {
     private boolean efficacy;
 
     @NotNull
-    private LocalDate dataPrevision;
-
-
-
-
-
-
-
+    private LocalDate datePrevision;
 
 }

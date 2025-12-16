@@ -1,12 +1,15 @@
 package com.example.quantum.services.noncompliance;
 
-import com.example.quantum.domain.NonCompliance;
+
 import com.example.quantum.repositories.noncompliance.NonComplianceEntityMapper;
 import com.example.quantum.repositories.noncompliance.NonComplianceRepository;
 import com.example.quantum.repositories.process.ProcessRepository;
+import com.example.quantum.repositories.user.UserEntity;
 import com.example.quantum.repositories.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class InsertNonCompliancePostService {
@@ -20,28 +23,23 @@ public class InsertNonCompliancePostService {
     @Autowired
     private UserRepository userRepository;
 
-    public NonCompliance createNonCompliance(InsertNonCompliancePostInput input) {
+    public InserNonComplianceServicePostOutput createNonCompliance(InsertNonCompliancePostInput input) {
 
-        // 1. Validações
-        if (!processRepository.existsById(input.ProcessId())) {
-            throw new IllegalArgumentException("O processo informado não existe!");
-        }
-
-        if (!userRepository.existsById(input.createdBy())) {
-            throw new IllegalArgumentException("O usuário informado não existe!");
-        }
-
-        // 2. Converte o input para o domínio
         final var nonCompliance = input.toDomain();
-
-        // 3. Converte para entity
         final var entity = NonComplianceEntityMapper.toEntity(nonCompliance);
+        final var savedNonComplianceEntity = nonComplianceRepository.save(entity); // Retorna Entidade
 
-        // 4. Salva
-        final var savedEntity = nonComplianceRepository.save(entity);
+        // --- PASSO CRÍTICO: CONVERTER ENTIDADE PARA DOMÍNIO ---
+        final var savedNonComplianceDomain = NonComplianceEntityMapper.toNonCompliance(savedNonComplianceEntity);
 
-        // 5. Retorna para o domínio
-        return NonComplianceEntityMapper.toNonCompliance(savedEntity);
+        final UUID createdBy = savedNonComplianceEntity.getCreatedBy(); // Usa a Entidade para buscar o ID
+
+        final String createdByName = userRepository.findById(createdBy)
+                .map(UserEntity::getUsername)
+                .orElse("Usuário Desconhecido");
+
+        // --- USA O OBJETO DE DOMÍNIO AQUI ---
+        return new InserNonComplianceServicePostOutput(savedNonComplianceDomain, createdByName);
     }
 }
 

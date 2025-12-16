@@ -1,6 +1,6 @@
 package com.example.quantum.repositories.document;
 
-import com.example.quantum.domain.Document;
+
 import com.example.quantum.enums.DocumentOrigin;
 import com.example.quantum.enums.DocumentType;
 import com.example.quantum.enums.Sector;

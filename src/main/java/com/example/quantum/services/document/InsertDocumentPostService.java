@@ -16,7 +16,8 @@ public class InsertDocumentPostService {
     private DocumentRepository documentRepository;
 
     @Autowired
-    private UserRepository userRepository; // Injeção de dependência necessária
+    private UserRepository userRepository;
+
 
     // NOVO: O método agora retorna o DTO de Saída
     public InsertDocumentServicePostOutput createDocument(InsertDocumentPostInput input) {
@@ -37,7 +38,7 @@ public class InsertDocumentPostService {
 
         // 4. Buscar o nome do criador
         final UUID createdBy = savedDocument.createdBy();
-// 💡 Adicione este log para ver qual ID ele está buscando!
+
         System.out.println("DEBUG: Buscando nome para o ID do criador: " + createdBy);
 
         final String createdByName = userRepository.findById(createdBy)

@@ -35,6 +35,7 @@ public class GetDocumentByIdGetService {
 
                     // 3. Retornar o DTO de Saída, empacotando o Documento e o Nome
                     return new GetDocumentServiceGetOutput(document, createdByName);
+
                 });
     }
 }

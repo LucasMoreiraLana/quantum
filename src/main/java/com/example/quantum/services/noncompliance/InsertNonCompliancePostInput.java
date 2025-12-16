@@ -11,6 +11,7 @@ import java.util.UUID;
 
 public record InsertNonCompliancePostInput(
 
+        UUID nonComplianceId,
         UUID createdBy,
         LocalDate dateOpening,
         UUID ProcessId,          // apenas o ID do processo
@@ -25,7 +26,7 @@ public record InsertNonCompliancePostInput(
 ) {
     public NonCompliance toDomain() {
         return new NonCompliance(
-                UUID.randomUUID(), // Sempre gera aqui
+                this.nonComplianceId, // Sempre gera aqui
                 this.createdBy,
                 this.dateOpening,
                 this.ProcessId,

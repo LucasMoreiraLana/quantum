@@ -26,7 +26,7 @@ public class GetNonComplianceByIdGetController {
         GetNonComplianceByIdGetInput input = new GetNonComplianceByIdGetInput(ncId);
 
         return getNonComplianceByIdGetService.execute(input)
-                .map(nonCompliance -> ResponseEntity.ok(GetNonComplianceByIdGetMapper.toResponse(nonCompliance)))
+                .map(nonComplianceOutput -> ResponseEntity.ok(GetNonComplianceByIdGetMapper.toResponse(nonComplianceOutput))) // <-- Renomeado para clareza
                 .orElse(ResponseEntity.notFound().build());
     }
 }

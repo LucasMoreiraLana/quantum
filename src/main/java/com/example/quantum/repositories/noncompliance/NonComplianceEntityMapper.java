@@ -5,20 +5,20 @@ import com.example.quantum.domain.NonCompliance;
 public class NonComplianceEntityMapper {
 
     public static NonCompliance toNonCompliance(NonComplianceEntity entity){
-
         return new NonCompliance(
-                  entity.getNonComplianceId(),
-                  entity.getCreatedBy(),
+                entity.getNonComplianceId(),
+                entity.getCreatedBy(),
                 entity.getDateOpening(),
                 entity.getProcessId(),
-                  entity.getSector(),
-                  entity.getOrigin(),
-                  entity.getPriority(),
-                  entity.getCustomer(),
-                  entity.getDescription(),
-                  entity.isEfficacy(),
-                  entity.getDataPrevision()
-                );
+                entity.getSector(),
+                entity.getOrigin(),
+                entity.getPriority(),
+                entity.getCustomer(),
+                entity.getDescription(),
+                entity.isEfficacy(),
+                // CORRIGIDO: Usando getDatePrevision()
+                entity.getDatePrevision()
+        );
     }
 
     public static NonComplianceEntity toEntity(NonCompliance nonCompliance){
@@ -33,7 +33,9 @@ public class NonComplianceEntityMapper {
         entity.setCustomer(nonCompliance.customer());
         entity.setDescription(nonCompliance.description());
         entity.setEfficacy(nonCompliance.efficacy());
-        entity.setDataPrevision(nonCompliance.datePrevision());
+
+        // CORRIGIDO: Usando setDatePrevision()
+        entity.setDatePrevision(nonCompliance.datePrevision());
         return entity;
     }
 }
