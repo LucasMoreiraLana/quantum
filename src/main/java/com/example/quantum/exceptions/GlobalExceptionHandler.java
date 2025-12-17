@@ -42,4 +42,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
         return ResponseEntity.badRequest().body("Esse nome já está em uso!");
     }
+
+    @ExceptionHandler(Exception.class)  // Captura genérica
+    public ResponseEntity<String> handleGeneralException(Exception e) {
+        return ResponseEntity.internalServerError().body("Erro interno do servidor: " + e.getMessage());
+    }
 }

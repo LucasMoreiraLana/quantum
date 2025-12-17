@@ -405,4 +405,127 @@ class ApiService {
       }
     }
   }
+// ============= NÃO-CONFORMIDADES =============
+
+  Future<List<dynamic>> getNonCompliances() async {
+    final headers = await _getHeaders();
+    final response = await http.get(Uri.parse('$baseUrl/nc'), headers: headers);  // Mudado para /nc
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else {
+      throw Exception('Falha ao carregar não-conformidades: ${response.statusCode}');
+    }
+  }
+
+  Future<Map<String, dynamic>> getNonComplianceById(String nonComplianceId) async {
+    final headers = await _getHeaders();
+    final response = await http.get(Uri.parse('$baseUrl/nc/$nonComplianceId'), headers: headers);  // Mudado para /nc/{id}
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else {
+      throw Exception('Falha ao carregar detalhes da não-conformidade: ${response.statusCode}');
+    }
+  }
+
+  Future<void> createNonCompliance({
+    required String createdBy,
+    required String dateOpening, // Formato yyyy-MM-dd
+    required String processId,
+    required String sector,
+    required String origin,
+    required String priority,
+    required String customer,
+    required String description,
+    required bool efficacy,
+    required String datePrevision, // Formato yyyy-MM-dd
+  }) async {
+    final headers = await _getHeaders();
+    final response = await http.post(
+      Uri.parse('$baseUrl/nc'),  // Mudado para /nc
+      headers: headers,
+      body: json.encode({
+        'createdBy': createdBy,
+        'dateOpening': dateOpening,
+        'processId': processId,
+        'sector': sector,
+        'origin': origin,
+        'priority': priority,
+        'customer': customer,
+        'description': description,
+        'efficacy': efficacy,
+        'datePrevision': datePrevision,
+      }),
+    );
+
+    if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else if (response.statusCode != 200 && response.statusCode != 201) {
+      try {
+        final errorBody = json.decode(response.body);
+        throw Exception(errorBody['message'] ?? 'Falha ao criar não-conformidade');
+      } catch (e) {
+        throw Exception('Falha ao criar não-conformidade: ${response.body}');
+      }
+    }
+  }
+
+  Future<void> updateNonCompliance({
+    required String nonComplianceId,
+    required String createdBy,
+    required String dateOpening,
+    required String processId,
+    required String sector,
+    required String origin,
+    required String priority,
+    required String customer,
+    required String description,
+    required bool efficacy,
+    required String datePrevision,
+  }) async {
+    final headers = await _getHeaders();
+    final response = await http.put(
+      Uri.parse('$baseUrl/nc/$nonComplianceId'),  // Mudado para /nc/{id}
+      headers: headers,
+      body: json.encode({
+        'createdBy': createdBy,
+        'dateOpening': dateOpening,
+        'processId': processId,
+        'sector': sector,
+        'origin': origin,
+        'priority': priority,
+        'customer': customer,
+        'description': description,
+        'efficacy': efficacy,
+        'datePrevision': datePrevision,
+      }),
+    );
+
+    if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else if (response.statusCode != 200) {
+      try {
+        final errorBody = json.decode(response.body);
+        throw Exception(errorBody['message'] ?? 'Falha ao atualizar não-conformidade');
+      } catch (e) {
+        throw Exception('Falha ao atualizar não-conformidade: ${response.body}');
+      }
+    }
+  }
+
+  Future<void> deleteNonCompliance(String nonComplianceId) async {
+    final headers = await _getHeaders();
+    final response = await http.delete(Uri.parse('$baseUrl/nc/$nonComplianceId'), headers: headers);  // Mudado para /nc/{id}
+
+    if (response.statusCode == 401) {
+      throw Exception('Sessão expirada. Faça login novamente.');
+    } else if (response.statusCode != 200) {
+      throw Exception('Falha ao deletar não-conformidade: ${response.statusCode}');
+    }
+  }
 }

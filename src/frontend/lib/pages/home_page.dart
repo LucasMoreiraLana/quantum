@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../pages/users_page.dart';
-import '../pages/documents_page.dart';// Adicionado: Import para DocumentsPage
+import '../pages/documents_page.dart'; // Adicionado: Import para DocumentsPage
 import '../pages/processes_page.dart';
+import '../pages/non_compliances_page.dart'; // Adicionado: Import para NonCompliancesPage
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -244,7 +245,7 @@ class _HomePageState extends State<HomePage> {
       case 3:
         return const ProcessesPage(); // <--- ATUALIZADO AQUI  // Substitua por sua página
       case 4:
-        return const Center(child: Text('Em desenvolvimento: Não Conformidades'));
+        return const NonCompliancesPage(); // Atualizado: Agora usa a página real de Não Conformidades
       case 5:
         return const Center(child: Text('Em desenvolvimento: Configurações'));
       default:

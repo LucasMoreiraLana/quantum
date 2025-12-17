@@ -1,6 +1,5 @@
 package com.example.quantum.controllers.noncompliance.getnoncompliance;
 
-
 import com.example.quantum.services.noncompliance.GetNonComplianceByIdGetInput;
 import com.example.quantum.services.noncompliance.GetNonComplianceByIdGetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
-
 @RestController
 @RequestMapping("/v1/nc")
 public class GetNonComplianceByIdGetController {
@@ -21,12 +19,19 @@ public class GetNonComplianceByIdGetController {
     private GetNonComplianceByIdGetService getNonComplianceByIdGetService;
 
     @GetMapping("/{ncId}")
-    public ResponseEntity<GetNonComplianceByIdGetResponse> getNonComplianceByIdResponse (@PathVariable UUID ncId){
+    public ResponseEntity<?> getNonComplianceByIdResponse(@PathVariable String ncIdStr) {  // Mudado para String para validar manualmente
 
-        GetNonComplianceByIdGetInput input = new GetNonComplianceByIdGetInput(ncId);
+        try {
+            UUID ncId = UUID.fromString(ncIdStr);  // Tenta converter para UUID
+            GetNonComplianceByIdGetInput input = new GetNonComplianceByIdGetInput(ncId);
 
-        return getNonComplianceByIdGetService.execute(input)
-                .map(nonComplianceOutput -> ResponseEntity.ok(GetNonComplianceByIdGetMapper.toResponse(nonComplianceOutput))) // <-- Renomeado para clareza
-                .orElse(ResponseEntity.notFound().build());
+            return getNonComplianceByIdGetService.execute(input)
+                    .map(nonComplianceOutput -> ResponseEntity.ok(GetNonComplianceByIdGetMapper.toResponse(nonComplianceOutput)))
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("ID inválido: deve ser um UUID válido no formato 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Erro interno ao processar a requisição: " + e.getMessage());
+        }
     }
 }

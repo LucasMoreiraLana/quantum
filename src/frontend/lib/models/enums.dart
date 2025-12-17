@@ -52,6 +52,20 @@ enum Cycle {
   A
 }
 
+enum Priority {
+  LOW,
+  MEDIUM,
+  HIGH;
+
+  String get displayName {
+    switch (this) {
+      case Priority.LOW: return 'Baixa';
+      case Priority.MEDIUM: return 'Média';
+      case Priority.HIGH: return 'Alta';
+    }
+  }
+}
+
 // ========== EXTENSÃO PARA FORMATAÇÃO DE EXIBIÇÃO ==========
 
 extension EnumFormatting on Enum {

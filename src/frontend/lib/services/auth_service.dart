@@ -173,6 +173,12 @@ class AuthService {
     };
   }
 
+  /// Retorna o ID do usuário logado
+  Future<String?> getUserId() async {
+    final user = await getCurrentUser();
+    return user['userId'];
+  }
+
   // ============= PERMISSÕES =============
 
   /// Verifica se o usuário tem permissão de administrador (acesso total)
