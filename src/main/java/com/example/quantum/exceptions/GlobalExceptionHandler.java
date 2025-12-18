@@ -13,14 +13,15 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // 1. CAPTURA GENÉRICA (MANTIDA ESTA VERSÃO POR SER MAIS DETALHADA)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleAllExceptions(Exception ex) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("message", ex.getMessage());
+        body.put("message", "Erro interno do servidor: " + ex.getMessage());
         body.put("type", ex.getClass().getSimpleName());
         body.put("detail", ex.toString());
-        
+
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("message", ex.getMessage());
-        
+
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
@@ -41,10 +42,5 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
         return ResponseEntity.badRequest().body("Esse nome já está em uso!");
-    }
-
-    @ExceptionHandler(Exception.class)  // Captura genérica
-    public ResponseEntity<String> handleGeneralException(Exception e) {
-        return ResponseEntity.internalServerError().body("Erro interno do servidor: " + e.getMessage());
     }
 }

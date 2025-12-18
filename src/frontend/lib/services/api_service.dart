@@ -434,8 +434,8 @@ class ApiService {
   }
 
   Future<void> createNonCompliance({
-    required String createdBy,
-    required String dateOpening, // Formato yyyy-MM-dd
+    required String authorId, // Renomeado de createdBy
+    required String dateOpening,
     required String processId,
     required String sector,
     required String origin,
@@ -443,14 +443,14 @@ class ApiService {
     required String customer,
     required String description,
     required bool efficacy,
-    required String datePrevision, // Formato yyyy-MM-dd
+    required String datePrevision,
   }) async {
     final headers = await _getHeaders();
     final response = await http.post(
-      Uri.parse('$baseUrl/nc'),  // Mudado para /nc
+      Uri.parse('$baseUrl/nc'),
       headers: headers,
       body: json.encode({
-        'createdBy': createdBy,
+        'authorId': authorId, // O JSON agora enviará 'authorId'
         'dateOpening': dateOpening,
         'processId': processId,
         'sector': sector,
