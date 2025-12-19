@@ -434,7 +434,7 @@ class ApiService {
   }
 
   Future<void> createNonCompliance({
-    required String authorId, // Renomeado de createdBy
+    required String createdBy, // Renomeado de createdBy
     required String dateOpening,
     required String processId,
     required String sector,
@@ -450,7 +450,7 @@ class ApiService {
       Uri.parse('$baseUrl/nc'),
       headers: headers,
       body: json.encode({
-        'authorId': authorId, // O JSON agora enviará 'authorId'
+        'createdBy': createdBy,
         'dateOpening': dateOpening,
         'processId': processId,
         'sector': sector,

@@ -336,12 +336,16 @@ class _CreateNonComplianceFormState extends State<_CreateNonComplianceForm> {
                       value: _selectedProcessId,
                       decoration: _buildInputDecoration('Vincular ao Processo', Icons.account_tree),
                       items: _processes.map((proc) {
+                        // O segredo está aqui: verifique se no seu JSON o Java envia 'processId' ou 'id'
                         return DropdownMenuItem<String>(
-                          value: proc['processId'].toString(),
+                          value: proc['processId']?.toString() ?? proc['id']?.toString(),
                           child: Text(proc['nameProcess'] ?? 'Sem nome'),
                         );
                       }).toList(),
-                      onChanged: (val) => setState(() => _selectedProcessId = val),
+                      onChanged: (val) {
+                        setState(() => _selectedProcessId = val);
+                        print("Processo selecionado ID: $val"); // Para seu debug
+                      },
                       validator: (v) => v == null ? 'Obrigatório' : null,
                     ),
                     const SizedBox(height: 16),

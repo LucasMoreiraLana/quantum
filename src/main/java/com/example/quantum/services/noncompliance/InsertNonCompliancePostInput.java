@@ -14,7 +14,7 @@ public record InsertNonCompliancePostInput(
         UUID nonComplianceId,
         UUID createdBy,
         LocalDate dateOpening,
-        UUID ProcessId,          // apenas o ID do processo
+        UUID processId,          // apenas o ID do processo
         Sector sector,
         DocumentOrigin origin,
         Priority priority,
@@ -29,7 +29,7 @@ public record InsertNonCompliancePostInput(
                 this.nonComplianceId, // Sempre gera aqui
                 this.createdBy,
                 this.dateOpening,
-                this.ProcessId,
+                this.processId,
                 this.sector,
                 this.origin,
                 this.priority,

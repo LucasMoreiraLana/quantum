@@ -25,7 +25,7 @@ public class InsertNonCompliancePostService {
 
     public InserNonComplianceServicePostOutput createNonCompliance(InsertNonCompliancePostInput input) {
 
-        boolean processExists = processRepository.existsById(input.ProcessId()); // Nota: 'ProcessId' com P maiúsculo conforme seu arquivo Input
+        boolean processExists = processRepository.existsById(input.processId()); // Nota: 'ProcessId' com P maiúsculo conforme seu arquivo Input
         if (!processExists) {
             throw new RuntimeException("Não é possível criar a Não Conformidade: O Processo selecionado não existe.");
         }
