@@ -91,11 +91,18 @@ class _NonComplianceDetailPageState extends State<NonComplianceDetailPage>
   }
 
   IconData _getIconByPriority(String? priority) {
-    switch (priority) {
-      case 'HIGH': return Icons.priority_high;
-      case 'MEDIUM': return Icons.warning;
-      case 'LOW': return Icons.low_priority;
-      default: return Icons.help;
+    // .toUpperCase() garante que funcione mesmo se o backend mudar a capitalização
+    switch (priority?.toUpperCase()) {
+      case 'URGENCY':
+        return Icons.notification_important; // Ícone de alerta urgente
+      case 'HIGH_PRIORITY':
+        return Icons.priority_high;          // Ícone de exclamação (!)
+      case 'REGULAR':
+        return Icons.warning_amber_rounded;  // Ícone de aviso (triângulo)
+      case 'LOW_PRIORITY':
+        return Icons.low_priority;           // Ícone de baixa prioridade
+      default:
+        return Icons.help_outline;           // Ícone padrão para nulo ou desconhecido
     }
   }
 
@@ -254,7 +261,7 @@ class _EditNonComplianceFormState extends State<_EditNonComplianceForm> {
     _datePrevision = DateTime.parse(widget.nonCompliance['datePrevision'] ?? DateTime.now().toString());
     _sector = Sector.values.firstWhere((e) => e.name == widget.nonCompliance['sector'], orElse: () => Sector.ADMINISTRATIVO); // Exemplo
     _origin = DocumentOrigin.values.firstWhere((e) => e.name == widget.nonCompliance['origin'], orElse: () => DocumentOrigin.INTERNO);
-    _priority = Priority.values.firstWhere((e) => e.name == widget.nonCompliance['priority'], orElse: () => Priority.MEDIUM);
+    _priority = Priority.values.firstWhere((e) => e.name == widget.nonCompliance['priority'], orElse: () => Priority.REGULAR);
     _processId = widget.nonCompliance['processId'].toString();
   }
 

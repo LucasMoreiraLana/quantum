@@ -53,15 +53,17 @@ enum Cycle {
 }
 
 enum Priority {
-  LOW,
-  MEDIUM,
-  HIGH;
+  LOW_PRIORITY,
+  REGULAR,
+  HIGH_PRIORITY,
+  URGENCY;
 
   String get displayName {
     switch (this) {
-      case Priority.LOW: return 'Baixa';
-      case Priority.MEDIUM: return 'Média';
-      case Priority.HIGH: return 'Alta';
+      case Priority.LOW_PRIORITY: return 'Baixa Prioridade';
+      case Priority.REGULAR: return 'Prioridade Média';
+      case Priority.HIGH_PRIORITY: return 'Alta Prioridade';
+      case Priority.URGENCY: return 'Urgente';
     }
   }
 }
