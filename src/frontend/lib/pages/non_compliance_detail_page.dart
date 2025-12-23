@@ -1,11 +1,8 @@
-// Novo arquivo: non_compliance_detail_page.dart
-// Coloque este arquivo no mesmo diretório que document_detail_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
-import '../models/enums.dart'; // Importe os enums (adicione Priority se necessário)
+import '../models/enums.dart';
 
 class NonComplianceDetailPage extends StatefulWidget {
   final String nonComplianceId;
@@ -48,6 +45,19 @@ class _NonComplianceDetailPageState extends State<NonComplianceDetailPage>
     super.dispose();
   }
 
+  // Função auxiliar para converter o formato de data do Java (Lista ou String) em algo legível
+  String formatDate(dynamic value) {
+    if (value == null) return 'N/A';
+    if (value is List) {
+      // Se for [2025, 12, 22], retorna "22/12/2025"
+      final year = value[0];
+      final month = value.length > 1 ? value[1].toString().padLeft(2, '0') : '01';
+      final day = value.length > 2 ? value[2].toString().padLeft(2, '0') : '01';
+      return '$day/$month/$year';
+    }
+    return value.toString();
+  }
+
   Future<void> loadNonComplianceDetails() async {
     setState(() {
       _loading = true;
@@ -56,12 +66,10 @@ class _NonComplianceDetailPageState extends State<NonComplianceDetailPage>
 
     try {
       var data = await api.getNonComplianceById(widget.nonComplianceId);
-
       setState(() {
         nonCompliance = data;
         _loading = false;
       });
-
       _animationController.forward();
     } catch (e) {
       setState(() {
@@ -75,34 +83,20 @@ class _NonComplianceDetailPageState extends State<NonComplianceDetailPage>
     Clipboard.setData(ClipboardData(text: text));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Row(
-          children: [
-            const Icon(Icons.check_circle, color: Colors.white, size: 20),
-            const SizedBox(width: 12),
-            Text('$label copiado!'),
-          ],
-        ),
+        content: Text('$label copiado!'),
         backgroundColor: Colors.green.shade600,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        duration: const Duration(seconds: 2),
       ),
     );
   }
 
   IconData _getIconByPriority(String? priority) {
-    // .toUpperCase() garante que funcione mesmo se o backend mudar a capitalização
     switch (priority?.toUpperCase()) {
-      case 'URGENCY':
-        return Icons.notification_important; // Ícone de alerta urgente
-      case 'HIGH_PRIORITY':
-        return Icons.priority_high;          // Ícone de exclamação (!)
-      case 'REGULAR':
-        return Icons.warning_amber_rounded;  // Ícone de aviso (triângulo)
-      case 'LOW_PRIORITY':
-        return Icons.low_priority;           // Ícone de baixa prioridade
-      default:
-        return Icons.help_outline;           // Ícone padrão para nulo ou desconhecido
+      case 'URGENCY': return Icons.notification_important;
+      case 'HIGH_PRIORITY': return Icons.priority_high;
+      case 'REGULAR': return Icons.warning_amber_rounded;
+      case 'LOW_PRIORITY': return Icons.low_priority;
+      default: return Icons.help_outline;
     }
   }
 
@@ -134,14 +128,10 @@ class _NonComplianceDetailPageState extends State<NonComplianceDetailPage>
     if (confirm == true) {
       try {
         await api.deleteNonCompliance(widget.nonComplianceId);
-        Navigator.pop(context); // Volta para a lista
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Não-Conformidade deletada com sucesso!')),
-        );
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Deletada com sucesso!')));
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro ao deletar: $e')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Erro ao deletar: $e')));
       }
     }
   }
@@ -150,17 +140,11 @@ class _NonComplianceDetailPageState extends State<NonComplianceDetailPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(nonCompliance?['customer'] ?? 'Detalhes da Não-Conformidade'),
+        title: Text(nonCompliance?['customer'] ?? 'Detalhes'),
         actions: _hasManagementPermission && nonCompliance != null
             ? [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: _showEditDialog,
-          ),
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: _deleteNonCompliance,
-          ),
+          IconButton(icon: const Icon(Icons.edit), onPressed: _showEditDialog),
+          IconButton(icon: const Icon(Icons.delete), onPressed: _deleteNonCompliance),
         ]
             : null,
       ),
@@ -176,7 +160,7 @@ class _NonComplianceDetailPageState extends State<NonComplianceDetailPage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                leading: Icon(_getIconByPriority(nonCompliance!['priority'])),
+                leading: Icon(_getIconByPriority(nonCompliance!['priority']?.toString())),
                 title: const Text('Cliente'),
                 subtitle: Text(nonCompliance!['customer'] ?? 'N/A'),
                 trailing: IconButton(
@@ -192,29 +176,22 @@ class _NonComplianceDetailPageState extends State<NonComplianceDetailPage>
               ),
               const Divider(),
               ListTile(
-                leading: const Icon(Icons.priority_high),
-                title: const Text('Prioridade'),
-                subtitle: Text(nonCompliance!['priority'] ?? 'N/A'),
-              ),
-              const Divider(),
-              ListTile(
                 leading: const Icon(Icons.calendar_today),
                 title: const Text('Data de Abertura'),
-                subtitle: Text(nonCompliance!['dateOpening'] ?? 'N/A'),
+                subtitle: Text(formatDate(nonCompliance!['dateOpening'])),
               ),
               const Divider(),
               ListTile(
                 leading: const Icon(Icons.calendar_today),
                 title: const Text('Data de Previsão'),
-                subtitle: Text(nonCompliance!['datePrevision'] ?? 'N/A'),
+                subtitle: Text(formatDate(nonCompliance!['datePrevision'])),
               ),
               const Divider(),
               ListTile(
                 leading: const Icon(Icons.check_circle),
                 title: const Text('Eficácia'),
-                subtitle: Text(nonCompliance!['efficacy'] ? 'Sim' : 'Não'),
+                subtitle: Text(nonCompliance!['efficacy'] == true ? 'Sim' : 'Não'),
               ),
-              // Adicione mais campos conforme necessário (sector, origin, etc.)
             ],
           ),
         ),
@@ -254,23 +231,26 @@ class _EditNonComplianceFormState extends State<_EditNonComplianceForm> {
   @override
   void initState() {
     super.initState();
-    _customer = widget.nonCompliance['customer'] ?? '';
-    _description = widget.nonCompliance['description'] ?? '';
-    _efficacy = widget.nonCompliance['efficacy'] ?? true;
-    _dateOpening = DateTime.parse(widget.nonCompliance['dateOpening'] ?? DateTime.now().toString());
-    _datePrevision = DateTime.parse(widget.nonCompliance['datePrevision'] ?? DateTime.now().toString());
-    _sector = Sector.values.firstWhere((e) => e.name == widget.nonCompliance['sector'], orElse: () => Sector.ADMINISTRATIVO); // Exemplo
-    _origin = DocumentOrigin.values.firstWhere((e) => e.name == widget.nonCompliance['origin'], orElse: () => DocumentOrigin.INTERNO);
-    _priority = Priority.values.firstWhere((e) => e.name == widget.nonCompliance['priority'], orElse: () => Priority.REGULAR);
-    _processId = widget.nonCompliance['processId'].toString();
+    final data = widget.nonCompliance;
+    _customer = data['customer'] ?? '';
+    _description = data['description'] ?? '';
+    _efficacy = data['efficacy'] ?? false;
+
+    _dateOpening = _parseDate(data['dateOpening']);
+    _datePrevision = _parseDate(data['datePrevision']);
+
+    _sector = Sector.values.firstWhere((e) => e.name == data['sector']?.toString(), orElse: () => Sector.ADMINISTRATIVO);
+    _origin = DocumentOrigin.values.firstWhere((e) => e.name == data['origin']?.toString(), orElse: () => DocumentOrigin.INTERNO);
+    _priority = Priority.values.firstWhere((e) => e.name == data['priority']?.toString(), orElse: () => Priority.REGULAR);
+    _processId = data['processId']?.toString();
   }
 
-  InputDecoration _inputDecoration(String label, IconData icon) {
-    return InputDecoration(
-      labelText: label,
-      prefixIcon: Icon(icon),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-    );
+  DateTime _parseDate(dynamic value) {
+    if (value == null) return DateTime.now();
+    if (value is List) {
+      return DateTime(value[0], value.length > 1 ? value[1] : 1, value.length > 2 ? value[2] : 1);
+    }
+    return DateTime.tryParse(value.toString()) ?? DateTime.now();
   }
 
   Future<void> _save() async {
@@ -303,143 +283,53 @@ class _EditNonComplianceFormState extends State<_EditNonComplianceForm> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      contentPadding: EdgeInsets.zero,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.orange,
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-            ),
-            width: double.infinity,
-            child: const Text(
-              'Editar Não-Conformidade',
-              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    initialValue: _customer,
-                    decoration: _inputDecoration('Cliente', Icons.person),
-                    onChanged: (v) => _customer = v,
-                    validator: (v) => v!.isEmpty ? 'Obrigatório' : null,
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    initialValue: _description,
-                    decoration: _inputDecoration('Descrição', Icons.description),
-                    onChanged: (v) => _description = v,
-                    validator: (v) => v!.isEmpty ? 'Obrigatório' : null,
-                  ),
-                  const SizedBox(height: 16),
-                  DropdownButtonFormField<Priority>(
-                    value: _priority,
-                    decoration: _inputDecoration('Prioridade', Icons.priority_high),
-                    items: Priority.values
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.displayName)))
-                        .toList(),
-                    onChanged: (v) => setState(() => _priority = v!),
-                    validator: (v) => v == null ? 'Selecione uma prioridade' : null,
-                  ),
-                  const SizedBox(height: 16),
-                  DropdownButtonFormField<DocumentOrigin>(
-                    value: _origin,
-                    decoration: _inputDecoration('Origem', Icons.source_rounded),
-                    items: DocumentOrigin.values
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.displayName)))
-                        .toList(),
-                    onChanged: (v) => setState(() => _origin = v!),
-                  ),
-                  const SizedBox(height: 16),
-                  DropdownButtonFormField<Sector>(
-                    value: _sector,
-                    decoration: _inputDecoration('Setor', Icons.business_rounded),
-                    items: Sector.values
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e.displayName)))
-                        .toList(),
-                    onChanged: (v) => setState(() => _sector = v!),
-                    validator: (v) => v == null ? 'Selecione um setor' : null,
-                  ),
-                  const SizedBox(height: 16),
-                  // Data de Abertura
-                  ListTile(
-                    title: Text('Data de Abertura: ${_dateOpening.toString()}'),
-                    trailing: const Icon(Icons.calendar_today),
-                    onTap: () async {
-                      final date = await showDatePicker(
-                        context: context,
-                        initialDate: _dateOpening,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2100),
-                      );
-                      if (date != null) setState(() => _dateOpening = date);
-                    },
-                  ),
-                  // Data de Previsão
-                  ListTile(
-                    title: Text('Data de Previsão: ${_datePrevision.toString()}'),
-                    trailing: const Icon(Icons.calendar_today),
-                    onTap: () async {
-                      final date = await showDatePicker(
-                        context: context,
-                        initialDate: _datePrevision,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2100),
-                      );
-                      if (date != null) setState(() => _datePrevision = date);
-                    },
-                  ),
-                  const SizedBox(height: 24),
-                  SwitchListTile(
-                    title: const Text('Eficácia'),
-                    subtitle: Text(_efficacy ? 'Eficaz' : 'Não Eficaz'),
-                    value: _efficacy,
-                    onChanged: (v) => setState(() => _efficacy = v),
-                    secondary: Icon(_efficacy ? Icons.check_circle : Icons.remove_circle, color: _efficacy ? Colors.green : Colors.grey),
-                  ),
-                  if (_saving)
-                    const Padding(
-                      padding: EdgeInsets.only(top: 24),
-                      child: CircularProgressIndicator(),
-                    ),
-                ],
+      title: const Text('Editar Não-Conformidade'),
+      content: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                initialValue: _customer,
+                decoration: const InputDecoration(labelText: 'Cliente'),
+                onChanged: (v) => _customer = v,
               ),
-            ),
+              const SizedBox(height: 16),
+              TextFormField(
+                initialValue: _description,
+                decoration: const InputDecoration(labelText: 'Descrição'),
+                onChanged: (v) => _description = v,
+              ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<Priority>(
+                value: _priority,
+                decoration: const InputDecoration(labelText: 'Prioridade'),
+                items: Priority.values.map((e) => DropdownMenuItem(value: e, child: Text(e.displayName))).toList(),
+                onChanged: (v) => setState(() => _priority = v),
+              ),
+              ListTile(
+                title: Text('Abertura: ${_dateOpening.day}/${_dateOpening.month}/${_dateOpening.year}'),
+                trailing: const Icon(Icons.calendar_today),
+                onTap: () async {
+                  final d = await showDatePicker(context: context, initialDate: _dateOpening, firstDate: DateTime(2000), lastDate: DateTime(2100));
+                  if (d != null) setState(() => _dateOpening = d);
+                },
+              ),
+              SwitchListTile(
+                title: const Text('Eficaz'),
+                value: _efficacy,
+                onChanged: (v) => setState(() => _efficacy = v),
+              ),
+              if (_saving) const CircularProgressIndicator(),
+            ],
           ),
-          // Botões
-          Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: _saving ? null : () => Navigator.pop(context),
-                  child: const Text('Cancelar'),
-                ),
-                const SizedBox(width: 12),
-                FilledButton.icon(
-                  onPressed: _saving ? null : _save,
-                  icon: _saving ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white)) : const Icon(Icons.save_rounded),
-                  label: Text(_saving ? 'Salvando...' : 'Salvar Alterações'),
-                  style: FilledButton.styleFrom(backgroundColor: Colors.orange),
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancelar')),
+        ElevatedButton(onPressed: _saving ? null : _save, child: const Text('Salvar')),
+      ],
     );
   }
 }

@@ -21,19 +21,19 @@ public class GetByProcessIdGetService {
     @Autowired
     private UserRepository userRepository; // NOVO: Para buscar o nome do criador
 
-    // NOVO: Retorna o Optional do DTO de Saída
     public Optional<GetProcessServiceGetOutput> execute(GetByProcessIdGetInput input) {
         return processRepository.findById(input.processId())
                 .map(GetProcessByIdGetMapper::toDomain)
                 .map(process -> {
-                    // 1. Buscar o ID do criador (Assumindo que Process domain tem createdBy())
-                    final UUID createdBy = process.createdBy();
+                    UUID createdBy = process.createdBy();
+                    Optional<String> createdByName = Optional.empty();
 
-                    // 2. Buscar o nome do usuário (Username/Nome)
-                    final Optional<String> createdByName = userRepository.findById(createdBy)
-                            .map(UserEntity::getUsername); // Usando o getter do seu UserEntity
+                    // SÓ busca no banco se o ID do criador não for nulo
+                    if (createdBy != null) {
+                        createdByName = userRepository.findById(createdBy)
+                                .map(UserEntity::getUsername);
+                    }
 
-                    // 3. Empacotar e retornar
                     return new GetProcessServiceGetOutput(process, createdByName);
                 });
     }

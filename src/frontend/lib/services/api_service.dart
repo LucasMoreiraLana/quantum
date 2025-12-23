@@ -329,9 +329,9 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> getProcessById(String processId) async {
+    print("DEBUG: Chamando processo com ID: $processId"); // Verifique se aqui aparece um UUID limpo
     final headers = await _getHeaders();
     final response = await http.get(Uri.parse('$baseUrl/processes/$processId'), headers: headers);
-
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else if (response.statusCode == 401) {
@@ -407,9 +407,11 @@ class ApiService {
   }
 // ============= NÃO-CONFORMIDADES =============
 
+  // ============= NÃO-CONFORMIDADES =============
+
   Future<List<dynamic>> getNonCompliances() async {
     final headers = await _getHeaders();
-    final response = await http.get(Uri.parse('$baseUrl/nc'), headers: headers);  // Mudado para /nc
+    final response = await http.get(Uri.parse('$baseUrl/nc'), headers: headers);
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -422,19 +424,21 @@ class ApiService {
 
   Future<Map<String, dynamic>> getNonComplianceById(String nonComplianceId) async {
     final headers = await _getHeaders();
-    final response = await http.get(Uri.parse('$baseUrl/nc/$nonComplianceId'), headers: headers);  // Mudado para /nc/{id}
+    // .trim() evita espaços acidentais que causam erro 400 no Java
+    final id = nonComplianceId.trim();
+    final response = await http.get(Uri.parse('$baseUrl/nc/$id'), headers: headers);
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else if (response.statusCode == 401) {
       throw Exception('Sessão expirada. Faça login novamente.');
     } else {
-      throw Exception('Falha ao carregar detalhes da não-conformidade: ${response.statusCode}');
+      throw Exception('Falha ao carregar detalhes: ${response.statusCode}');
     }
   }
 
   Future<void> createNonCompliance({
-    required String createdBy, // Renomeado de createdBy
+    required String createdBy,
     required String dateOpening,
     required String processId,
     required String sector,
@@ -446,6 +450,12 @@ class ApiService {
     required String datePrevision,
   }) async {
     final headers = await _getHeaders();
+
+    // Pequeno ajuste: garante que o Java receba HIGH_PRIORITY ou LOW_PRIORITY
+    String fixedPriority = priority;
+    if (priority == 'HIGH') fixedPriority = 'HIGH_PRIORITY';
+    if (priority == 'LOW') fixedPriority = 'LOW_PRIORITY';
+
     final response = await http.post(
       Uri.parse('$baseUrl/nc'),
       headers: headers,
@@ -455,7 +465,7 @@ class ApiService {
         'processId': processId,
         'sector': sector,
         'origin': origin,
-        'priority': priority,
+        'priority': fixedPriority, // Enviando a string correta para o Enum Java
         'customer': customer,
         'description': description,
         'efficacy': efficacy,
@@ -466,12 +476,7 @@ class ApiService {
     if (response.statusCode == 401) {
       throw Exception('Sessão expirada. Faça login novamente.');
     } else if (response.statusCode != 200 && response.statusCode != 201) {
-      try {
-        final errorBody = json.decode(response.body);
-        throw Exception(errorBody['message'] ?? 'Falha ao criar não-conformidade');
-      } catch (e) {
-        throw Exception('Falha ao criar não-conformidade: ${response.body}');
-      }
+      throw Exception('Falha ao criar: ${response.body}');
     }
   }
 
@@ -489,8 +494,15 @@ class ApiService {
     required String datePrevision,
   }) async {
     final headers = await _getHeaders();
+
+    // Tratamento de segurança para IDs e Enums
+    final id = nonComplianceId.trim();
+    String fixedPriority = priority;
+    if (priority == 'HIGH') fixedPriority = 'HIGH_PRIORITY';
+    if (priority == 'LOW') fixedPriority = 'LOW_PRIORITY';
+
     final response = await http.put(
-      Uri.parse('$baseUrl/nc/$nonComplianceId'),  // Mudado para /nc/{id}
+      Uri.parse('$baseUrl/nc/$id'),
       headers: headers,
       body: json.encode({
         'createdBy': createdBy,
@@ -498,7 +510,7 @@ class ApiService {
         'processId': processId,
         'sector': sector,
         'origin': origin,
-        'priority': priority,
+        'priority': fixedPriority,
         'customer': customer,
         'description': description,
         'efficacy': efficacy,
@@ -509,23 +521,19 @@ class ApiService {
     if (response.statusCode == 401) {
       throw Exception('Sessão expirada. Faça login novamente.');
     } else if (response.statusCode != 200) {
-      try {
-        final errorBody = json.decode(response.body);
-        throw Exception(errorBody['message'] ?? 'Falha ao atualizar não-conformidade');
-      } catch (e) {
-        throw Exception('Falha ao atualizar não-conformidade: ${response.body}');
-      }
+      throw Exception('Falha ao atualizar: ${response.body}');
     }
   }
 
   Future<void> deleteNonCompliance(String nonComplianceId) async {
     final headers = await _getHeaders();
-    final response = await http.delete(Uri.parse('$baseUrl/nc/$nonComplianceId'), headers: headers);  // Mudado para /nc/{id}
+    final id = nonComplianceId.trim();
+    final response = await http.delete(Uri.parse('$baseUrl/nc/$id'), headers: headers);
 
     if (response.statusCode == 401) {
       throw Exception('Sessão expirada. Faça login novamente.');
     } else if (response.statusCode != 200) {
-      throw Exception('Falha ao deletar não-conformidade: ${response.statusCode}');
+      throw Exception('Falha ao deletar: ${response.statusCode}');
     }
   }
 }

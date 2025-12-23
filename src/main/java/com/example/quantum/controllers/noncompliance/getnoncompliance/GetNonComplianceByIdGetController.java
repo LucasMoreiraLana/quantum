@@ -19,11 +19,11 @@ public class GetNonComplianceByIdGetController {
     private GetNonComplianceByIdGetService getNonComplianceByIdGetService;
 
     @GetMapping("/{ncId}")
-    public ResponseEntity<?> getNonComplianceByIdResponse(@PathVariable String ncIdStr) {  // Mudado para String para validar manualmente
+    public ResponseEntity<?> getNonComplianceByIdResponse(@PathVariable String ncId) {  // Mudado para String para validar manualmente
 
         try {
-            UUID ncId = UUID.fromString(ncIdStr);  // Tenta converter para UUID
-            GetNonComplianceByIdGetInput input = new GetNonComplianceByIdGetInput(ncId);
+            UUID nonComplianceId = UUID.fromString(ncId);  // Tenta converter para UUID
+            GetNonComplianceByIdGetInput input = new GetNonComplianceByIdGetInput(nonComplianceId);
 
             return getNonComplianceByIdGetService.execute(input)
                     .map(nonComplianceOutput -> ResponseEntity.ok(GetNonComplianceByIdGetMapper.toResponse(nonComplianceOutput)))
