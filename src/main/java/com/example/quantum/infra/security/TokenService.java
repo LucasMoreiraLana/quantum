@@ -20,7 +20,7 @@ import java.util.UUID;
 @Service
 public class TokenService {
 
-    @Value("${api.security.token.secret}")
+    @Value("${api.security.token.secret:fallback-secret-key-123}")
     private String secret;
 
     private final static String ISSUER_NAME = "quantum";
