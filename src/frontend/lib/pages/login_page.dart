@@ -315,7 +315,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
 
                       // Rodapé
                       Text(
-                        '© 2024 Quantum. Todos os direitos reservados.',
+                        '© 2025 Quantum. Todos os direitos reservados.',
                         style: TextStyle(
                           color: Colors.white.withOpacity(0.8),
                           fontSize: 12,
